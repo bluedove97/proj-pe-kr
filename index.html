@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>bluedove's project history</title>
+  <meta name="description" content="bluedove의 개발 히스토리를 알려드립니다."/>
+  <!-- BEGIN OPENGRAPH -->
+  <link rel="canonical" href="https://proj.pe.kr" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://proj.pe.kr" />
+  <meta property="og:site_name" content="bluedove's project" >
+  <meta property="og:title" content="bluedove's project" >
+  <meta property="og:description" content="bluedove의 개발 히스토리를 알려드립니다." >
+  <meta property="og:image" content="https://proj.pe.kr/image/bluedove_welcome.png" >
+  <meta property="og:article:author" content="bluedove" >
+  <!-- END OPENGRAPH -->
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-cyan':   '#00e5ff',
+            'brand-purple': '#8b5cf6',
+            'brand-dark':   '#06060f',
+            'brand-card':   '#0c0c1e',
+            'brand-border': '#1e1e3a',
+          },
+          fontFamily: {
+            display: ['"Space Grotesk"', 'sans-serif'],
+            body:    ['"Inter"',         'sans-serif'],
+            mono:    ['"JetBrains Mono"','monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-grid min-h-screen">
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav class="fixed top-0 inset-x-0 z-50 backdrop-blur-md bg-[#06060f]/80 border-b border-[#1e1e3a]">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="font-mono text-brand-cyan text-sm font-medium tracking-wider">
+        &gt;&nbsp;bluedove<span class="cursor ml-0.5"></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#about"    class="nav-link text-sm font-medium">About</a>
+        <a href="#skills"   class="nav-link text-sm font-medium">Skills</a>
+        <a href="#projects" class="nav-link text-sm font-medium">Projects</a>
+        <a href="#contact"  class="nav-link text-sm font-medium">Contact</a>
+      </div>
+      <button id="mb-btn" aria-label="메뉴 열기"
+        class="md:hidden text-slate-400 hover:text-brand-cyan focus:outline-none focus:text-brand-cyan transition-colors duration-200">
+        <svg id="mb-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- mobile dropdown -->
+    <div id="mb-menu" class="hidden md:hidden border-t border-[#1e1e3a] bg-[#06060f]/95 backdrop-blur-md">
+      <div class="flex flex-col px-6 py-5 gap-5">
+        <a href="#about"    class="nav-link text-sm font-medium" onclick="closeMb()">About</a>
+        <a href="#skills"   class="nav-link text-sm font-medium" onclick="closeMb()">Skills</a>
+        <a href="#projects" class="nav-link text-sm font-medium" onclick="closeMb()">Projects</a>
+        <a href="#contact"  class="nav-link text-sm font-medium" onclick="closeMb()">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section id="hero" class="min-h-screen flex items-center pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center w-full">
+
+      <!-- left -->
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full
+                    bg-[#0c0c1e] border border-[#1e1e3a] text-xs font-mono text-brand-cyan mb-7">
+          <span class="w-2 h-2 bg-brand-cyan rounded-full animate-pulse"></span>
+          Full-Stack Developer
+        </div>
+
+        <h1 class="font-display text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.1] mb-7">
+          <span class="gradient-text">bluedove's</span><br>
+          <span class="text-slate-200">project</span><br>
+          <span class="text-slate-200">history</span>
+        </h1>
+
+        <p class="text-slate-400 text-lg leading-relaxed mb-10 max-w-md">
+          세상을 전부 이해하진 못해도,<br>
+          <span class="text-slate-200 font-medium">내가 이해하는 건 만들어낼 수 있다</span>고<br>
+          믿는 개발자입니다.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="https://github.com/bluedove97" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="#contact" class="btn-outline">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            Contact
+          </a>
+          <a href="https://bluedove.co.kr/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+            <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
+            </svg>
+            Homepage
+          </a>
+        </div>
+      </div>
+
+      <!-- right: terminal -->
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot" style="background:#ff5f57"></div>
+          <div class="terminal-dot" style="background:#febc2e"></div>
+          <div class="terminal-dot" style="background:#28c840"></div>
+          <span class="ml-3 text-xs text-slate-600 font-mono">~/bluedove — zsh</span>
+        </div>
+        <div class="p-7 font-mono text-sm leading-[1.9]">
+          <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">whoami</span></div>
+          <div class="pl-2 text-slate-300">bluedove</div>
+          <br>
+          <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">cat mission.txt</span></div>
+          <div class="pl-2 text-slate-300 leading-relaxed">
+            세상을 전부 이해하진 못해도,<br>
+            내가 이해하는 건 만들어낼 수<br>
+            있다고 믿는 개발자.
+          </div>
+          <br>
+          <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">ls skills/</span></div>
+          <div class="pl-2 flex flex-wrap gap-x-3">
+            <span class="text-brand-cyan">Spring</span>
+            <span class="text-brand-purple">React</span>
+            <span class="text-brand-cyan">Python</span>
+            <span class="text-brand-purple">NextJS</span>
+            <span class="text-brand-cyan">Docker</span>
+            <span class="text-brand-purple">K8s</span>
+            <span class="text-brand-cyan">ArgoCD</span>
+          </div>
+          <br>
+          <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">echo $STATUS</span></div>
+          <div class="pl-2 flex items-center gap-2 text-emerald-400">
+            <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse inline-block flex-shrink-0"></span>
+            open to collaboration
+          </div>
+          <br>
+          <div class="flex items-center">
+            <span class="text-slate-600">$ </span>
+            <span class="cursor ml-1.5"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       ABOUT
+  ════════════════════════════════════════ -->
+  <!-- ════════════════════════════════════════
+       TOC — 도커, 쿠버네티스 기본
+  ════════════════════════════════════════ -->
+  <section class="py-20" style="background: rgba(8,8,26,0.5)">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal mb-10">
+        <div class="section-line mb-4"></div>
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-3">도커, 쿠버네티스 기본</h2>
+        <p class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-slate-400 font-mono"
+           style="background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.15);">
+          Docker와 Kubernetes의 Basic 과정.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <!-- 준비사항 -->
+        <div class="reveal skill-card rounded-2xl p-6">
+          <h3 class="font-display font-semibold text-slate-200 text-sm mb-4 pb-3" style="border-bottom: 1px solid #1e1e3a;">준비사항</h3>
+          <ul class="flex flex-col gap-2">
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/50010d7ef42044aa9224db65fb36f45e.html" target="_blank" class="flex items-center gap-2 text-sm text-brand-cyan hover:text-white transition-colors duration-200"><span class="text-xs">🔧</span>개인 로컬 환경 설치</a></li>
+          </ul>
+        </div>
+
+        <!-- Docker -->
+        <div class="reveal skill-card rounded-2xl p-6">
+          <h3 class="font-display font-semibold text-slate-200 text-sm mb-4 pb-3" style="border-bottom: 1px solid #1e1e3a;">Docker</h3>
+          <ul class="flex flex-col gap-2">
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/2c1d0552905041469e22466b80897313.html" target="_blank" class="flex items-center gap-2 text-sm text-brand-cyan hover:text-white transition-colors duration-200"><span class="text-xs">🔧</span>Docker 설치</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/f58f86947dd949f795ff86f32f2d275e.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨테이너 기본 조작</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/63f566ef04e1472bbe09014cd54c656d.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨테이너 PUSH</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/2f04b079bac349c0a3897fbae80eb4e6.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨테이너 리소스</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/eb2f55ff861d4512b056c2ebe7c4e4a8.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨테이너 스토리지</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/86f994c76ba04aefb9c645ec61bc5b3d.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨테이너 통신</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/759e8675d713446ca632875df5264e06.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Docker 추가 명령어</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/c46a14f279314a0c844d7c49c55db80d.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Docker Compose</a></li>
+          </ul>
+        </div>
+
+        <!-- Kubernetes -->
+        <div class="reveal skill-card rounded-2xl p-6">
+          <h3 class="font-display font-semibold text-slate-200 text-sm mb-4 pb-3" style="border-bottom: 1px solid #1e1e3a;">Kubernetes</h3>
+          <ul class="flex flex-col gap-2">
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/35086cc805e948958288e086bab178ab.html" target="_blank" class="flex items-center gap-2 text-sm text-brand-cyan hover:text-white transition-colors duration-200"><span class="text-xs">🔧</span>Kubernetes 설치</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/a4a213d5fd0b4755bdd22dd89ecb02dc.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>kubectl 기본기능 확인</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/4594e856d0cd4f2eaca57e2ecf30b162.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Namespace</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/01733138ed25452c971c54aa2daab868.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Pod 기본</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/82507d8d97e045ce9af131935ffec58b.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Pod에 리소스 할당하기</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/add9860fe624405a90c33d6155998e03.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Pod에 환경변수 설정</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/9d81481f98934dd6984d7c25e6b304f1.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>컨트롤러</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/c8cf83c660ff44739143b9393f95ad28.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>서비스</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/f17ee81057e24b6a88a1bcc45ee2bf17.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>인그레스 (Ingress)</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/919b0a639a1a48238fa8adfb904d59cf.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Lable</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/9eef4d93da434b269809dfec1b1a64f6.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>배포</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/4b12801eaa7c40b88a0678a133ad049e.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>ConfigMap &amp; Secret</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/7f7345f0d9304b94aa1e7859e75b063f.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Pod Scheduling</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/4d071fbdc1884ecc9429f9d3a0c3ce64.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>인증과 권한관리</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/df8e27da79f347098ecbe5f52ca6ebbe.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>볼륨관리</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/5fb046e0594541c189f103dd1ec46885.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>클러스터 네트워킹</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/f436859aee054fd59fe42ca9067bc6b7.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>오토스케일링</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/d0d037cdf82f4d96b38377c5e83a5338.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>[테스트] 스프링부트 웹소스 파드화</a></li>
+            <li><a href="04dd6f45c25748538ef2e0a6e8902e50/0a79dc238fef4e2d9fd1aeaca3f8c7a9.html" target="_blank" class="flex items-center gap-2 text-sm text-slate-400 hover:text-slate-100 transition-colors duration-200"><span class="text-xs">✔️</span>Docker vs Containerd</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-28">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <div class="section-line mb-4"></div>
+        <h2 class="font-display text-3xl md:text-4xl font-bold text-slate-100 mb-2">About</h2>
+        <p class="text-slate-600 text-sm font-mono mb-14">// 개발자 소개</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-14 items-start">
+
+        <!-- text -->
+        <div class="reveal">
+          <p class="text-slate-300 text-lg leading-relaxed mb-6">
+            저는 <span class="text-brand-cyan font-semibold">Full-Stack Developer</span>로,
+            백엔드부터 프론트엔드, 인프라까지 전 스택을 다루는 개발자입니다.
+          </p>
+          <p class="text-slate-400 leading-relaxed mb-6">
+            <strong class="text-slate-300">Spring Boot · Java</strong> 기반의 견고한 서버 시스템 설계,
+            <strong class="text-slate-300">React · Next.js</strong>를 활용한 모던 UI 개발,
+            그리고 <strong class="text-slate-300">Docker · Kubernetes</strong>를 통한 컨테이너 기반 배포까지
+            폭넓은 기술 스택을 보유하고 있습니다.
+          </p>
+          <p class="text-slate-500 leading-relaxed">
+            세상을 전부 이해하진 못해도, 내가 이해하는 건 만들어낼 수 있다고 믿습니다.
+          </p>
+
+          <div class="mt-10 flex gap-4">
+            <a href="https://github.com/bluedove97" target="_blank" rel="noopener noreferrer"
+               class="social-link cyan">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+              </svg>
+              github.com/bluedove97
+            </a>
+            <a href="https://bluedove.co.kr/" target="_blank" rel="noopener noreferrer"
+               class="social-link purple">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
+              </svg>
+              bluedove.co.kr
+            </a>
+          </div>
+        </div>
+
+        <!-- stat cards -->
+        <div class="reveal grid grid-cols-2 gap-4">
+          <div class="stat-card">
+            <div class="text-2xl mb-2">🛠️</div>
+            <div class="font-display font-semibold text-slate-100 text-sm mb-1">Backend</div>
+            <div class="text-slate-500 text-xs font-mono">Spring Boot · Java · Python<br>JPA · MyBatis · JSP · C#</div>
+          </div>
+          <div class="stat-card">
+            <div class="text-2xl mb-2">⚛️</div>
+            <div class="font-display font-semibold text-slate-100 text-sm mb-1">Frontend</div>
+            <div class="text-slate-500 text-xs font-mono">React · Next.js · TypeScript<br>JavaScript · jQuery · Blazor</div>
+          </div>
+          <div class="stat-card">
+            <div class="text-2xl mb-2">🗄️</div>
+            <div class="font-display font-semibold text-slate-100 text-sm mb-1">Database</div>
+            <div class="text-slate-500 text-xs font-mono">Oracle · MySQL · MS-SQL<br>PostgreSQL · Redis</div>
+          </div>
+          <div class="stat-card">
+            <div class="text-2xl mb-2">♾️</div>
+            <div class="font-display font-semibold text-slate-100 text-sm mb-1">DevOps</div>
+            <div class="text-slate-500 text-xs font-mono">Docker · K8s · Linux<br>GitLab · Harbor · ArgoCD</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       SKILLS
+  ════════════════════════════════════════ -->
+  <section id="skills" class="py-28" style="background: rgba(8,8,26,0.6)">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <div class="section-line mb-4"></div>
+        <h2 class="font-display text-3xl md:text-4xl font-bold text-slate-100 mb-2">Skills</h2>
+        <p class="text-slate-600 text-sm font-mono mb-14">// 기술 스택</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+        <!-- Backend -->
+        <div class="reveal skill-card rounded-2xl p-7">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                 style="background:rgba(0,229,255,0.08)">
+              <svg width="16" height="16" fill="none" stroke="#00e5ff" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
+              </svg>
+            </div>
+            <span class="font-display font-semibold text-slate-200">Backend</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="tag-cyan">Spring Boot</span>
+            <span class="tag-cyan">Java</span>
+            <span class="tag-cyan">Python</span>
+            <span class="tag-cyan">JSP</span>
+            <span class="tag-cyan">JPA</span>
+            <span class="tag-cyan">MyBatis</span>
+            <span class="tag-cyan">C#</span>
+          </div>
+        </div>
+
+        <!-- Frontend -->
+        <div class="reveal skill-card rounded-2xl p-7">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                 style="background:rgba(139,92,246,0.08)">
+              <svg width="16" height="16" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <span class="font-display font-semibold text-slate-200">Frontend</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="tag-purple">React</span>
+            <span class="tag-purple">Next.js</span>
+            <span class="tag-purple">TypeScript</span>
+            <span class="tag-purple">JavaScript</span>
+            <span class="tag-purple">jQuery</span>
+            <span class="tag-purple">Blazor</span>
+          </div>
+        </div>
+
+        <!-- Database -->
+        <div class="reveal skill-card rounded-2xl p-7">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                 style="background:rgba(0,229,255,0.08)">
+              <svg width="16" height="16" fill="none" stroke="#00e5ff" stroke-width="2" viewBox="0 0 24 24">
+                <ellipse cx="12" cy="5" rx="9" ry="3"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 5v14c0 1.657 4.03 3 9 3s9-1.343 9-3V5M3 12c0 1.657 4.03 3 9 3s9-1.343 9-3"/>
+              </svg>
+            </div>
+            <span class="font-display font-semibold text-slate-200">Database</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="tag-cyan">Oracle</span>
+            <span class="tag-cyan">MySQL</span>
+            <span class="tag-cyan">MS-SQL</span>
+            <span class="tag-cyan">PostgreSQL</span>
+            <span class="tag-cyan">Redis</span>
+          </div>
+        </div>
+
+        <!-- DevOps -->
+        <div class="reveal skill-card rounded-2xl p-7">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
+                 style="background:rgba(139,92,246,0.08)">
+              <svg width="18" height="18" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 12c-2-2.5-4-4-6-4a4 4 0 000 8c2 0 4-1.5 6-4zm0 0c2 2.5 4 4 6 4a4 4 0 000-8c-2 0-4 1.5-6 4z"/>
+              </svg>
+            </div>
+            <span class="font-display font-semibold text-slate-200">DevOps</span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="tag-purple">Linux</span>
+            <span class="tag-purple">Docker</span>
+            <span class="tag-purple">Kubernetes</span>
+            <span class="tag-purple">GitLab</span>
+            <span class="tag-purple">GitHub Actions</span>
+            <span class="tag-purple">Harbor</span>
+            <span class="tag-purple">ArgoCD</span>
+            <span class="tag-purple">CI/CD Automation</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PROJECTS
+  ════════════════════════════════════════ -->
+  <section id="projects" class="py-28">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal flex items-end justify-between flex-wrap gap-4 mb-6">
+        <div>
+          <div class="section-line mb-4"></div>
+          <h2 class="font-display text-3xl md:text-4xl font-bold text-slate-100 mb-2">Projects</h2>
+          <p class="text-slate-600 text-sm font-mono">// 프로젝트 이력</p>
+        </div>
+        <button id="tl-toggle" onclick="toggleTimeline()"
+          class="btn-outline text-sm px-5 py-2.5 flex items-center gap-2">
+          <svg id="tl-icon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+          <span id="tl-label">상세확인</span>
+        </button>
+      </div>
+
+      <div id="timeline-wrap" class="hidden">
+        <div id="timeline" class="relative mt-10">
+          <!-- vertical line -->
+          <div class="absolute left-[7px] md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-brand-cyan via-brand-purple to-transparent opacity-20 md:-translate-x-px"></div>
+          <!-- items injected by JS -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       CONTACT
+  ════════════════════════════════════════ -->
+  <section id="contact" class="py-28">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <div class="section-line mb-4"></div>
+        <h2 class="font-display text-3xl md:text-4xl font-bold text-slate-100 mb-2">Contact</h2>
+        <p class="text-slate-600 text-sm font-mono mb-14">// 연락하기</p>
+      </div>
+
+      <div class="reveal max-w-xl">
+        <p class="text-slate-300 text-xl leading-relaxed mb-10">
+          프로젝트 협업, 기술 문의<br>
+          <span class="text-brand-cyan font-semibold">언제든 연락해 주세요.</span>
+        </p>
+
+        <a href="mailto:bluek97@bluedove.co.kr" class="btn-primary text-base mb-12 inline-flex">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+          </svg>
+          bluek97@bluedove.co.kr
+        </a>
+
+        <div class="flex flex-wrap gap-6 mt-10">
+          <a href="https://github.com/bluedove97" target="_blank" rel="noopener noreferrer"
+             class="social-link cyan">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            github.com/bluedove97
+          </a>
+          <a href="https://bluedove.co.kr/" target="_blank" rel="noopener noreferrer"
+             class="social-link purple">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
+            </svg>
+            bluedove.co.kr
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="border-t border-[#1e1e3a] py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <span class="font-mono text-brand-cyan text-sm">&gt;&nbsp;bluedove</span>
+      <span class="text-slate-700 text-xs">© 2026 bluedove. Built with care.</span>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       JS
+  ════════════════════════════════════════ -->
+  <script>
+    // projects toggle
+    let timelineLoaded = false;
+    function toggleTimeline() {
+      const wrap  = document.getElementById('timeline-wrap');
+      const label = document.getElementById('tl-label');
+      const icon  = document.getElementById('tl-icon');
+      const open  = wrap.classList.toggle('hidden');
+      label.textContent = open ? '상세확인' : '접어두기';
+      icon.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+      if (!open && !timelineLoaded) {
+        timelineLoaded = true;
+        loadTimeline();
+      }
+    }
+
+    // mobile menu
+    const mbBtn  = document.getElementById('mb-btn');
+    const mbMenu = document.getElementById('mb-menu');
+    mbBtn.addEventListener('click', () => mbMenu.classList.toggle('hidden'));
+    function closeMb() { mbMenu.classList.add('hidden'); }
+
+    // scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+
+    // timeline: load history.json and render (called on first expand)
+    async function loadTimeline() {
+      const container = document.getElementById('timeline');
+      try {
+        const res  = await fetch('./data/history.json');
+        const data = await res.json();
+
+        data.forEach((item, i) => {
+          const side = i % 2 === 0 ? 'left' : 'right';
+          const el   = document.createElement('div');
+          el.className = `tl-item reveal ${side}`;
+
+          if (side === 'left') {
+            el.innerHTML = `
+              <div class="tl-card">
+                <div class="text-xs font-mono text-brand-cyan mb-1">${item.period}</div>
+                <div class="text-slate-200 text-sm font-display font-medium leading-snug">${item.project}</div>
+              </div>
+              <div class="hidden md:block"></div>
+              <div class="tl-dot"></div>`;
+          } else {
+            el.innerHTML = `
+              <div class="hidden md:block"></div>
+              <div class="tl-card">
+                <div class="text-xs font-mono text-brand-purple mb-1">${item.period}</div>
+                <div class="text-slate-200 text-sm font-display font-medium leading-snug">${item.project}</div>
+              </div>
+              <div class="tl-dot"></div>`;
+          }
+
+          container.appendChild(el);
+          observer.observe(el);
+        });
+      } catch {
+        container.innerHTML = '<p class="text-slate-500 text-sm font-mono pl-8">// 데이터를 불러올 수 없습니다.</p>';
+      }
+    }
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

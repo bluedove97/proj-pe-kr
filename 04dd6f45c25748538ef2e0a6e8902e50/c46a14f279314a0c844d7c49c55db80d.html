@@ -1,0 +1,761 @@
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Docker Compose</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="c46a14f2-7931-4a0c-844d-7c49c55db80d" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">✔️</span></div><h1 class="page-title">Docker Compose</h1><p class="page-description"></p></header><div class="page-body"><nav id="a1f92767-db60-47d0-8155-c39e6f8fd71c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7036855b-339c-41db-b127-e98e47a283c9">도커 컴포즈란?</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#d20a4b44-5f02-4ae4-bffc-30232141c653">도커 컴포즈 설치</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#122196b2-8723-4728-aaec-6ad0d88c450b">yaml 명령어</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#70971b7a-7382-4b1f-94ee-a4bc37c53827">도커 컴포즈로 동작시키는 웹서버</a></div></nav><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h2 id="7036855b-339c-41db-b127-e98e47a283c9" class="">도커 컴포즈란?</h2><ul id="6919ffa8-6aae-48b5-aa4a-35586f9c3401" class="bulleted-list"><li style="list-style-type:disc">여러 컨테이너를 일괄적으로 정의하고 실행할 수 있는 툴.<ul id="87633263-3bb7-4dc3-b34b-b9bb956c978a" class="bulleted-list"><li style="list-style-type:circle">하나의 서비스를 운영하기 위해서는 여러 개의 애플리케이션이 동작해야 함</li></ul><ul id="f6b6c873-0c59-4545-88f0-a78f83b5b525" class="bulleted-list"><li style="list-style-type:circle">컨테이너화 된 애플리케이션들을 통합 관리 할 수 있다.</li></ul><ul id="4f927790-08e7-415d-bfde-9b4076d99bea" class="bulleted-list"><li style="list-style-type:circle">Yaml파일 형식으로 관리</li></ul></li></ul><p id="f95cb74e-20ca-4949-a0fd-130181b5fb39" class="">
+</p><h2 id="d20a4b44-5f02-4ae4-bffc-30232141c653" class="">도커 컴포즈 설치</h2><figure id="a2ff41e3-d391-4031-9cfa-fa45ca1e9952"><a href="https://docs.docker.com/compose/install/other/" class="bookmark source"><div class="bookmark-info"><div class="bookmark-text"><div class="bookmark-title">Install the Compose standalone</div><div class="bookmark-description">On this page you can find instructions on how to install the Compose standalone on Linux or Windows Server, from the command line. Compose standalone Note that Compose standalone uses the -compose syntax instead of the current standard syntax compose. For example type docker-compose up when using Compose standalone, instead of docker compose up.</div></div><div class="bookmark-href"><img src="https://docs.docker.com/assets/favicons/docs@2x.ico" class="icon bookmark-icon"/>https://docs.docker.com/compose/install/other/</div></div><img src="https://docs.docker.com/assets/favicons/docs@2x.ico" class="bookmark-image"/></a></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="79b9573f-5867-4b4e-ab29-c7012cc9b297" class="code"><code class="language-Bash">curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+
+ls -l /usr/local/bin/docker-compose
+
+sudo chmod +x /usr/local/bin/docker-compose
+
+#버전확인
+docker-compose version</code></pre><h2 id="122196b2-8723-4728-aaec-6ad0d88c450b" class="">yaml 명령어</h2><ul id="05ca6793-4bd5-427b-a2e1-247bc8d17e24" class="bulleted-list"><li style="list-style-type:disc">version<ul id="5d22f67b-ee97-4237-8797-836c7f12bfae" class="bulleted-list"><li style="list-style-type:circle">compose 버전. 버전에 따라 지원 문법이 다름</li></ul><ul id="f2f6cbb9-5cf6-4dc9-8fa4-a3a6e09c83c4" class="bulleted-list"><li style="list-style-type:circle">verson “2” (현재 3.9까지 있음)</li></ul></li></ul><p id="10eb4969-c405-45fc-b7c3-7bfd8f28db88" class="">
+</p><ul id="43640154-77ad-4f91-9bb8-77f915392854" class="bulleted-list"><li style="list-style-type:disc">services<ul id="70059890-947e-488a-80c5-020e66184407" class="bulleted-list"><li style="list-style-type:circle">컴포즈를 이용해서 실행할 컨테이너 옵선을 정의</li></ul><ul id="e4ace690-db8d-49c0-87bd-244f3be9e9ce" class="bulleted-list"><li style="list-style-type:circle">service:<br/>  webserver:<br/>    image: nginx<br/>  db:<br/>    image: redis<br/></li></ul></li></ul><p id="c72ad0a9-af2c-4cf9-9e57-f2d4414ce9f2" class="">
+</p><ul id="7405574d-e0bf-41dc-8cc4-5c318f7bbdd5" class="bulleted-list"><li style="list-style-type:disc">build<ul id="41fcd6d5-ef4c-41e9-88ea-d129e20cf078" class="bulleted-list"><li style="list-style-type:circle">컨테이너 빌드</li></ul><ul id="5c20f3b9-0a77-40d5-baa6-e308ce913e45" class="bulleted-list"><li style="list-style-type:circle">webapp:<br/>  build: .<br/></li></ul></li></ul><p id="c86e5d20-f5bb-4222-a8a5-9aefdc923a39" class="">
+</p><ul id="cfe9dd67-fd0b-4034-8431-46a57b4977e2" class="bulleted-list"><li style="list-style-type:disc">image<ul id="c4573477-a0ec-463b-8b7f-68ace34e1396" class="bulleted-list"><li style="list-style-type:circle">compose를 동해 실행할 이미지를 지정</li></ul><ul id="0dc0a05b-d07a-4353-afcd-9f0359eadc94" class="bulleted-list"><li style="list-style-type:circle">webapp:<br/>  image: centos:7<br/></li></ul></li></ul><p id="f95dc53b-8744-4f94-a4c5-e7179e1b01de" class="">
+</p><ul id="a57b77c9-9e5b-4b3a-9bf1-b5974fe7443e" class="bulleted-list"><li style="list-style-type:disc">command<ul id="80b86c3c-f785-43a8-82ef-3567b2ae568b" class="bulleted-list"><li style="list-style-type:circle">컨테이너에서 실행될 명렁어 지정</li></ul><ul id="82d7d49a-70c7-4263-ac73-0f35d09fc6c1" class="bulleted-list"><li style="list-style-type:circle">app:<br/>  image: node:12-alpine<br/>  command: sh -c “yarn instal &amp;&amp; yarn run dev”<br/></li></ul></li></ul><p id="00f22f9a-afac-45b2-8f61-c4e738e12e9e" class="">
+</p><ul id="46282765-3650-4a6f-9764-1421cd3b8865" class="bulleted-list"><li style="list-style-type:disc">port<ul id="7fef7c51-b0c3-42a0-8a84-ec554bd4d990" class="bulleted-list"><li style="list-style-type:circle">컨테이너가 공개하는 포트를 나열</li></ul><ul id="d56b4abd-c2ba-4bb2-9b6c-c00ecebae881" class="bulleted-list"><li style="list-style-type:circle">webapp:<br/>  image: httpd:latest<br/>  port:<br/>    - 80<br/>    - 8443:443<br/></li></ul></li></ul><p id="1a6ecc34-30c1-4438-91d3-5d2fa45935d2" class="">
+</p><ul id="f2238e99-5c64-4a8d-b012-70414866fe05" class="bulleted-list"><li style="list-style-type:disc">link<ul id="b5549277-25ea-4254-bc9c-103a101bdd2c" class="bulleted-list"><li style="list-style-type:circle">다른 컨테이너와 연계할 때 연계할 컨테이너 지정</li></ul><ul id="b0cd2839-d58d-46ac-ad99-ee3b3d030fee" class="bulleted-list"><li style="list-style-type:circle">webserver:<br/>  image: wordpress:latest<br/>  link:<br/>    db:mysql<br/></li></ul></li></ul><p id="18b16486-bb0e-4bf4-ab8f-564e34064eb3" class="">
+</p><ul id="87ed81a6-eed5-4efe-955c-1171ea618a42" class="bulleted-list"><li style="list-style-type:disc">expose<ul id="e4b03719-75d7-4019-a97c-5777742fdba7" class="bulleted-list"><li style="list-style-type:circle">포트를 링크로 연계된 컨테이너에게만 공개할 포트</li></ul><ul id="0fc389ea-dd9f-4126-a29b-f35771c9ff4d" class="bulleted-list"><li style="list-style-type:circle">webapp:<br/>  build: .<br/></li></ul></li></ul><p id="784718e6-f102-4d9d-9961-d588fb05d9b7" class="">
+</p><ul id="d3ca95ba-af97-4078-a7b3-1b2e5e74a8a7" class="bulleted-list"><li style="list-style-type:disc">volumes<ul id="5b78e958-3021-4c4d-a8d5-85aa55e9eadd" class="bulleted-list"><li style="list-style-type:circle">컨테이너에 볼륨을 마운트</li></ul><ul id="94ef85b6-c284-493e-96be-fe9493e68ec4" class="bulleted-list"><li style="list-style-type:circle">webapp:<br/>  image: httpd<br/>  volumes:<br/>    - /var/www/html<br/></li></ul></li></ul><h2 id="70971b7a-7382-4b1f-94ee-a4bc37c53827" class="">도커 컴포즈로 동작시키는 웹서버</h2><ul id="cda7061d-efc2-47d0-b7b1-4d3653253e85" class="bulleted-list"><li style="list-style-type:disc">1단계 : 서비스 디렉토리 생성</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="234b36c9-0b8b-40a6-8e2e-f4d418a6df3e" class="code"><code class="language-Bash">mkdir composetest
+cd composetest</code></pre><p id="29e7a322-75a9-4fff-a24d-e07b1f367c96" class="">
+</p><ul id="1b15d6b0-b322-4a03-9f10-45eef9925578" class="bulleted-list"><li style="list-style-type:disc">2단계 : dockerfile 작성</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2b998a9a-b50d-4fbe-ac24-fc5e463a78d6" class="code"><code class="language-Python">#app.js 파이썬 파일 작성
+import time
+import redis
+from flask import Flask
+
+app = Flask(__name__)
+cache = redis.Redis(host=&#x27;redis&#x27;, port=6379)
+
+def get_hit_count():
+    retries = 5
+    while True:
+        try:
+            return cache.incr(&#x27;hits&#x27;)
+        except redis.exceptions.ConnectionError as exc:
+            if retries == 0:
+                raise exc
+            retries -= 1
+            time.sleep(0.5)
+
+@app.route(&#x27;/&#x27;)
+def hello():
+    count = get_hit_count()
+    return &#x27;Hello World! I have been seen {} times.\n&#x27;.format(count)
+
+
+#requirements.txt 생성
+flask
+redis
+
+
+#dockerfile생성
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD [&quot;flask&quot;, &quot;run&quot;]
+</code></pre><p id="68843e26-4bfd-445e-b570-26560ad10f90" class="">
+</p><ul id="ce66f93c-33e3-4493-b816-baaeaf04086e" class="bulleted-list"><li style="list-style-type:disc">3단계 : docker-compose.yml 생성</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="c02acf35-ebda-4d8d-8b5e-4bf351c75e06" class="code"><code class="language-Bash">cat &gt; docker-compose.yml
+version: &quot;3.9&quot;
+services:
+  web:
+    build: .
+    ports:
+      - &quot;8000:5000&quot;
+  redis:
+    image: &quot;redis:alpine&quot;</code></pre><p id="00cb4765-8cd6-4d49-8266-0c3c53f4ab63" class="">
+</p><ul id="ceba480c-d428-4bff-b0ee-0e0d9326d15e" class="bulleted-list"><li style="list-style-type:disc">3단계 : docker-compose 명령어</li></ul><figure id="cb4b3982-ec53-47f6-8fc6-b05a08a8ef5a" class="image"><a href="c46a14f279314a0c844d7c49c55db80d/Untitled.png"><img style="width:1920px" src="c46a14f279314a0c844d7c49c55db80d/Untitled.png"/></a><span>출처 : 유튜브 따배런 따배도 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fb6026bd-5aa4-4502-9729-6f3ee1f355da" class="code"><code class="language-Bash"># 실행(백그라운드 모드로)
+docker-compose up -d
+
+# 도커 컴포즈로 만든 프로세스 조회
+docker-compose ps
+
+# 스케일 아웃
+docker-compose scale mysql=2
+
+docker-compose ps
+
+# rm명령어처럼, 완전히 종료
+docker compose down</code></pre><p id="b1a06b29-7343-4f67-87ad-a8141f8e2644" class="">
+</p></div>
+<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

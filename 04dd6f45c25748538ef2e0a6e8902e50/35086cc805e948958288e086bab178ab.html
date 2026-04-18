@@ -1,0 +1,796 @@
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Kubernetes 설치</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="35086cc8-05e9-4895-8288-e086bab178ab" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🔧</span></div><h1 class="page-title">Kubernetes 설치</h1><p class="page-description"></p></header><div class="page-body"><nav id="ffd0658e-a24f-485b-86c1-b9b21e599018" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#711a2078-2320-4f24-80a1-a98d2624e7cf">이성미강사 실습예제 및 쿠버네티스 설치하기 참고</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ff5f86d2-d8fd-4fd7-bc21-ddb6df24d963">Virtual Box 세팅</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8a9aac05-0b48-4f9d-9a27-d7a867102cee">Kubernetes 초기 설정</a></div></nav><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h2 id="711a2078-2320-4f24-80a1-a98d2624e7cf" class="">이성미강사 실습예제 및 쿠버네티스 설치하기 참고</h2><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="9e323a3b-8faf-4ea6-a964-c3f51f9b3940"><div style="font-size:1.5em"><span class="icon">📓</span></div><div style="width:100%"><a href="https://github.com/237summit/Getting-Start-Kubernetes">https://github.com/237summit/Getting-Start-Kubernetes</a><p id="9cbb5c5b-8a1b-4ea4-8ce3-e1883604b528" class=""><a href="https://www.youtube.com/watch?v=CKUv3oEI8Yo">https://www.youtube.com/watch?v=CKUv3oEI8Yo</a></p><p id="aedbd7fc-dfbe-4ca2-a31b-675990190f59" class=""><a href="https://www.youtube.com/watch?v=V5-h3yvCOSA&amp;t">https://www.youtube.com/watch?v=V5-h3yvCOSA&amp;t</a></p><p id="20a9c653-adc8-478f-b2a0-4b48fed28a54" class=""><a href="https://www.youtube.com/watch?v=5Y847xaXe7U">https://www.youtube.com/watch?v=5Y847xaXe7U</a></p></div></figure><p id="aed5a602-a810-4f1a-8356-afcfcd65c4bb" class="">
+</p><h2 id="ff5f86d2-d8fd-4fd7-bc21-ddb6df24d963" class="">Virtual Box 세팅</h2><p id="48687dcc-90f8-4431-aa88-d0cd1cb4c5d9" class="">파일 &gt; 환경설정 &gt; 네트워크 &gt; k8sNetwork 생성</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2e9f2f4d-d1bb-47ab-8888-c2af5e61c3f1" class="code"><code class="language-Plain Text">hostIP         Port       virtualMachine : port(sshd)
+host 127.0.0.1 101 ----&gt; node1 10.100.101.22
+host 127.0.0.1 102 ----&gt; node2 10.100.102.22
+host 127.0.0.1 104 ----&gt; master 10.100.104.22</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="1192fe12-3d40-483b-bbcf-56410e9ce08e"><div style="font-size:1.5em"><span class="icon">❗</span></div><div style="width:100%">도커는 기본적으로 이미 설치가 되어있어야 한다.<br/><br/>도커 실습시 생성한 ubuntu 20.04 버전 vm을 복제해서 master, node1, node2 만들자<br/><ul id="d25717fe-dd0b-4ad6-9e9d-8414a2c48ac4" class="bulleted-list"><li style="list-style-type:disc">옵션 : 모든 네트워크 어댑터의 새 MAC주소 생성, 완전한 복제</li></ul><p id="2a32d242-9491-43ee-bae6-0ce4763ecc24" class="">복제후 네트워크를 k8sNetwork로 세팅 하고<br/>master는 2cpu 3072메모리, node1 2 는 2cpu 2048메모리<br/><br/>구동!<br/></p></div></figure><p id="de125de8-7c9e-4daa-a8d7-9cc4f2a5c9a9" class="">
+</p><p id="03072a97-1f5f-48cd-9840-2c7c8b61e262" class="">root로 로그인 후</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5fb4214c-5cf3-42a7-8653-80ca9b9d3141" class="code"><code class="language-Bash"># hosts 세팅
+vi /etc/hosts 로 아래 입력 혹은 수정
+10.100.0.104	master.example.com	master
+10.100.0.101	node1.example.com	node1
+10.100.0.102	node2.example.com	node2
+
+# hostname 세팅
+vi /etc/hostname 로 아래 입력 혹은 수정
+master.example.com 혹은 node1.example.com으로 맞는 노드형태로 수정
+
+# 그래픽모드로 재기동(네트워크 설정을 편하게 하기 위해)
+systemctl isolate graphical.target</code></pre><p id="d5810178-0e8e-40aa-a256-9765e08993be" class="">
+</p><p id="381ea2ed-5273-435b-a18e-c9b78c502f26" class="">그래픽 모드로 구동 후, guru로 로그인</p><ul id="e82b94c0-ec72-4d13-84c4-c4f04b87e989" class="bulleted-list"><li style="list-style-type:disc">우분투 사용자화면에서 오른쪽 상단 설정 &gt; 네트워크 &gt; 설정 &gt; IPv4에서 IP수정</li></ul><ul id="19efafbe-fa80-40a7-b06f-2664acbcf085" class="bulleted-list"><li style="list-style-type:disc">네트워크 유선 토글 동작해서 갱신시켜줌</li></ul><div id="fcaf9a6d-a8f3-42d5-955a-b6add48fef1c" class="column-list"><div id="2079c5bd-4ef0-40ad-9aec-aa9d2e849f4e" style="width:50%" class="column"><figure id="6b9c540c-4a5b-427f-afc8-36c0bc63165b" class="image" style="text-align:left"><a href="35086cc805e948958288e086bab178ab/Untitled.png"><img style="width:480px" src="35086cc805e948958288e086bab178ab/Untitled.png"/></a></figure></div><div id="dfbbd5b7-3222-41b8-8993-dbd865080dc4" style="width:50%" class="column"><figure id="e6d2ad77-f58f-4eb1-b788-2ddf3fe18d01" class="image" style="text-align:left"><a href="35086cc805e948958288e086bab178ab/Untitled%201.png"><img style="width:432px" src="35086cc805e948958288e086bab178ab/Untitled%201.png"/></a></figure></div></div><p id="6edca808-7185-44a8-9d12-67c1c7b0cd3b" class=""><br/>다시 콘솔모드로 세팅 후 재기동<br/></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7cb0cfd2-85b5-40e4-ae04-6e387bf083c1" class="code"><code class="language-Bash"># root 로
+$systemctl isolate multi-user.target</code></pre><h2 id="8a9aac05-0b48-4f9d-9a27-d7a867102cee" class="">Kubernetes 초기 설정</h2><blockquote id="754225b0-b51c-4277-9f1f-39810846104a" class="">설치시 사용하는 명령은 root에서 실행한다</blockquote><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="dc891979-77bb-4df2-abaa-d9ab3d56ea75"><div style="font-size:1.5em"><span class="icon">📓</span></div><div style="width:100%">참고 사이트<p id="2673713f-e068-4bb2-91e4-f80d948cc5e9" class=""><a href="https://syhwang.tistory.com/45">https://syhwang.tistory.com/45</a><br/><br/><a href="https://confluence.curvc.com/pages/viewpage.action?pageId=98048155">https://confluence.curvc.com/pages/viewpage.action?pageId=98048155</a><br/><br/><a href="https://magnuxx.tistory.com/entry/2022%EB%85%84-%EC%9A%B0%EB%B6%84%ED%88%AC-%EC%BF%A0%EB%B2%84%EB%84%A4%ED%8B%B0%EC%8A%A4-%EC%84%A4%EC%B9%98">https://magnuxx.tistory.com/entry/2022년-우분투-쿠버네티스-설치</a><br/><br/><a href="https://github.com/237summit/k8s_core_labs">https://github.com/237summit/k8s_core_labs</a></p></div></figure><p id="a4c19abd-850c-4aa6-9d34-e14d637c2f27" class="">
+</p><ul id="399cd00f-fb09-40d8-884f-15b657a94a5c" class="bulleted-list"><li style="list-style-type:disc">Installing kubeadm, kubelet, kubectl <blockquote id="5abee048-2186-4dd3-92bc-95deb04bf98a" class="">(kubeadm) 쿠버네티스 전체를 관리해주고 운영해주는 커맨드<br/>(kubelet) 쿠버네티스 컨테이너를 조작해주는 데몬<br/>(kubectl) 쿠버네티스에 명령어(ex. 파드조회, 웹서버 3개 실행 등등)를 수해할 때 사용하는 유틸<br/></blockquote><ul id="a0c58f5f-c3fa-4927-a912-9a70a2b6526c" class="bulleted-list"><li style="list-style-type:circle">swap disable 처리 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3bf2d19b-5e02-446a-b8da-a85ec373326e" class="code"><code class="language-Bash">swapoff -a &amp;&amp; sed -i &#x27;/swap/s/^/#/&#x27; /etc/fstab</code></pre><p id="7f20c205-3b87-4a81-b34e-46df9fe7d976" class="">
+</p><ul id="7927fa54-b932-44ed-bb8a-cb4f37f2119f" class="bulleted-list"><li style="list-style-type:circle">노드간 통신을 위한 브릿지 설정 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="60928e10-3165-49b0-9f56-31c866d741b2" class="code"><code class="language-Bash">cat &lt;&lt;EOF &gt; /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+#모듈 적재
+modprobe overlay
+modprobe br_netfilter
+
+cat &lt;&lt;EOF &gt; /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+#Apply sysctl params without reboot
+sysctl --system</code></pre><p id="8f8c484e-3ac7-4320-8f38-a0e7644e7dfd" class="">
+</p><ul id="d7443a97-59ff-47a7-b511-5c0f58c36be8" class="bulleted-list"><li style="list-style-type:circle">방화벽제거 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5c4ff996-be96-4c48-9a46-eb2e09c9b1c2" class="code"><code class="language-Bash">#방화벽 데몬 세팅 안되어있다면 무시
+systemctl stop firewalld 
+systemctl disable firewalld</code></pre><p id="77023621-fb08-4553-872c-ac8498925828" class="">
+</p><ul id="78753ba9-01f3-4936-afc6-9aecbcc0f226" class="bulleted-list"><li style="list-style-type:circle">필수 패키지 apt-get (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="77b33780-8984-4d2f-af2f-51226bfb5a9d" class="code"><code class="language-Bash">apt-get update
+apt-get install -y apt-transport-https ca-certificates curl</code></pre><p id="98f2353e-149e-4c8c-a9a0-9ede2b4ac8dc" class="">
+</p><ul id="16f84290-a2d4-4e84-af3c-6facb71905d9" class="bulleted-list"><li style="list-style-type:circle">구글 클라우드 퍼블릭 키 다운로드 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="7afe4b07-ca97-47d1-b654-dd3733a328e3" class="code"><code class="language-Bash">curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg</code></pre><p id="8f5044c8-1c23-466a-9de2-97d184a1cec3" class="">
+</p><ul id="151b6f19-d62e-4b59-832e-5b64492f00d6" class="bulleted-list"><li style="list-style-type:circle">레파지토리에 쿠버네티스관련 등록 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="74e9532c-c7b0-42d4-8374-4c8b240d475c" class="code"><code class="language-Bash">echo &quot;deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main&quot; | sudo tee /etc/apt/sources.list.d/kubernetes.list</code></pre><p id="b1adea13-ae96-4f7d-8315-b2e056500ec8" class="">
+</p><ul id="d5575bfe-71c2-437c-a2c2-467162837006" class="bulleted-list"><li style="list-style-type:circle">레파지토리 업데이트 후 kubelet kubeadm kubectl 설치 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b635ad66-129c-4eb9-8586-7554e2b02889" class="code"><code class="language-Bash">apt-get update
+apt-get install -y kubelet kubeadm kubectl
+apt-mark hold kubelet kubeadm kubectl</code></pre><p id="7f9aea95-d5e5-4454-b32c-65ac883337af" class="">
+</p><ul id="ef5a494d-33d1-4d79-93c2-4841e10b60cc" class="bulleted-list"><li style="list-style-type:circle">큐블렛 실행 및 인에이블 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="33463fd9-65d4-4f01-a694-a09cee68a973" class="code"><code class="language-Bash">systemctl start kubelet
+systemctl enable kubelet</code></pre><p id="cfcacd78-ef29-475e-b01a-067c22fc8e64" class="">
+</p><ul id="3600c52c-48b5-4ce4-9dfd-287363866dc5" class="bulleted-list"><li style="list-style-type:circle">systemd와 cgroup 맞춰 줘야함 (마스터/노드)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="36a6fcfb-bd35-4246-9112-d01991b297ff" class="code"><code class="language-Bash">#Kubernetes 1.22버전부터는 systemd와 cgroup 맞춰 줘야함
+mkdir /etc/docker
+cat &lt;&lt;EOF &gt; /etc/docker/daemon.json
+{
+  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],
+  &quot;log-driver&quot;: &quot;json-file&quot;,
+  &quot;log-opts&quot;: {
+    &quot;max-size&quot;: &quot;100m&quot;
+  },
+  &quot;storage-driver&quot;: &quot;overlay2&quot;
+}
+EOF
+
+
+systemctl enable docker 
+systemctl daemon-reload
+systemctl restart docker</code></pre></li></ul><p id="2577b5e9-f153-4445-baf3-89fbeefff6ea" class="">
+</p><p id="32e103cc-e8ab-49f9-a318-fc597169287d" class="">
+</p><ul id="13a201f8-b272-4488-9549-74e0a71dd11a" class="bulleted-list"><li style="list-style-type:disc">master component 초기화 (😡반드시 master에서 실행‼️)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5b2bcea0-d904-4b2c-8521-f59706866915" class="code"><code class="language-Bash">kubeadm init
+# 혹은 kubeadm init --apiserver-advertise-address 10.100.0.104 --pod-network-cidr=10.100.0.0/24</code></pre><p id="357b002c-35d7-4eba-8075-3fab409bb6fa" class="">👿💢 아래와 같은 에러가 발생했다면</p><p id="baeea38e-772a-4b6a-9fc4-94e6637a810d" class=""><a href="https://musclebear.tistory.com/165">https://musclebear.tistory.com/165</a> 에서 에러 증상 해결 참고</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="abe16df4-1e0d-48d3-b79b-07237bfbdd54" class="code"><code class="language-Bash">[init] Using Kubernetes version: v1.25.4
+[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR CRI]: container runtime is not running: output: E1124 13:32:42.667699    9266 remote_runtime.go:948] &quot;Status from runtime service failed&quot; err=&quot;rpc error: code = Unimplemented desc = unknown service runtime.v1alpha2.RuntimeService&quot;
+time=&quot;2022-11-24T13:32:42+09:00&quot; level=fatal msg=&quot;getting status of runtime: rpc error: code = Unimplemented desc = unknown service runtime.v1alpha2.RuntimeService&quot;
+, error: exit status 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d1b31497-8f96-4d62-acae-111853aba6e4" class="code"><code class="language-Bash">rm /etc/containerd/config.toml
+systemctl restart containerd
+kubeadm init</code></pre><p id="c660aec2-ea28-4027-9a87-22d5c77fc612" class="">
+</p><ul id="1854c518-61a0-498a-a90d-4fbbee3ff60a" class="bulleted-list"><li style="list-style-type:disc">token값 저장 (마스터에서 저장후 노드에서 사용)<p id="3b60db36-75dc-404a-bf7f-7c8669ea8171" class="">kubeadm 설치완료 후 화면에 있는 kubeadm token값을 token.txt로 임시저장<br/>(타 node에서 사용해야 함)<br/></p></li></ul><p id="ac90f23d-bc8b-4eba-a249-358b218260fc" class="">
+</p><ul id="a2df2741-d1f0-4548-a123-5ec0e11c2934" class="bulleted-list"><li style="list-style-type:disc">kubectl 사용 권한 설정 (마스터/노드)<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5f6f01f7-5560-47a8-a7fa-648a82922d81" class="code"><code class="language-Bash">#root 권한 유저에게 설정
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#guru 유저에게도 kubectl권한 설정하려면, guru 로그인 상태로 실행
+su - guru
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config</code></pre><p id="cfd6e38a-9c87-4d61-ab30-feac3ec4cbee" class="">
+</p></li></ul><p id="12e3f23b-fb72-4ea6-87a3-e4447f1b55d0" class="">
+</p><ul id="49b8cd02-467b-4a1e-a5ca-1882b3926e05" class="bulleted-list"><li style="list-style-type:disc">Installing a Pod network add-on (마스터)<br/>(Weave Net 으로 설치해본다)<br/></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="955a387f-4200-453e-8ccb-5705788d7dd7" class="code"><code class="language-Bash">kubectl apply -f https://github.com/weaveworks/weave/releases/download/v2.8.1/weave-daemonset-k8s.yaml</code></pre><p id="f24b6c4f-f370-4319-8c86-b19fc5c1404d" class="">
+</p><ul id="ed1037cc-6bcf-40c3-a5ef-6f7b6a44f514" class="bulleted-list"><li style="list-style-type:disc">node 동작확인 (마스터)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b0cdec62-21bb-46ba-937c-5e9fec57a4e1" class="code"><code class="language-Bash">kubectl get nodes
+NAME                 STATUS   ROLES           AGE   VERSION
+master.example.com   Ready    control-plane   57m   v1.25.4</code></pre><p id="be8ba32c-f6fb-4930-a10f-6099f96aeeb8" class="">
+</p><ul id="24e5c411-d18d-4662-a93b-fec5bc7c044c" class="bulleted-list"><li style="list-style-type:disc">워커노드들 조인 ( ‼️node1, node2에서 실행)<br/>master에 저장해뒀던 kubeadm token값을 node에서 실행<br/></li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="6dfa258c-52df-4f03-8e40-dc0431bc844e" class="code"><code class="language-Bash">kubectl get nodes
+NAME                 STATUS   ROLES           AGE   VERSION
+master.example.com   Ready    control-plane   57m   v1.25.4</code></pre><p id="d08b898c-110b-473f-b33f-f14c8104a4de" class="">👿💢 아래와 같은 에러가 발생했다면</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ac701d21-108c-4140-bda0-94e6c3c34198" class="code"><code class="language-Bash">[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR CRI]: container runtime is not running: output: E1124 14:46:10.087714   11613 remote_runtime.go:948] &quot;Status from runtime service failed&quot; err=&quot;rpc error: code = Unimplemented desc = unknown service runtime.v1alpha2.RuntimeService&quot;
+time=&quot;2022-11-24T14:46:10+09:00&quot; level=fatal msg=&quot;getting status of runtime: rpc error: code = Unimplemented desc = unknown service runtime.v1alpha2.RuntimeService&quot;
+, error: exit status 1
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="872469ca-1144-448e-925a-9e0c21c90334" class="code"><code class="language-Bash">rm /etc/containerd/config.toml
+systemctl restart containerd
+
+#이후 다시 노드연결 재시도</code></pre><p id="84fc5523-995a-4275-92fe-b5f8594b7829" class="">
+</p><ul id="c239667e-841e-42cc-9f87-2337012ada91" class="bulleted-list"><li style="list-style-type:disc">node 동작확인 (마스터)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="ff2a2618-c2a6-4d06-918a-2ed1eae59fa8" class="code"><code class="language-Bash">kubectl get nodes
+NAME                 STATUS   ROLES           AGE     VERSION
+master.example.com   Ready    control-plane   72m     v1.25.4
+node1.example.com    Ready    &lt;none&gt;          7m45s   v1.25.4
+node2.example.com    Ready    &lt;none&gt;          65s     v1.25.4</code></pre><p id="9186bd54-e77f-4641-a83b-4ad634b82748" class="">
+</p><ul id="312833e5-5abf-4aed-85e3-b1e82dfcab59" class="bulleted-list"><li style="list-style-type:disc">kubectl, kubeadm 자동완성 명령어 설정하기(마스터)</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2a3f9327-2c62-49cb-8100-20742e32fc04" class="code"><code class="language-Bash">#kubectl 명령어 자동완성 설정
+source /usr/share/bash-completion/bash_completion
+echo &#x27;source &lt;(kubectl completion bash)&#x27; &gt;&gt;~/.bashrc
+
+#kubeadm 자동완성 명령어 설정
+source /usr/share/bash-completion/bash_completion
+echo &#x27;source &lt;(kubeadm completion bash)&#x27; &gt;&gt;~/.bashrc</code></pre></div>
+<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

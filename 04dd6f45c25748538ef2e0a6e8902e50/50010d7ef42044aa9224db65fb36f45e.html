@@ -1,0 +1,709 @@
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>실습 환경 설치</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="50010d7e-f420-44aa-9224-db65fb36f45e" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">🔧</span></div><h1 class="page-title">실습 환경 설치</h1><p class="page-description"></p></header><div class="page-body"><blockquote id="37b6d629-21be-483b-bbf7-ebe1eca1e8c6" class="">Windows 10 기준으로 설명하고 있습니다.</blockquote><div><nav id="2e266564-bd3a-4c4c-8df6-e8226149695e" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#01e4951c-6941-49ed-a979-0d259f115437">VirtualBox 6.1 설치</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#dde077d7-656b-4dfa-b876-9420f747d88f">ubuntu 20.04 iso파일 다운</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#cfa69303-fda0-44e6-baa0-586c51640c69">VirtualBox 네트워크 구성</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0ffbf950-c3b2-49e8-99b2-77ed0ab719c7">가상머신 만들기</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#aa3cccfa-5b40-4b15-a885-3f85736bc765">Ubuntu 설치</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8632fc77-f2bc-41e2-b5a4-08a4788d67ca">Ubuntu 설정</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#411950f3-541e-44e5-a9c1-f53d3e4551fa">외부 SSH Tool로 접속</a></div></nav></div><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h1 id="01e4951c-6941-49ed-a979-0d259f115437" class="">VirtualBox 6.1 설치</h1><p id="f4b03929-7d57-4d08-9ef2-b0f285bf20d7" class=""><a href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_1">https://www.virtualbox.org/wiki/Download_Old_Builds_6_1</a></p><h1 id="dde077d7-656b-4dfa-b876-9420f747d88f" class="">ubuntu 20.04 iso파일 다운</h1><p id="0ec2a9bb-f498-4343-9248-a22ff6fbb435" class=""><a href="https://releases.ubuntu.com/focal/">https://releases.ubuntu.com/focal/</a></p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c3f8f82b-d71f-4266-a0be-3e3f53c8647d"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">ubuntu-20.04.5-desktop-amd64.iso 파일 다운로드</div></figure><h1 id="cfa69303-fda0-44e6-baa0-586c51640c69" class="">VirtualBox 네트워크 구성</h1><p id="1452c77c-dc89-4413-84db-6f062097430e" class="">파일 - 환경설정 - 네트워크</p><figure id="cfd249f8-984b-40d3-bca6-86e3daedf155" class="image"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled.png"><img style="width:2002px" src="50010d7ef42044aa9224db65fb36f45e/Untitled.png"/></a></figure><p id="4ae17e47-1c4c-4008-a4d0-ad673eb162e7" class="">10.100.0.0/24 대역대에 포트포워딩을 미리 만들어준다.</p><ul id="6924dffc-c391-4f87-b7b4-848e4ac9e69a" class="bulleted-list"><li style="list-style-type:disc">이는 PC에서 내부 가상 ubuntu 머신에 ssh접속을 가능하게 해준다.</li></ul><ul id="2bfc719f-a95b-4d18-ad72-d21bb70afc2b" class="bulleted-list"><li style="list-style-type:disc">127.0.0.1의 101포트로 ssh접속을 하게되면, 내부 10.100.0.101 22번포트로 접속을 시도하게 된다.</li></ul><p id="f43fae1b-7e8f-4268-96e1-704621e50b91" class="">
+</p><p id="127c6292-b9e6-4157-b2c5-6d1d014302cc" class="">
+</p><h1 id="0ffbf950-c3b2-49e8-99b2-77ed0ab719c7" class="">가상머신 만들기</h1><blockquote id="7b554ff5-5424-4382-8270-cf3863b195e2" class="">CPU(2core), Memory(2GB), network(k8sNetwork), disk(20GB)</blockquote><p id="0ae6d29f-c8db-4986-a77d-8d388c13e80e" class="">머신 &gt; 새로만들기</p><div id="d776c61b-246e-4826-815f-474b65d99304" class="column-list"><div id="8073c705-7488-462f-9147-417a0ab708e7" style="width:50%" class="column"><figure id="c59e86a8-7570-4ef8-b38f-a4884d27900c" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%201.png"><img style="width:336px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%201.png"/></a></figure></div><div id="74fb7698-2061-4035-963b-f8b01c525b78" style="width:50%" class="column"><figure id="d519f1e2-9bba-4dfb-86a3-b42811c68391" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%202.png"><img style="width:336px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%202.png"/></a></figure></div></div><div id="572602ae-d91a-4b48-a053-a2d3174e547e" class="column-list"><div id="47981d6c-41e8-40e5-96b0-f34efdaf5bed" style="width:50%" class="column"><figure id="29992af9-9fbf-41b8-addd-5fb80d96fc59" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%203.png"><img style="width:336px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%203.png"/></a></figure></div><div id="00f0e134-1782-4a0a-bac0-6575f7de1bc9" style="width:50%" class="column"><figure id="9248d645-2140-41a2-8b9e-c511ffc707aa" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%204.png"><img style="width:336px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%204.png"/></a></figure></div></div><p id="d3fb8284-f914-4721-bcf9-275ea4842181" class="">
+</p><p id="051cdb37-1a69-429b-bcf4-07a0e541170b" class="">가상머신 선택 &gt; 오른쪽 마우스 버튼 &gt; 설정</p><figure id="a454cc17-8395-4f55-9666-1c54641e8fff" class="image"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%205.png"><img style="width:1205px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%205.png"/></a></figure><p id="637a4402-a464-4440-8a2f-679d028cb938" class="">
+</p><p id="320939eb-3f28-4546-b7d0-3a2cb31cd722" class="">시스템 - 프로세서 - 프로세서 개수 2개로 설정</p><p id="cbc8a314-8c28-4e26-a4ea-37521ca2f135" class="">네트워크 - 네트워크 어댑터 : NAT 네트워크에 미리 만들어둔 k8sNetwork 선택</p><figure id="947e17a1-f934-4c0e-a519-cafe15dfd61a" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%206.png"><img style="width:576px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%206.png"/></a></figure><p id="7a06fd58-8d46-44e6-a607-e7d7ebfb0c60" class="">
+</p><p id="4fc58f51-6216-49dc-8771-a303b6cc35dc" class="">CD롬 드라이브에 다운받은  ubuntu-20.04.5-desktop-amd64.iso 파일 삽입</p><figure id="b5b0886b-c62b-4ddd-b2b7-d4cc99e2116d" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%207.png"><img style="width:576px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%207.png"/></a></figure><p id="9d569d50-1882-431b-8aeb-e75f0e8db05f" class="">
+</p><p id="450bf3a6-5a18-4a03-9788-2095072b584c" class="">시작하기 누르면 가상머신이 뜨면서 ubuntu 설치가 진행됨</p><figure id="740ea7e8-c572-47ef-8a24-5ea032e8771c" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%208.png"><img style="width:480px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%208.png"/></a></figure><h1 id="aa3cccfa-5b40-4b15-a885-3f85736bc765" class="">Ubuntu 설치</h1><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2e5ab6d5-851c-46ec-9d4b-01e519454f96"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">우분투 설치 중, 화면이 작아서 하단 버튼이 가릴때<br/>Alt + F7을 누른 후, 마우스 또는 키보드 화살표키로 창을 이동시키면 해결<br/></div></figure><ul id="0543f6c6-541a-41bc-9ebd-34adbfd3a2e9" class="bulleted-list"><li style="list-style-type:disc">언어선택 : 한국어</li></ul><ul id="82d0b6ca-dca7-4252-8a64-6bfb6d6635ef" class="bulleted-list"><li style="list-style-type:disc">키보드 : Korean (101/104 key)</li></ul><ul id="3e44368a-3a4d-4b29-b498-bd822a33e814" class="bulleted-list"><li style="list-style-type:disc">업데이트 및 기타 소프트웨어 : 일반설치</li></ul><ul id="36910d08-ab38-40bc-bbfc-3b42780d59e8" class="bulleted-list"><li style="list-style-type:disc">설치형식 : 디스크를 지우고 ubuntu 설치</li></ul><ul id="f9ccae21-97a7-4ec4-97a2-625df081665e" class="bulleted-list"><li style="list-style-type:disc">타임존 : Seoul</li></ul><ul id="cc6597b9-ef14-49f2-a0ea-00fc918df5a2" class="bulleted-list"><li style="list-style-type:disc">계정생성<ul id="c38687da-1746-481f-85e8-2956c0995a9c" class="bulleted-list"><li style="list-style-type:circle">이름 : guru</li></ul><ul id="b5f6cf89-bf02-4da0-8a87-da0d304fc95f" class="bulleted-list"><li style="list-style-type:circle">컴퓨터이름 : OOO.example.com</li></ul></li></ul><h1 id="8632fc77-f2bc-41e2-b5a4-08a4788d67ca" class="">Ubuntu 설정</h1><p id="0aad0789-6803-4624-8516-979f9cbe422e" class="">GUI 로그인 후, 오른쪽 상단 ▼ - 설정</p><figure id="efb29c44-116b-4913-9057-76d997a1468e" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%209.png"><img style="width:480px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%209.png"/></a></figure><p id="6b5c836c-ce07-4cd9-abe7-1d966eadca52" class="">
+</p><p id="38ca5dca-d5cc-49f1-aa9f-c31cf51cc6d0" class="">디스플레이 설정 변경</p><figure id="4eaea61a-28b2-4363-8b1d-a5fb19b913b8" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2010.png"><img style="width:480px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2010.png"/></a></figure><p id="9a310a5d-59c3-452e-9eaf-41145f52068f" class="">
+</p><p id="8a5b19bd-5da6-4cb7-9cc0-81819fa69a5f" class="">네트워크 DHCP를 제거하고, 수동으로 설정</p><figure id="70d07a0b-9c6a-481a-a4d3-1f458e866373" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2011.png"><img style="width:576px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2011.png"/></a></figure><p id="9cb03d16-99bd-44e9-a569-fbfe1892ce15" class="">
+</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="53c40b33-c768-4c5d-84e4-4f9f1bdb7b1f"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">적용 후, 네트워크 토글을 껐다 켜야 반영 됨</div></figure><p id="426ee31d-6fb6-474f-98ce-e5c8bc657c9f" class="">
+</p><figure id="9b8726b1-fd54-4cef-9d8b-352ad82d2a1f" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2012.png"><img style="width:576px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2012.png"/></a></figure><p id="c259bdd6-6d6e-49b8-9c39-eaf0f2ba96b1" class="">
+</p><p id="49f12e65-7ec2-4fa3-b108-e73582ae507d" class="">터미널 오픈</p><figure id="5dd3d85f-89d5-4046-83d3-725512b4b939" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2013.png"><img style="width:384px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2013.png"/></a></figure><p id="9a63af16-13c3-4fa4-b6f0-e9f5ae5a7d0a" class="">
+</p><p id="452f5ee4-c98a-41af-8b59-598a72c84c2b" class="">머신이름 설정 : OOO.example.com 형식으로</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="284e7e20-eca8-46ec-bad1-9b4f00563c42" class="code"><code class="language-Bash">sudo vi /etc/hostname
+
+cat /etc/hostname 
+docker-ubuntu.example.com</code></pre><p id="b9907fd7-cee1-4eaf-9354-eab5f612f549" class="">호스트 파일 설정</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1cf13300-7a22-4edf-867a-fc7f1606ed15" class="code"><code class="language-Bash">sudo vi/etc/hosts
+
+cat /etc/hosts
+127.0.0.1	localhost
+10.100.0.105 	docker-ubuntu.example.com	docker-ubuntu
+10.100.0.104 	master.example.com	master
+10.100.0.101	node1.example.com	node1
+10.100.0.102	node2.example.com	node2
+~~</code></pre><p id="e86a4681-bf86-461c-bb3f-42fa1ee4dc3e" class="">root 패스워드 설정</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0575c50d-0c55-4f03-9fd8-b25ce7073633" class="code"><code class="language-Bash">sudo passwd root</code></pre><p id="f6fb6f05-0a7b-4c4f-b913-e4b7c86afe8b" class="">
+</p><p id="a7b74528-891c-4bdb-ad2a-c97309f30dfa" class="">기본 프로그램 설치</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dfb2ce6c-3b4d-456c-8559-43cf071a973a" class="code"><code class="language-Bash">#레파지토리 갱신
+apt-get update
+
+#openssh, curl, vim, tree 설치
+apt-get install -y openssh-server curl vim tree</code></pre><p id="a155685b-7480-4633-bd14-cf07696af936" class="">
+</p><p id="07526b2d-32a4-41d6-b04c-cab732dd864d" class="">GUI모드에서 터미널모드로 변경</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="4d8315e4-20d4-4993-9902-f4f160197d86" class="code"><code class="language-Bash">systemctl set-default multi-user.target</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="63d6db11-b8d0-400b-b8cf-f941231a392d"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%">터미널모드에서 GUI 모드로 바꾸기<br/>systemctl isolate multi-user.target<br/></div></figure><h1 id="411950f3-541e-44e5-a9c1-f53d3e4551fa" class="">외부 SSH Tool로 접속</h1><p id="42bcce42-976a-4339-b3de-c3a8ae7cc08e" class="">putty 혹은 Xshell과 같은 툴로 VM ubuntu에 ssh접속을 확인한다</p><div id="3303c1fe-a331-4800-bcca-c199b0c8fd57" class="column-list"><div id="67ac8a67-5b5f-4705-a6f0-738322964261" style="width:50%" class="column"><figure id="045f7311-6887-485a-8721-a8a7ff8c1669" class="image" style="text-align:left"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2014.png"><img style="width:480px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2014.png"/></a></figure></div><div id="2d65de14-a00a-42b3-b046-e1aba9338679" style="width:50%" class="column"><figure id="a16c8aa2-0de3-4510-a882-0d2342289962" class="image"><a href="50010d7ef42044aa9224db65fb36f45e/Untitled%2015.png"><img style="width:480px" src="50010d7ef42044aa9224db65fb36f45e/Untitled%2015.png"/></a></figure></div></div><p id="7664fd1a-ce8a-445c-a9ad-1db43fb2077f" class="">
+</p></div>
+<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

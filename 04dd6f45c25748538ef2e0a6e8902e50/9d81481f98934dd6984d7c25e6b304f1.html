@@ -1,0 +1,987 @@
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>컨트롤러</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="9d81481f-9893-4dd6-984d-7c25e6b304f1" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">✔️</span></div><h1 class="page-title">컨트롤러</h1><p class="page-description"></p></header><div class="page-body"><nav id="345b4451-3152-4006-ae0d-8c578ed861fa" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#51e936b3-7ab5-431a-9e6b-28761088f440">컨트롤러</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#85051977-4fef-436f-affd-18f8b94addfe">ReplicationController</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e8f84102-53e7-48e0-bad5-16d7411e95c7">ReplicaSet</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#24561a0d-ba5c-4c94-98ec-37bc010ff75a">Deployment</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#251e133b-c578-4ebe-93e1-cfd26cc358a7">RollingUpdate</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#54882368-10c3-48b7-b5b7-3660669c0d63">DaemonSet</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c64cbf97-8458-4186-8d72-c42ea3a4543e">StatefulSet</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a5a8d493-0b40-49a7-8595-f7030155e44d">Job</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1a85e44b-ba86-492f-9a5d-1fcd3854b5de">CronJob</a></div></nav><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h2 id="51e936b3-7ab5-431a-9e6b-28761088f440" class="">컨트롤러</h2><p id="c9e89c62-79c1-41f3-a3ae-894372020811" class="">클러스터의 상태를 감시하고 현재 상태와 원하는 상태가 일치하도록 관리하는 작업</p><p id="70664831-ec31-484e-9236-10f1e3227501" class="">Pod의 개수를 보장</p><p id="046c6c3e-0638-4932-961c-0999dc203b9a" class=""><code>kubectl create deployment webui --image=httpd:latest --replicas=3</code></p><figure id="2ed159d3-ac1e-4904-a906-555f5845db59" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled.png"/></a><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><p id="39b91aeb-9155-4d01-ac8b-cf87e61983cd" class="">
+</p><h2 id="85051977-4fef-436f-affd-18f8b94addfe" class="">ReplicationController</h2><p id="a86acdc6-8bae-4c83-9d93-17bf1bcb4056" class="">Pod의 인스턴스가 항상 특정 개수로 작동하도록 관리할 목적으로 사용. Pod의 replicas 설정에 따라 자동으로 Pod의 인스턴스를 추가 제거한다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fc7bea2b-2b8a-4a5a-9819-de995df8f1d2" class="code"><code class="language-Bash">#Pod-definition
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  labels:
+    app: webui
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:1.14
+
+#ReplicationController-definition
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: rc-nginx
+spec:
+  replicas: 3
+  selector:
+    app: webui
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.14</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="eac31582-8645-4007-ae35-58e85d2a2aad"><div style="font-size:1.5em"><span class="icon">☝</span></div><div style="width:100%">ReplicaSet이 ReplicationController를 완전히 대체할 수 있으며, Deployment를 사용하면 ReplicaSet이 자동으로 따라온다. <br/>RollingUpdate 때문이라도  Deployment 사용을 권장<br/></div></figure><p id="0e323ee0-7d66-47cf-a59f-1707435cde8f" class="">
+</p><h2 id="e8f84102-53e7-48e0-bad5-16d7411e95c7" class="">ReplicaSet</h2><p id="61c03b45-9e12-415e-8745-8dd6439e7152" class="">ReplicaSet은 pod 집합의 실행을 항상 안정적으로 유지하며, 명시된 pod 개수를 보증하는데 사용된다.</p><p id="f3261742-caa8-4723-8a4e-49bb425de6ba" class="">더 다양한 selector 연산자를 제공.</p><figure id="cbbb5864-4512-4b94-a6c4-708f860f97cc" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%201.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%201.png"/></a><figcaption>ReplicationController VS ReplicaSet</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><figure id="a002c73e-caa7-4b01-b7b9-fe00a10b65df" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%202.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%202.png"/></a><figcaption>ReplicaSet의 selector</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="b8f2299d-1357-4b9b-bbbd-3319bc57cfc6" class="code"><code class="language-Bash">cat rs-nginx.yaml 
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.14
+
+kubectl get pods --show-labels
+NAME             READY   STATUS    RESTARTS   AGE   LABELS
+rs-nginx-cxrrn   1/1     Running   0          65s   app=webui
+rs-nginx-kxvrj   1/1     Running   0          65s   app=webui
+rs-nginx-xmzxm   1/1     Running   0          65s   app=webui
+
+kubectl get rs
+NAME       DESIRED   CURRENT   READY   AGE
+rs-nginx   3         3         3       2m5s</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="e4e8f970-8fbf-4c2c-bf7a-3a1ba02b09c7"><div style="font-size:1.5em"><span class="icon">📎</span></div><div style="width:100%"><code>kubectl delete rs rs-nginx --cascade=false</code><br/>pod는 그대로 두고, rs만 삭제하고 싶을때 cascade옵션을 준다.<br/></div></figure><h2 id="24561a0d-ba5c-4c94-98ec-37bc010ff75a" class="">Deployment</h2><p id="4b5a477b-9822-486a-ac39-303b343cead3" class="">상태가 없는 앱을 배포할 때 사용하는 가장 기본적인 컨트롤러이다.</p><p id="d372f141-a379-4d14-ae77-b0336bdc3094" class="">Deployment의 목적은 rolling update를 위해서 만들어졌다.</p><p id="2d13adfc-ce79-4a72-8c93-14e5a921b230" class="">Deployment는 ReplicaSet를 관리하면서 배포 방식, 버전 롤백 등이 설정 가능하다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="e7750f98-624a-49b5-bd69-02a765e19f20" class="code"><code class="language-Bash">cat  deploy-nginx.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.14
+
+#Deployment 가 ReplicaSet을 호출하고, 호출된 ReplicaSet이 pod를 관리한다
+kubectl get kubectl get deploy,rs,pod
+NAME                           READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/deploy-nginx   3/3     3            3           95s
+  
+NAME                                      DESIRED   CURRENT   READY   AGE
+replicaset.apps/deploy-nginx-5cfbcf5f65   3         3         3       95s
+  
+NAME                                READY   STATUS    RESTARTS   AGE
+pod/deploy-nginx-5cfbcf5f65-2f7v5   1/1     Running   0          95s
+pod/deploy-nginx-5cfbcf5f65-942vh   1/1     Running   0          95s
+pod/deploy-nginx-5cfbcf5f65-lqw2d   1/1     Running   0          95s
+</code></pre><figure id="9ecd7bbb-5baf-4f72-b1c4-1fb942f8c338" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%203.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%203.png"/></a><figcaption>ReplicaSet VS Deployment</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><h3 id="251e133b-c578-4ebe-93e1-cfd26cc358a7" class="">RollingUpdate</h3><blockquote id="13cfac61-43f0-4048-a97b-a5bfb8b1a786" class="">[Rolling update]<br/>kubectl set image deployment &lt;deploy_name&gt; &lt;container_name&gt;=&lt;new_version_image&gt;<br/><br/>[RollBack]<br/>kubectl rollout history deployment &lt;deploy_name&gt;<br/>kubectl rollout undo deploy &lt;deploy_name&gt;<br/></blockquote><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="66c524ad-d244-4b20-a0da-59e8b4369e84" class="code"><code class="language-Bash">#1.15로 이미지버전을 업데이트
+kubectl set image deployment deploy-nginx nginx-container=nginx:1.15 --record
+
+#1.16으로 이미지버전을 업데이트
+kubectl set image deployment deploy-nginx nginx-container=nginx:1.16 --record
+
+#rolling update 진행과정 조회
+kubectl rollout status deployment deploy-nginx
+
+#rolling update 잠시 중지, 배포이후에 해봐야 소용없음
+kubectl rollout pause deployment deploy-nginx
+
+#rolling update 재개
+kubectl rollout resume deployment deploy-nginx
+
+#rolling update 히스토리 조회
+kubectl rollout history deployment deploy-nginx
+REVISION  CHANGE-CAUSE
+1         &lt;none&gt;
+2         kubectl set image deployment deploy-nginx nginx-container=nginx:1.15 --record=true
+3         kubectl set image deployment deploy-nginx nginx-container=nginx:1.16 --record=true
+4         kubectl set image deployment deploy-nginx nginx-container=nginx:1.17 --record=true
+
+#바로 한단계 전으로 롤백
+kubectl rollout undo deployment deploy-nginx
+
+#히스토리의 REVISION번호값으로 undo.
+#위의 예시에선 2번으로 rollback되면 2번이 사라지고 5번으로 나타난다.
+kubectl rollout undo deployment deploy-nginx --to-revision=2 
+
+#deployment 삭제
+kubectl delete deployments.apps deploy-nginx</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="bfe455e1-9eb3-4fa8-b4c8-2900ebbbdf41" class="code"><code class="language-Bash">#yaml파일로 rollout 버전관리시, 아래항목으로 관리하면 좀 더 나은 이력관리를 할 수 있다.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nginx
+  annotations:
+    kubernetes.io/change-cause: version 1.14
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: web
+        image: nginx:1.14
+        ports:
+        - containerPort: 80</code></pre><p id="aedac933-296f-49ba-b446-f02de5d0b75b" class="">
+</p><h2 id="54882368-10c3-48b7-b5b7-3660669c0d63" class="">DaemonSet</h2><p id="97dc14b1-43da-4c0b-bf87-cb2b59dd0163" class="">전체노드에서 노드 당 Pod가 한 개씩 실행되도록 보장</p><p id="bebf1222-f2c8-4bc3-89e8-771cce73cd4f" class="">로그 수집기, 모니터링 에이전트와 같은 프로그램 실행 시 적용</p><p id="990c22b0-bc0a-491e-950a-d17c1bb8a5f6" class="">데몬셋이 대상으로 하고 있던 노드가 클러스터에 제거되는 경우, 다른 노드로 이동하여 파드를 실행시키지 않고 제거된다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="20553d20-4dc4-4f43-860e-a06e03be9b50" class="code"><code class="language-Bash">cat &gt; daemonset-exam.yaml 
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset-nginx
+spec:
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.14
+
+kubectl create -f daemonset-exam.yaml</code></pre><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="d77f065d-1b79-4afa-8276-826f71bff1dd" class="code"><code class="language-Bash">#데몬셋의 롤링업데이트는
+kubectl get daemonsets.apps
+
+#spec.template.spec.containers.image 의 버전을 변경하고 wq
+kubectl edit daemonsets.apps daemonset-nginx
+
+#데몬셋의 롤백은
+kubectl rollout undo daemonset daemonset-nginx
+
+#데몬셋 삭제
+kubectl delete ds daemonset-nginx</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="ba42e771-735f-452f-aebd-b49581e02a63"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>(팁) 노드 연결을 위한 토큰발급</strong><p id="3672c568-2856-4dd4-9111-a428da827f96" class="">kubeadm token list &lt;-- 토큰이 만료되었다면</p><p id="de9084c4-e6db-463a-9ba1-571e419f15de" class="">kubeadm token create --ttl 2h  &lt;-- 2시간짜리 토큰 발급<br/>alhqgn.8nq5n7a3kpovamsp<br/></p><p id="a854da47-17e4-47e1-8b91-cb29d17e0997" class="">노드에 접속한 상태에서(마스터 아님!!)<br/>예전에 token.txt 저장된 값 기억나는가? 거기서 토큰쪽만 위의 토큰으로 변경하여 다시 실행한다.<br/></p></div></figure><figure id="75746319-1d51-4ded-b2b6-4932c319fdb8" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%204.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%204.png"/></a><figcaption>ReplicaSet VS DaemonSet</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><h2 id="c64cbf97-8458-4186-8d72-c42ea3a4543e" class="">StatefulSet</h2><p id="9995c4ae-18a7-4205-aae0-c78d20499729" class="">Pod의 상태를 유지해주는 컨트롤러<br/>- Pod의 이름<br/>- Pod의 볼륨<br/></p><p id="14ce9763-f985-4bfa-9ba4-989a734643c9" class="">스테이트 풀 세트는 상태가 있는 파드를 관리하는 컨트롤러 입니다. 상태가 있다는 의미는 컨테이너가 종료되더라도 컨테이너에서 필요로 하는 데이터가 남게(Stateful 한 상태)되어 파드를 재시작 하더라도 데이터를 보존할 수 있다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="276ae9a7-6db2-4123-ab3b-b2d18a9f5f68" class="code"><code class="language-Bash">#생성
+cat &gt; statefulset-exam.yaml 
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sf-nginx
+spec:
+  replicas: 3
+  serviceName: sf-service
+#  podManagementPolicy: OrderedReady &lt;---- 순차적으로 0,1,2 ?
+  podManagementPolicy: Parallel      &lt; --- 패러럴하게 번호를 채워줌 012 있었는데 1이 죽으면 1이 재생성. 추가되면 3이 생김. 제거되면 2가 제거
+  selector:
+    matchLabels:
+      app: webui
+  template:
+    metadata:
+      name: nginx-pod
+      labels:
+        app: webui
+    spec:
+      containers:
+      - name: nginx-container
+        image: nginx:1.14
+
+#Pod확인
+kubectl get pods -o wide
+NAME         READY   STATUS    RESTARTS   AGE    IP          NODE                NOMINATED NODE   READINESS GATES
+sf-nginx-0   1/1     Running   0          2m2s   10.44.0.1   node1.example.com   &lt;none&gt;           &lt;none&gt;
+sf-nginx-1   1/1     Running   0          89s    10.36.0.1   node2.example.com   &lt;none&gt;           &lt;none&gt;
+sf-nginx-2   1/1     Running   0          2m2s   10.44.0.2   node1.example.com   &lt;none&gt;           &lt;none&gt;
+
+#pod 삭제
+kubectl delete pod sf-nginx-1  #&lt;-- 1번을 지우면 어떻게 될까?, 죽었다가 replicas때문에 다시 살아나면서 1번을 유지한다.
+
+#Scale out
+kubectl scale statefulset sf-nginx --replicas=4  #&lt;-- sf-nginx-3 pod가 생긴다
+
+#kubectl edit statefulsets.apps sf-nginx 로 롤링업데이트 할 수 있고
+#kubectl rollout undo statefulset sf-nginx 로 undo 할 수 있다
+
+#삭제
+kubectl delete statefulsets.apps sf-nginx</code></pre><figure id="d926ea2f-2e9f-4f67-9e2a-ad17a6cf2a95" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%205.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%205.png"/></a><figcaption>ReplicaSet VS StatefulSet</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><h2 id="a5a8d493-0b40-49a7-8595-f7030155e44d" class="">Job</h2><p id="f448a379-15a0-4b24-a80c-c1001ce09f3e" class="">배치성 작업을 진행하기 위해 사용하는 컨트롤러.</p><p id="54804541-9679-4268-bbf0-d7fa67867d6d" class="">Kubernetes는 Pod를 running 상태로 유지<br/>Batch 처리하는 Pod는 작업이 완료되면 종료됨<br/>Batch 처리에 적합한 컨트롤러로 Pod의 성공적인 완료를 보장<br/></p><ul id="865f73f4-231a-4119-87c5-daf02809c5c4" class="bulleted-list"><li style="list-style-type:disc">비정상 종료 시 다시 실행</li></ul><ul id="af107714-8b0d-4829-95ee-eca7d04e4113" class="bulleted-list"><li style="list-style-type:disc">정상 종료시 완료</li></ul><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1e9892f6-748c-426a-a5a0-3c51d5a8871a" class="code"><code class="language-Bash">#pod 실행 후 5초뒤에 종료되며, 쿠버네티스는 이를 다시 리스타트 시킨다 (반복)
+kubectl run testpod --image=centos:7 --command sleep 5</code></pre><figure id="4ab5af88-7a97-4cf4-91b7-d8f9c982efb3" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%206.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%206.png"/></a><figcaption>Job definition</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9e82b26a-b96a-4a56-9865-667d9350f266" class="code"><code class="language-Bash">#job 생성
+cat &gt; job-exam.yaml 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: centos-job
+spec:
+#  completions: 5
+#  parallelism: 2
+#  activeDeadlineSeconds: 5
+  template:
+    spec:
+      containers:
+      - name: centos-container
+        image: centos:7
+        command: [&quot;bash&quot;]
+        args:
+        - &quot;-c&quot;
+        - &quot;echo &#x27;Hello World&#x27;; sleep 50; echo &#x27;Bye&#x27;&quot;
+      restartPolicy: Never
+#      restartPolicy: OnFailure
+#  backoffLimit: 3
+
+#job 실행 : 실행되고 Running상태였다가 50초뒤에 Completed 상태로 pod가 변경된다.
+kubectl create -f job-exam.yaml
+
+#job 삭제
+kubectl delete jobs.batch centos-job
+
+#vi job-exam.yaml 해서 backoffLimit를 3(정의하지 않으면 디폴트6),
+#restartPolicy: OnFailure 으로 수정한다면
+# --&gt; 컨테이너가 비정상 종료시 pod를 리스타트가 아니라 컨테이너를 리스타트 시키는데 3번까지 한다.
+
+#vi job-exam.yaml 해서 restartPolicy: Never로 수정한다면
+# --&gt; 컨테이너가 비정상 종료시 pod를 리스타트 시킨다
+
+#vi job-exam.yaml 해서 completions:3 로 수정한다면,
+#템플릿에 있는 컨테이너를 3번 실행하겠다는 의미
+# --&gt; pod가 3개 실행되고, Completed 상태로 남음
+ 
+
+#vi job-exam.yaml 해서 parallelism:2 로 수정한다면,
+#템플릿에 있는 컨테이너를 2개씩 동시에 실행하겠다는 의미
+# --&gt; completions:3, parallelism:2 상태였다면, pod가 2개씩 3번 실행된다.
+
+#vi job-exam.yaml 해서 activeDeadlineSeconds:5 로 수정한다면,
+#애플리케이션이 5초안에 끝나지 않으면 완료처리 해버린다.</code></pre><h2 id="1a85e44b-ba86-492f-9a5d-1fcd3854b5de" class="">CronJob</h2><p id="a666ce45-c01d-42db-b2da-f6e25fe213ba" class="">사용자가 원하는 시간에 JOB 실행 예약 지원</p><p id="cf53a758-1956-4cfb-9b55-1a3e7146b4b3" class="">지정한 시간에 한번만 잡을 실행하거나 지정한 시간동안 주기적으로 잡을 반복할 수 있다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="2dade43e-43a0-4b2a-841e-fdd764fb4604" class="code"><code class="language-Plain Text"># ┌───────────── minute (0 - 59)
+# │┌───────────── hour (0 - 23)
+# ││┌───────────── day of the month (1 - 31)
+# │││┌───────────── month (1 - 12)
+# ││││┌───────────── day of the week (0 - 6) (Sunday to Saturday; &lt;--- 일요일 에서 토요일까지임
+# │││││                  7 is also Sunday on some systems)
+# │││││                  OR sun, mon, tue, wed, thu, fri, sat
+# │││││
+# * * * * *
+
+
+#매월 1일 3시에 실행   &lt;--- &quot;0 3 1 * *&quot;
+#주중 새벽3시에 job을 실행 &lt;--- &quot;0 3 * * 1-5&quot;
+#주말 새벽3시에 job을 실행 &lt;--- &quot;0 3 * * 0,6&quot;
+#5분마다 한번씩 job을 실행 &lt;--- &quot;*/5 * * * *&quot;
+#2시간마다 한번씩 job을 실행 &lt;--- &quot;0 */2 * * *&quot;</code></pre><figure id="61e73182-9c78-4d63-84d2-1bc7b6313c39" class="image"><a href="9d81481f98934dd6984d7c25e6b304f1/Untitled%207.png"><img style="width:1920px" src="9d81481f98934dd6984d7c25e6b304f1/Untitled%207.png"/></a><figcaption>CronJob definition</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="1391a1ef-b678-4055-a3fa-493487562803" class="code"><code class="language-Bash">#실행
+cat &gt; cronjob-exam.yaml 
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-exam
+spec:
+  schedule: &quot;* * * * *&quot;
+  startingDeadlineSeconds: 500 #&lt;-- 500초안에 안끝나면 취소시키겠다
+#  concurrencyPolicy: Allow    #&lt;-- Allow 가 디폴트이며, Allow면 작업이 1분마다 하는 작업인데 시간이 넘어가더라도 또 실행된다. 
+  concurrencyPolicy: Forbid    #&lt;-- 완료되지 않으면 새로 실행하지 않는다.
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - echo Hello; sleep 10; echo Bye
+          restartPolicy: Never
+
+kubectl create -f cronjob-exam.yaml
+# 매 1분 정각에 실행되고, 10초뒤에 completed 되버림
+# 다음 1분에 새로운 pod로 실행되고... 다음1분에 새로운 pod로 실행되고...
+# pod가 계속 쌓이는가? 아니다. successfulJobsHistoryLimit: 3 가 기본값으로서, 3개까지만 유지된다.
+
+kubectl get cronjobs.batch -o yaml
+
+kubectl delete cronjobs.batch cronjob-exam</code></pre><p id="30ac3161-37e9-4510-a748-3a134b7419da" class="">
+</p></div>
+<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>

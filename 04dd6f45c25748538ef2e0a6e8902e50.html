@@ -1,0 +1,692 @@
+<html lang="ko"><head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" /><meta name="theme-color" content="#777777"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[목차]도커와 쿠버네티스의 기본</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-uiBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-transparentGray { background-color: rgba(227, 226, 224, 0); }
+.select-value-color-translucentGray { background-color: rgba(0, 0, 0, 0.06); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style><link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+<link type="text/css" rel="stylesheet" href="/css/mstyle.css" />
+<link type="text/css" rel="stylesheet" href="/css/jquery.mmenu.all.css" />
+<script type="text/javascript" src="/js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mmenu.all.min.js"></script>
+<script type="text/javascript">
+	var ua = "";
+	var connType = "";
+	$(function() {
+		$('nav#menu').mmenu();
+	});
+</script></head><body><div class="header Fixed" onClick="location.replace('/');">bluedove's project history</div><div class="footer Fixed">Since 2004 ~ 2024</div><div id="main" style="margin: 40 0 60 5;"><article id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="page sans"><header><img class="page-cover-image" src="04dd6f45c25748538ef2e0a6e8902e50/ing1920_1080.jpg" style="object-position:center 20.930000000000003%"/><div class="page-header-icon page-header-icon-with-cover"><span class="icon">💫</span></div><h1 class="page-title">[목차]도커와 쿠버네티스의 기본</h1><p class="page-description"></p></header><div class="page-body"><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fc69af9c-fe24-494a-bd3d-7e030044995b"><div style="font-size:1.5em"><span class="icon">🎯</span></div><div style="width:100%">Docker와 Kubernetes의 Basic 과정. </div></figure><p id="6e4705fc-7a31-4fa6-8407-23d993245ca3" class="">
+</p><h2 id="579b6e0b-0071-4cda-aa2b-5bcba226cf03" class="">준비사항</h2><hr id="68fcc1b2-73a4-4259-be79-3d6856215eb2"/><figure id="50010d7e-f420-44aa-9224-db65fb36f45e" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/50010d7ef42044aa9224db65fb36f45e.html"><span class="icon">🔧</span>개인 로컬 환경 설치</a></figure><p id="054d2474-5139-4f4d-92cd-c5aecc5420b4" class="">
+</p><h2 id="e056a8b3-db66-48b9-aa78-7cdd96130e57" class="">Docker</h2><hr id="7bd99228-c32a-490d-9369-278acbacf0a2"/><figure id="2c1d0552-9050-4146-9e22-466b80897313" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/2c1d0552905041469e22466b80897313.html"><span class="icon">🔧</span>Docker 설치</a></figure><figure id="f58f8694-7dd9-49f7-95ff-86f32f2d275e" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/f58f86947dd949f795ff86f32f2d275e.html"><span class="icon">✔️</span>컨테이너 기본 조작</a></figure><figure id="63f566ef-04e1-472b-be09-014cd54c656d" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/63f566ef04e1472bbe09014cd54c656d.html"><span class="icon">✔️</span>컨테이너 PUSH</a></figure><figure id="2f04b079-bac3-49c0-a389-7fbae80eb4e6" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/2f04b079bac349c0a3897fbae80eb4e6.html"><span class="icon">✔️</span>컨테이너 리소스</a></figure><figure id="eb2f55ff-861d-4512-b056-c2ebe7c4e4a8" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/eb2f55ff861d4512b056c2ebe7c4e4a8.html"><span class="icon">✔️</span>컨테이너 스토리지</a></figure><figure id="86f994c7-6ba0-4aef-b9c6-45ec61bc5b3d" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/86f994c76ba04aefb9c645ec61bc5b3d.html"><span class="icon">✔️</span>컨테이너 통신</a></figure><figure id="759e8675-d713-446c-a632-875df5264e06" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/759e8675d713446ca632875df5264e06.html"><span class="icon">✔️</span>Docker 추가 명령어</a></figure><figure id="c46a14f2-7931-4a0c-844d-7c49c55db80d" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/c46a14f279314a0c844d7c49c55db80d.html"><span class="icon">✔️</span>Docker Compose</a></figure>
+<h2 id="44832724-dd4a-4edc-953b-91a76a381bc5" class="">Kubernetes</h2><hr id="9cde9d1a-4525-4a0f-973d-3c00ac5b7dda"/><figure id="35086cc8-05e9-4895-8288-e086bab178ab" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/35086cc805e948958288e086bab178ab.html"><span class="icon">🔧</span>Kubernetes 설치</a></figure><figure id="a4a213d5-fd0b-4755-bdd2-2dd89ecb02dc" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/a4a213d5fd0b4755bdd22dd89ecb02dc.html"><span class="icon">✔️</span>kubectl 기본기능 확인</a></figure><figure id="4594e856-d0cd-4f2e-aca5-7e2ecf30b162" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/4594e856d0cd4f2eaca57e2ecf30b162.html"><span class="icon">✔️</span>Namespace</a></figure><figure id="01733138-ed25-452c-971c-54aa2daab868" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/01733138ed25452c971c54aa2daab868.html"><span class="icon">✔️</span>Pod 기본</a></figure><figure id="82507d8d-97e0-45ce-9af1-31935ffec58b" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/82507d8d97e045ce9af131935ffec58b.html"><span class="icon">✔️</span>Pod에 리소스 할당하기</a></figure><figure id="add9860f-e624-405a-90c3-3d6155998e03" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/add9860fe624405a90c33d6155998e03.html"><span class="icon">✔️</span>Pod에 환경변수 설정</a></figure><figure id="9d81481f-9893-4dd6-984d-7c25e6b304f1" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/9d81481f98934dd6984d7c25e6b304f1.html"><span class="icon">✔️</span>컨트롤러</a></figure><figure id="c8cf83c6-60ff-4473-9143-b9393f95ad28" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/c8cf83c660ff44739143b9393f95ad28.html"><span class="icon">✔️</span>서비스</a></figure><figure id="f17ee810-57e2-4b6a-88a1-bcc45ee2bf17" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/f17ee81057e24b6a88a1bcc45ee2bf17.html"><span class="icon">✔️</span>인그레스 (Ingress)</a></figure><figure id="919b0a63-9a1a-4823-8fa8-adfb904d59cf" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/919b0a639a1a48238fa8adfb904d59cf.html"><span class="icon">✔️</span>Lable</a></figure><figure id="9eef4d93-da43-4b26-9809-dfec1b1a64f6" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/9eef4d93da434b269809dfec1b1a64f6.html"><span class="icon">✔️</span>배포</a></figure><figure id="4b12801e-aa7c-40b8-8a06-78a133ad049e" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/4b12801eaa7c40b88a0678a133ad049e.html"><span class="icon">✔️</span>ConfigMap &amp; Secret</a></figure><figure id="7f7345f0-d930-4b94-aa1e-7859e75b063f" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/7f7345f0d9304b94aa1e7859e75b063f.html"><span class="icon">✔️</span>Pod Scheduling</a></figure><figure id="4d071fbd-c188-4ecc-9429-f9d3a0c3ce64" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/4d071fbdc1884ecc9429f9d3a0c3ce64.html"><span class="icon">✔️</span>인증과 권한관리</a></figure><figure id="df8e27da-79f3-4709-8ecb-e5f52ca6ebbe" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/df8e27da79f347098ecbe5f52ca6ebbe.html"><span class="icon">✔️</span>볼륨관리</a></figure><figure id="5fb046e0-5945-41c1-89f1-03dd1ec46885" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/5fb046e0594541c189f103dd1ec46885.html"><span class="icon">✔️</span>클러스터 네트워킹</a></figure><figure id="f436859a-ee05-4fd5-9fe4-2ca9067bc6b7" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/f436859aee054fd59fe42ca9067bc6b7.html"><span class="icon">✔️</span>오토스케일링</a></figure><figure id="d0d037cd-f82f-4d96-b383-77c5e83a5338" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/d0d037cdf82f4d96b38377c5e83a5338.html"><span class="icon">✔️</span>[테스트] 스프링부트 웹소스 파드화</a></figure><figure id="0a79dc23-8fef-4e2d-9fd1-aeaca3f8c7a9" class="link-to-page"><a href="04dd6f45c25748538ef2e0a6e8902e50/0a79dc238fef4e2d9fd1aeaca3f8c7a9.html"><span class="icon">✔️</span>Docker vs Containerd</a></figure></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></div>
+</body></html>
