@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>bluedove's project history</title>
+  <meta name="theme-color" content="#06060f">
+  <title>bluedove's project</title>
   <meta name="description" content="bluedove의 개발 히스토리를 알려드립니다."/>
   <!-- BEGIN OPENGRAPH -->
   <link rel="canonical" href="https://proj.pe.kr" />
@@ -39,7 +40,8 @@
         <a href="#contact"  class="nav-link text-sm font-medium">Contact</a>
       </div>
       <button id="mb-btn" aria-label="메뉴 열기"
-        class="md:hidden text-slate-400 hover:text-brand-cyan focus:outline-none focus:text-brand-cyan transition-colors duration-200">
+        class="md:hidden text-slate-500 hover:text-brand-cyan focus:outline-none focus:text-brand-cyan transition-colors duration-200"
+        style="background:transparent;border:none;padding:4px;cursor:pointer;line-height:0;">
         <svg id="mb-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -77,9 +79,9 @@
         </h1>
 
         <p class="text-slate-400 text-lg leading-relaxed mb-10 max-w-md">
-          세상을 전부 이해하진 못해도,<br>
-          <span class="text-slate-200 font-medium">내가 이해하는 건 만들어낼 수 있다</span>고<br>
-          믿는 개발자입니다.
+          우리가 해야하는 업무는 복잡하지만,<br>
+          <span class="text-slate-200 font-medium">개발은 단순하게 풀어내야 한다</span>고<br>
+          생각하는 개발자 입니다.
         </p>
 
         <div class="flex flex-wrap gap-3">
@@ -118,9 +120,10 @@
           <br>
           <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">cat mission.txt</span></div>
           <div class="pl-2 text-slate-300 leading-relaxed">
-            세상을 전부 이해하진 못해도,<br>
-            내가 이해하는 건 만들어낼 수<br>
-            있다고 믿는 개발자.
+            - it works<br>
+            - it makes sense<br>
+            - it survives refactoring<br>
+            - it ships
           </div>
           <br>
           <div><span class="text-slate-600">$ </span><span class="text-brand-cyan">ls skills/</span></div>
@@ -247,10 +250,10 @@
             폭넓은 기술 스택을 보유하고 있습니다.
           </p>
           <p class="text-slate-500 leading-relaxed">
-            세상을 전부 이해하진 못해도, 내가 이해하는 건 만들어낼 수 있다고 믿습니다.
+            복잡한 문제를 단순하게 풀어내는 것을 좋아합니다.
           </p>
 
-          <div class="mt-10 flex gap-4">
+          <div class="mt-10 flex flex-wrap gap-4">
             <a href="https://github.com/bluedove97" target="_blank" rel="noopener noreferrer"
                class="social-link cyan">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -264,6 +267,29 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/>
               </svg>
               bluedove.co.kr
+            </a>
+            <a href="https://home.proj.pe.kr/" target="_blank" rel="noopener noreferrer"
+               class="social-link cyan">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              home.proj.pe.kr
+            </a>
+            <a href="https://pow.proj.pe.kr/" target="_blank" rel="noopener noreferrer"
+               class="social-link purple">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              pow.proj.pe.kr
+            </a>
+            <a href="https://aimg.proj.pe.kr/" target="_blank" rel="noopener noreferrer"
+               class="social-link cyan">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              aimg.proj.pe.kr
             </a>
           </div>
         </div>
@@ -313,8 +339,8 @@
         <!-- Backend -->
         <div class="reveal skill-card rounded-2xl p-7">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                 style="background:rgba(0,229,255,0.08)">
+            <div class="w-9 h-9 rounded-xl"
+                 style="background:rgba(0,229,255,0.08);display:grid;place-items:center;flex-shrink:0">
               <svg width="16" height="16" fill="none" stroke="#00e5ff" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
@@ -336,8 +362,8 @@
         <!-- Frontend -->
         <div class="reveal skill-card rounded-2xl p-7">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                 style="background:rgba(139,92,246,0.08)">
+            <div class="w-9 h-9 rounded-xl"
+                 style="background:rgba(139,92,246,0.08);display:grid;place-items:center;flex-shrink:0">
               <svg width="16" height="16" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
@@ -358,8 +384,8 @@
         <!-- Database -->
         <div class="reveal skill-card rounded-2xl p-7">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                 style="background:rgba(0,229,255,0.08)">
+            <div class="w-9 h-9 rounded-xl"
+                 style="background:rgba(0,229,255,0.08);display:grid;place-items:center;flex-shrink:0">
               <svg width="16" height="16" fill="none" stroke="#00e5ff" stroke-width="2" viewBox="0 0 24 24">
                 <ellipse cx="12" cy="5" rx="9" ry="3"/>
                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -380,8 +406,8 @@
         <!-- DevOps -->
         <div class="reveal skill-card rounded-2xl p-7">
           <div class="flex items-center gap-3 mb-5">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center"
-                 style="background:rgba(139,92,246,0.08)">
+            <div class="w-9 h-9 rounded-xl"
+                 style="background:rgba(139,92,246,0.08);display:grid;place-items:center;flex-shrink:0">
               <svg width="18" height="18" fill="none" stroke="#8b5cf6" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round"
                       d="M12 12c-2-2.5-4-4-6-4a4 4 0 000 8c2 0 4-1.5 6-4zm0 0c2 2.5 4 4 6 4a4 4 0 000-8c-2 0-4 1.5-6 4z"/>
@@ -452,7 +478,7 @@
       <div class="reveal max-w-xl">
         <p class="text-slate-300 text-xl leading-relaxed mb-10">
           프로젝트 협업, 기술 문의<br>
-          <span class="text-brand-cyan font-semibold">언제든 연락해 주세요.</span>
+          <!-- <span class="text-brand-cyan font-semibold">언제든 연락해 주세요.</span> -->
         </p>
 
         <a href="mailto:bluek97@bluedove.co.kr" class="btn-primary text-base mb-12 inline-flex">
