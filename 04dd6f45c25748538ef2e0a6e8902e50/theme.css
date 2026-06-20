@@ -194,6 +194,10 @@ pre code {
 }
 
 /* ── Prism.js Token Colors ──────────────────── */
+pre code, pre code .token, code[class*="language-"], pre[class*="language-"] {
+  text-shadow: none !important;
+}
+
 .token.comment, .token.prolog, .token.doctype, .token.cdata {
   color: #475569 !important;
   -webkit-text-fill-color: #475569 !important;
