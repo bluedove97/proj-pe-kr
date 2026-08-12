@@ -1,4 +1,58 @@
 /* ===========================================
+   DESIGN TOKENS
+   Ported from DESIGN.md (OpenCode marketing-site system).
+   Font-family stays on this site's original 3-font stack
+   (Space Grotesk / Inter / JetBrains Mono) by deliberate choice —
+   only color / spacing / radius / elevation tokens follow DESIGN.md.
+   theme.css (Notion sub-pages) duplicates these literal values manually,
+   since there is no build step to share a single source of truth.
+   =========================================== */
+:root {
+  /* color */
+  --color-canvas: #fdfcfc;
+  --color-ink: #201d1d;
+  --color-ink-deep: #0f0000;
+  --color-surface-soft: #f8f7f7;
+  --color-surface-card: #f1eeee;
+  --color-surface-dark: #201d1d;
+  --color-surface-dark-elevated: #302c2c;
+  --color-hairline: rgba(15, 0, 0, 0.12);
+  --color-hairline-strong: #646262;
+  --color-charcoal: #302c2c;
+  --color-body: #424245;
+  --color-mute: #646262;
+  --color-stone: #6e6e73;
+  --color-ash: #9a9898;
+  --color-on-dark: #fdfcfc;
+  --color-on-primary: #fdfcfc;
+  --color-accent: #007aff;
+  --color-accent-hover: #0056b3;
+  --color-danger: #ff3b30;
+  --color-warning: #ff9f0a;
+  --color-success: #30d158;
+
+  /* radius */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-full: 9999px;
+
+  /* spacing */
+  --space-section: 96px;
+
+  /* typography — role split kept, sizing loosely follows DESIGN.md scale */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+@media (max-width: 850px) {
+  :root { --space-section: 64px; }
+}
+@media (max-width: 640px) {
+  :root { --space-section: 48px; }
+}
+
+/* ===========================================
    RESET / BASE
    =========================================== */
 *, *::before, *::after { box-sizing: border-box; }
@@ -7,8 +61,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #06060f;
-  color: #e2e8f0;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   margin: 0;
 }
@@ -174,27 +228,35 @@ a { text-decoration: none; }
 
 /* ===========================================
    COLORS — text
+   Mapped onto the DESIGN.md neutral ladder.
+   brand-cyan/brand-purple are retired outside the hero TUI mockup —
+   monochrome ink everywhere else per DESIGN.md's "one color" rule.
    =========================================== */
-.text-white        { color: #ffffff; }
-.text-slate-100    { color: #f1f5f9; }
-.text-slate-200    { color: #e2e8f0; }
-.text-slate-300    { color: #cbd5e1; }
-.text-slate-400    { color: #94a3b8; }
-.text-slate-500    { color: #64748b; }
-.text-slate-600    { color: #475569; }
-.text-slate-700    { color: #334155; }
-.text-emerald-400  { color: #34d399; }
-.text-brand-cyan   { color: #00e5ff; }
-.text-brand-purple { color: #8b5cf6; }
+.text-white        { color: var(--color-on-dark); }
+.text-slate-100    { color: var(--color-ink); }
+.text-slate-200    { color: var(--color-charcoal); }
+.text-slate-300    { color: var(--color-body); }
+.text-slate-400    { color: var(--color-mute); }
+.text-slate-500    { color: var(--color-stone); }
+.text-slate-600    { color: var(--color-ash); }
+.text-slate-700    { color: var(--color-ash); }
+.text-emerald-400  { color: var(--color-success); }
+.text-brand-cyan   { color: var(--color-ink); }
+.text-brand-purple { color: var(--color-ink); }
+
+/* TUI-mockup-only accent classes (semantic ramp sanctioned inside the dark surface) */
+.tui-accent  { color: var(--color-accent); }
+.tui-success { color: var(--color-success); }
+.tui-warning { color: var(--color-warning); }
 
 /* ===========================================
    COLORS — background
    =========================================== */
-.bg-brand-cyan        { background-color: #00e5ff; }
-.bg-emerald-400       { background-color: #34d399; }
-.bg-\[\#0c0c1e\]      { background-color: #0c0c1e; }
-.bg-\[\#06060f\]\/80  { background-color: rgba(6, 6, 15, 0.8); }
-.bg-\[\#06060f\]\/95  { background-color: rgba(6, 6, 15, 0.95); }
+.bg-brand-cyan        { background-color: var(--color-accent); }
+.bg-emerald-400       { background-color: var(--color-success); }
+.bg-\[\#0c0c1e\]      { background-color: var(--color-surface-card); }
+.bg-\[\#06060f\]\/80  { background-color: var(--color-canvas); }
+.bg-\[\#06060f\]\/95  { background-color: var(--color-canvas); }
 
 /* ===========================================
    BORDERS
@@ -202,20 +264,20 @@ a { text-decoration: none; }
 .border   { border-width: 1px; border-style: solid; }
 .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
 .border-t { border-top-width: 1px; border-top-style: solid; }
-.border-\[\#1e1e3a\] { border-color: #1e1e3a; }
+.border-\[\#1e1e3a\] { border-color: var(--color-hairline); }
 
-.rounded-full { border-radius: 9999px; }
-.rounded-xl   { border-radius: 0.75rem; }
-.rounded-2xl  { border-radius: 1rem; }
-.rounded-lg   { border-radius: 0.5rem; }
+.rounded-full { border-radius: var(--radius-full); }
+.rounded-sm   { border-radius: var(--radius-sm); }
+.rounded-none { border-radius: var(--radius-none); }
+.rounded-xl   { border-radius: var(--radius-none); }
+.rounded-2xl  { border-radius: var(--radius-none); }
+.rounded-lg   { border-radius: var(--radius-sm); }
 
 /* ===========================================
    EFFECTS
+   backdrop-blur retired — DESIGN.md forbids glass/blur chrome.
    =========================================== */
-.backdrop-blur-md {
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-}
+.backdrop-blur-md {}
 
 .opacity-20 { opacity: 0.2; }
 
@@ -232,11 +294,11 @@ a { text-decoration: none; }
 /* ===========================================
    HOVER / FOCUS pseudo-class utilities
    =========================================== */
-.hover\:text-brand-cyan:hover { color: #00e5ff; }
-.hover\:text-white:hover      { color: #ffffff; }
-.hover\:text-slate-100:hover  { color: #f1f5f9; }
+.hover\:text-brand-cyan:hover { color: var(--color-ink); }
+.hover\:text-white:hover      { color: var(--color-ink); }
+.hover\:text-slate-100:hover  { color: var(--color-ink); }
 .focus\:outline-none:focus    { outline: none; }
-.focus\:text-brand-cyan:focus { color: #00e5ff; }
+.focus\:text-brand-cyan:focus { color: var(--color-ink); }
 
 /* ===========================================
    TRANSFORMS
@@ -245,6 +307,8 @@ a { text-decoration: none; }
 
 /* ===========================================
    ANIMATIONS
+   Reserved for the hero TUI mockup's status dot only —
+   DESIGN.md's flat system has no other "live" motifs.
    =========================================== */
 @keyframes pulse {
   0%, 100% { opacity: 1; }
@@ -255,19 +319,11 @@ a { text-decoration: none; }
 }
 
 /* ===========================================
-   GRADIENT UTILITIES
+   GRADIENT UTILITIES — retired.
+   DESIGN.md forbids gradients on marketing chrome; the timeline
+   connector now uses a flat .hairline-v rule instead (see below).
    =========================================== */
-.bg-gradient-to-b {
-  background-image: linear-gradient(
-    to bottom,
-    var(--tw-gradient-from, transparent),
-    var(--tw-gradient-via, var(--tw-gradient-to, transparent)),
-    var(--tw-gradient-to, transparent)
-  );
-}
-.from-brand-cyan  { --tw-gradient-from: #00e5ff; }
-.via-brand-purple { --tw-gradient-via: #8b5cf6; }
-.to-transparent   { --tw-gradient-to: transparent; }
+.hairline-v { background: var(--color-hairline); }
 
 /* ===========================================
    RESPONSIVE
@@ -300,114 +356,65 @@ a { text-decoration: none; }
    CUSTOM COMPONENTS
    =========================================== */
 
-/* subtle dot grid */
-.bg-grid {
-  background-image: radial-gradient(circle, rgba(0,229,255,0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-
-/* gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, #00e5ff 0%, #8b5cf6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* nav link */
 .nav-link {
   position: relative;
-  color: #94a3b8;
-  transition: color 0.25s;
+  color: var(--color-mute);
+  padding-bottom: 2px;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
 }
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px; left: 0;
-  width: 0; height: 1px;
-  background: linear-gradient(90deg, #00e5ff, #8b5cf6);
-  transition: width 0.25s;
-}
-.nav-link:hover { color: #00e5ff; }
-.nav-link:hover::after { width: 100%; }
-
-/* terminal card */
-.terminal {
-  background: #090917;
-  border: 1px solid #1e1e3a;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 0 40px rgba(0,229,255,0.08), 0 0 80px rgba(0,229,255,0.03);
-  transition: box-shadow 0.3s;
-}
-.terminal:hover {
-  box-shadow: 0 0 50px rgba(0,229,255,0.16), 0 0 100px rgba(0,229,255,0.06);
-}
-.terminal-header {
-  background: #0d0d20;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid #1e1e3a;
-}
-.terminal-dot {
-  width: 12px; height: 12px; border-radius: 50%;
+.nav-link:hover {
+  color: var(--color-ink);
+  border-color: var(--color-hairline-strong);
 }
 
-/* skill card */
+/* eyebrow / badge chip */
+.badge-chip {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+}
+
+/* ascii bracket marker (bullet / heading prefix) */
+.ascii-marker {
+  font-family: var(--font-mono);
+  color: var(--color-ink);
+  margin-right: 8px;
+}
+
+/* TUI-mockup text helpers */
+.tui-on-dark { color: var(--color-on-dark); }
+.tui-mute    { color: var(--color-ash); }
+
+/* section heading rule — bare heading + hairline below, per badge-section-label */
+.section-line {
+  width: 100%;
+  height: 1px;
+  background: var(--color-hairline);
+}
+
+/* skill card / flat container */
 .skill-card {
-  background: rgba(12,12,30,0.85);
-  border: 1px solid #1e1e3a;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-none);
+  transition: border-color 0.2s;
 }
 .skill-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(0,229,255,0.35);
-  box-shadow: 0 12px 40px rgba(0,229,255,0.08), 0 0 0 1px rgba(0,229,255,0.08);
+  border-color: var(--color-hairline-strong);
 }
 
-/* skill tags */
-.tag-cyan {
+/* skill tag — monochrome, replaces tag-cyan/tag-purple */
+.tag {
   display: inline-flex;
   padding: 4px 12px;
-  background: rgba(0,229,255,0.06);
-  border: 1px solid rgba(0,229,255,0.15);
-  border-radius: 6px;
-  color: #7dd3e8;
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-sm);
+  color: var(--color-body);
   font-size: 0.8rem;
-  font-family: 'JetBrains Mono', monospace;
-}
-.tag-purple {
-  display: inline-flex;
-  padding: 4px 12px;
-  background: rgba(139,92,246,0.07);
-  border: 1px solid rgba(139,92,246,0.18);
-  border-radius: 6px;
-  color: #b4a0e8;
-  font-size: 0.8rem;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-/* section rule */
-.section-line {
-  width: 52px; height: 3px;
-  background: linear-gradient(90deg, #00e5ff, #8b5cf6);
-  border-radius: 2px;
-}
-
-/* cursor blink */
-.cursor {
-  display: inline-block;
-  width: 2px; height: 1.1em;
-  background: #00e5ff;
-  vertical-align: middle;
-  border-radius: 1px;
-  animation: blink 1s step-end infinite;
-}
-@keyframes blink {
-  0%,100% { opacity: 1; }
-  50%      { opacity: 0; }
+  font-family: var(--font-mono);
 }
 
 /* scroll reveal */
@@ -426,51 +433,49 @@ a { text-decoration: none; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 13px 28px;
-  border-radius: 9px;
-  font-weight: 600;
+  padding: 12px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 500;
   font-size: 0.95rem;
-  background: linear-gradient(135deg, #00e5ff, #8b5cf6);
-  color: #05040f;
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  font-family: var(--font-mono);
+  background: var(--color-ink);
+  color: var(--color-on-primary);
+  border: 1px solid var(--color-ink);
+  transition: background 0.15s;
 }
-.btn-primary:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 32px rgba(0,229,255,0.28);
-}
+.btn-primary:hover  { background: var(--color-charcoal); }
 .btn-primary:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0,229,255,0.45);
+  box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-ink);
 }
-.btn-primary:active   { transform: scale(0.97); }
-.btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary:active   { background: var(--color-ink-deep); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
 
 .btn-outline {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 12px 26px;
-  border-radius: 9px;
+  border-radius: var(--radius-sm);
   font-weight: 500;
   font-size: 0.95rem;
-  border: 1px solid #2a2a46;
-  color: #94a3b8;
-  background: transparent;
+  font-family: var(--font-mono);
+  border: 1px solid var(--color-hairline-strong);
+  color: var(--color-ink);
+  background: var(--color-canvas);
   cursor: pointer;
-  transition: transform 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.15s, background 0.15s;
 }
 .btn-outline:hover {
-  border-color: rgba(0,229,255,0.5);
-  color: #00e5ff;
-  transform: scale(1.03);
-  box-shadow: 0 0 20px rgba(0,229,255,0.1);
+  border-color: var(--color-ink);
+  background: var(--color-surface-soft);
 }
 .btn-outline:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0,229,255,0.25);
+  box-shadow: 0 0 0 2px var(--color-canvas), 0 0 0 4px var(--color-ink);
 }
-.btn-outline:active   { transform: scale(0.97); }
-.btn-outline:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-outline:active   { background: var(--color-surface-card); }
+.btn-outline:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* social link */
 .social-link {
@@ -479,13 +484,10 @@ a { text-decoration: none; }
   gap: 8px;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #64748b;
+  color: var(--color-mute);
   transition: color 0.2s;
 }
-.social-link svg { transition: transform 0.2s; }
-.social-link:hover svg    { transform: scale(1.15); }
-.social-link.cyan:hover   { color: #00e5ff; }
-.social-link.purple:hover { color: #8b5cf6; }
+.social-link:hover { color: var(--color-ink); text-decoration: underline; }
 
 /* timeline */
 .tl-item {
@@ -499,25 +501,23 @@ a { text-decoration: none; }
   position: absolute;
   left: 0; top: 6px;
   width: 15px; height: 15px;
-  border-radius: 50%;
-  border: 2px solid #1e1e3a;
-  background: #06060f;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-hairline-strong);
+  background: var(--color-canvas);
+  transition: border-color 0.2s;
 }
 .tl-item:hover .tl-dot {
-  border-color: #00e5ff;
-  box-shadow: 0 0 8px rgba(0,229,255,0.4);
+  border-color: var(--color-ink);
 }
 .tl-card {
-  background: rgba(12,12,30,0.75);
-  border: 1px solid #1e1e3a;
-  border-radius: 10px;
-  padding: 14px 18px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-none);
+  padding: 12px 18px;
+  transition: border-color 0.2s;
 }
 .tl-item:hover .tl-card {
-  border-color: rgba(0,229,255,0.25);
-  box-shadow: 0 6px 24px rgba(0,229,255,0.06);
+  border-color: var(--color-hairline-strong);
 }
 @media (min-width: 768px) {
   .tl-item {
@@ -538,13 +538,78 @@ a { text-decoration: none; }
 
 /* about stat card */
 .stat-card {
-  background: rgba(12,12,30,0.85);
-  border: 1px solid #1e1e3a;
-  border-radius: 14px;
+  background: var(--color-canvas);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-none);
   padding: 20px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s;
 }
 .stat-card:hover {
-  border-color: rgba(0,229,255,0.25);
-  box-shadow: 0 8px 32px rgba(0,229,255,0.07);
+  border-color: var(--color-hairline-strong);
+}
+
+/* ===========================================
+   HERO TUI MOCKUP
+   Full-bleed dark surface, reserved exclusively for the hero —
+   the system's only elevated/dark surface on index.html.
+   =========================================== */
+.hero-tui-mockup {
+  background: var(--color-surface-dark);
+  border-radius: var(--radius-none);
+  padding: 40px 32px 28px;
+  overflow: hidden;
+}
+.tui-wordmark {
+  font-family: var(--font-mono);
+  color: var(--color-on-dark);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.35em;
+  text-align: center;
+  margin-bottom: 24px;
+}
+/* plain terminal transcript — flat on the dark surface, no nested box */
+.tui-body {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.9;
+  color: var(--color-on-dark);
+}
+/* single inset command line — the only "elevated" bar inside the mockup */
+.tui-prompt-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--color-surface-dark-elevated);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--color-on-dark);
+}
+.tui-hint-row {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(253,252,252,0.08);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--color-ash);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* cursor blink — ink by default (nav wordmark), flips to on-dark inside the TUI mockup */
+.cursor {
+  display: inline-block;
+  width: 2px; height: 1.1em;
+  background: var(--color-ink);
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+}
+.hero-tui-mockup .cursor { background: var(--color-on-dark); }
+@keyframes blink {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0; }
 }

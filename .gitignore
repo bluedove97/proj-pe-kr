@@ -6,6 +6,9 @@ token.json
 # 임시 작업 공간
 .tmp/
 
+# Node (screenshot.mjs 검증용 puppeteer)
+node_modules/
+
 # Python
 __pycache__/
 *.py[cod]
