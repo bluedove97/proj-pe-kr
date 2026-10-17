@@ -383,6 +383,31 @@ a { text-decoration: none; }
   margin-right: 8px;
 }
 
+/* lists that use .ascii-marker as their bullet — drop the native disc */
+.skill-card ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+}
+
+/* tree markers: ▸ for the setup (root) item, ├─ / └─ for the steps under it */
+.tree-root,
+.tree-branch {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-ink);
+}
+.tree-root {
+  width: 2ch;            /* same width as ├─ so item text lines up */
+  font-size: 1rem;
+  line-height: 1;
+  text-align: center;
+}
+.tree-root::before   { content: "▸"; }
+.tree-branch::before { content: "├─"; }
+.skill-card li:last-child .tree-branch::before { content: "└─"; }
+
 /* TUI-mockup text helpers */
 .tui-on-dark { color: var(--color-on-dark); }
 .tui-mute    { color: var(--color-ash); }
