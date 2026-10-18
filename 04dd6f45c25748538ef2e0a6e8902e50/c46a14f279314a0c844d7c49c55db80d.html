@@ -749,7 +749,22 @@ services:
       - &quot;8000:5000&quot;
   redis:
     image: &quot;redis:alpine&quot;</code></pre><p id="00cb4765-8cd6-4d49-8266-0c3c53f4ab63" class="">
-</p><ul id="ceba480c-d428-4bff-b0ee-0e0d9326d15e" class="bulleted-list"><li style="list-style-type:disc">3단계 : docker-compose 명령어</li></ul><figure id="cb4b3982-ec53-47f6-8fc6-b05a08a8ef5a" class="image"><a href="c46a14f279314a0c844d7c49c55db80d/Untitled.png"><img style="width:1920px" src="c46a14f279314a0c844d7c49c55db80d/Untitled.png"/></a><span>출처 : 유튜브 따배런 따배도 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fb6026bd-5aa4-4502-9729-6f3ee1f355da" class="code"><code class="language-Bash"># 실행(백그라운드 모드로)
+</p><ul id="ceba480c-d428-4bff-b0ee-0e0d9326d15e" class="bulleted-list"><li style="list-style-type:disc">3단계 : docker-compose 명령어</li></ul><p>docker-compose 명령어 형식 : <code>docker-compose &lt;command&gt;</code></p><table class="simple-table"><thead class="simple-table-header"><tr><th class="simple-table-header-color simple-table-header" style="width:160px">명령어</th><th class="simple-table-header-color simple-table-header" style="width:400px">설명</th></tr></thead><tbody><tr><td style="width:160px"><code>up</code></td><td style="width:400px">컨테이너 생성/시작</td></tr><tr><td style="width:160px"><code>ps</code></td><td style="width:400px">컨테이너 목록 표시</td></tr><tr><td style="width:160px"><code>logs</code></td><td style="width:400px">컨테이너 로그 출력</td></tr><tr><td style="width:160px"><code>run</code></td><td style="width:400px">컨테이너 실행</td></tr><tr><td style="width:160px"><code>start</code></td><td style="width:400px">컨테이너 시작</td></tr><tr><td style="width:160px"><code>stop</code></td><td style="width:400px">컨테이너 정지</td></tr><tr><td style="width:160px"><code>restart</code></td><td style="width:400px">컨테이너 재시작</td></tr><tr><td style="width:160px"><code>pause</code></td><td style="width:400px">컨테이너 일시 정지</td></tr><tr><td style="width:160px"><code>unpause</code></td><td style="width:400px">컨테이너 재개</td></tr><tr><td style="width:160px"><code>port</code></td><td style="width:400px">공개 포트 번호 표시</td></tr><tr><td style="width:160px"><code>config</code></td><td style="width:400px">구성 확인</td></tr><tr><td style="width:160px"><code>kill</code></td><td style="width:400px">실행 중인 컨테이너 강제 정지</td></tr><tr><td style="width:160px"><code>rm</code></td><td style="width:400px">컨테이너 삭제</td></tr><tr><td style="width:160px"><code>down</code></td><td style="width:400px">리소스 삭제</td></tr></tbody></table><p>사용 예시</p><pre class="code"><code class="language-Bash"># 구성 확인 및 실행
+docker-compose config
+docker-compose up
+docker-compose up -d
+docker-compose -f /other-dir/docker-compose.yml
+
+# 상태 확인 및 관리
+docker-compose ps
+docker-compose scale 서비스이름=개수
+docker-compose run 서비스이름 실행명령어
+docker-compose logs 서비스이름
+
+# 정지 / 시작 / 삭제
+docker-compose stop
+docker-compose start
+docker-compose down</code></pre><p><span style="color:gray">출처 : 유튜브 따배런 따배도 <a href="https://www.youtube.com/@ttabae-learn" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@ttabae-learn</a></span></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="fb6026bd-5aa4-4502-9729-6f3ee1f355da" class="code"><code class="language-Bash"># 실행(백그라운드 모드로)
 docker-compose up -d
 
 # 도커 컴포즈로 만든 프로세스 조회

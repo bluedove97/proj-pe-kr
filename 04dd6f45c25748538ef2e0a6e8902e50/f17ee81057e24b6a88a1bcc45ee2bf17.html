@@ -1,4 +1,9 @@
-﻿<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>인그레스 (Ingress)</title><style>
+﻿
+<html lang="ko">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>인그레스 (Ingress)</title>
+    <style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -24,6 +29,10 @@ body {
 
 body {
 	line-height: 1.5;
+	white-space: normal;
+}
+
+p, h1, h2, h3, h4, h5, h6, figcaption, blockquote, td, th, summary {
 	white-space: pre-wrap;
 }
 
@@ -675,12 +684,303 @@ blockquote {
 }
 	
 </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="./theme.css">
-</head><body>
-<div id="bd-nav"><a href="../index.html" id="bd-back"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg>proj.pe.kr</a><span id="bd-sep">|</span><span id="bd-label">도커, 쿠버네티스 기본</span></div><article id="f17ee810-57e2-4b6a-88a1-bcc45ee2bf17" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">✔️</span></div><h1 class="page-title">인그레스 (Ingress)</h1><p class="page-description"></p></header><div class="page-body"><nav id="1c8d0dcd-bf1e-4688-bc46-c55ada96e5bc" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0df03bdd-6c2b-4c89-be4d-c0fd6597666d">Ingress</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#49fd9e9d-4aa2-4358-8bc4-f578225b1fd3">Ingress Controller 설치</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#862dfa4a-3169-422d-a16b-976038f4ee2b">Ingress 동작</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#eb37e4a2-a65f-4bdb-9bbc-c61190db6995">ingress 샘플만들기</a></div></nav><img style="width:1920px" src="f17ee81057e24b6a88a1bcc45ee2bf17/ingress.png"/><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
-<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h2 id="0df03bdd-6c2b-4c89-be4d-c0fd6597666d" class="">Ingress</h2><blockquote id="bef555e1-3384-470e-bf43-09afa70c1ed9" class="">클러스터 내의 서비스에 대한 외부 접근을 관리하는 API 오브젝트이며, 일반적으로 HTTP를 관리함.<br/>인그레스는 부하 분산, SSL 종료, 명칭 기반의 가상 호스팅을 제공할 수 있다<br/><br/><br/><p id="609917b2-0783-46cb-8f7b-821d668a61e6" class="">Service에 외부 URL을 제공<br/>트래픽을 로드밸런싱<br/>SSL 인증서처리<br/><br/>URL마다 Virtual hosting을 지정<br/>http://example.com/      --&gt; svc Main<br/>http://example.com/login --&gt; svc Login<br/>http://example.com/order --&gt; svc Order<br/></p></blockquote><h2 id="49fd9e9d-4aa2-4358-8bc4-f578225b1fd3" class="">Ingress Controller 설치</h2><ol type="1" id="f7b13233-6309-4ba2-ab18-c6ea331390d9" class="numbered-list" start="1"><li>쿠버네이트io 사이트에서 ingress 검색후 nginx 관련 링크를 선택하면<ol type="a" id="a25e083d-497a-4e6f-b7d8-0fdd0ba00448" class="numbered-list" start="1"><li>깃헙으로 이동하게 되고</li></ol><ol type="a" id="a822eea0-5cc9-4965-ba30-a5001b91b847" class="numbered-list" start="2"><li>Getting Start 누르면</li></ol><ol type="a" id="c7677d59-d710-4d70-910d-80eb1c4f3d73" class="numbered-list" start="3"><li>install guide가 나오는데, 이때 Contents에서 Bare-Metal을 선택</li></ol><ol type="a" id="a1a24ba5-f4c2-4ceb-ab70-a32d5cc92c02" class="numbered-list" start="4"><li>항목 : kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml 에서 url만 딴뒤</li></ol><ol type="a" id="b94baa7c-3765-4b2d-90a0-84f73770b842" class="numbered-list" start="5"><li>wget <a href="https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml">https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml</a><br/>으로 deploy.yaml을 다운로드 한다.<br/></li></ol></li></ol><ol type="1" id="6094cb09-d41b-4969-a8e5-f8d3a8c7b963" class="numbered-list" start="2"><li>다운받은 deploy.yaml 실행<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="5e19dd18-68ff-49a2-b324-001a614b082c" class="code"><code class="language-Bash">kubectl create -f deploy.yaml
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="./theme.css">
+  </head>
+  <body>
+    <br/>
+    <div id="bd-nav"><a href="../index.html" id="bd-back"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg>proj.pe.kr</a><span id="bd-sep">|</span><span id="bd-label">도커, 쿠버네티스 기본</span></div>
+    <article id="f17ee810-57e2-4b6a-88a1-bcc45ee2bf17" class="page sans">
+      <header>
+        <div class="page-header-icon undefined"><span class="icon">✔️</span></div>
+        <h1 class="page-title">인그레스 (Ingress)</h1>
+        <p class="page-description"></p>
+      </header>
+      <div class="page-body">
+        <nav id="1c8d0dcd-bf1e-4688-bc46-c55ada96e5bc" class="block-color-gray table_of_contents">
+          <div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#0df03bdd-6c2b-4c89-be4d-c0fd6597666d">Ingress</a></div>
+          <div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#49fd9e9d-4aa2-4358-8bc4-f578225b1fd3">Ingress Controller 설치</a></div>
+          <div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#862dfa4a-3169-422d-a16b-976038f4ee2b">Ingress 동작</a></div>
+          <div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#eb37e4a2-a65f-4bdb-9bbc-c61190db6995">ingress 샘플만들기</a></div>
+        </nav>
+        <style>
+.ing{--ing-navy:#1d3f7a;--ing-navy-soft:#eef3fa;--ing-line:#c9d6ea;--ing-green:#2f9e5b;--ing-green-soft:#eef8f1;--ing-amber:#f5a524;--ing-amber-soft:#fff8e8;margin:1.5rem 0;color:var(--color-body)}
+.ing *{box-sizing:border-box}
+.ing-hero{border:1px solid var(--ing-line);border-radius:10px;background:var(--ing-navy-soft);padding:20px;text-align:center}
+.ing-hero-t{font-family:'Space Grotesk',sans-serif;font-size:1.5rem;font-weight:700;color:var(--ing-navy)}
+.ing-hero-s{margin-top:4px;font-size:0.9rem;color:var(--color-mute)}
+.ing-sec{margin-top:0.5rem}
+.ing h3{margin-bottom:0.75rem !important}
+.ing-txt{font-size:0.92rem;line-height:1.75}
+.ing-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:12px}
+.ing-card{border:1px solid var(--ing-line);border-radius:8px;background:#fff;padding:12px 14px}
+.ing-card-t{font-weight:600;color:var(--ing-navy);font-size:0.92rem}
+.ing-card-d{font-size:0.82rem;color:var(--color-mute);margin-top:4px;line-height:1.55}
+.ing-ico{font-size:1.2rem;margin-right:6px}
+.ing-flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:8px;overflow-x:auto;padding-bottom:6px}
+.ing-arrow.ing-down{flex:1 1 100%;text-align:center;line-height:1}
+.ing-col{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center}
+.ing-node{border:1px solid var(--ing-line);border-radius:8px;background:#fff;padding:10px 12px;font-size:0.8rem;text-align:center}
+.ing-node b{display:block;font-size:0.85rem;color:var(--color-ink);margin-bottom:2px}
+.ing-arrow{flex:0 0 auto;align-self:center;color:var(--color-hairline-strong);font-size:1rem}
+.ing-users{background:var(--ing-green-soft);border-color:#bfe3cc}
+.ing-url{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--color-body);margin-top:6px;text-align:left;white-space:nowrap}
+.ing-cluster{flex:1 1 100%;border:1.5px dashed #7e9cc9;border-radius:10px;padding:10px;background:#f8fafd}
+.ing-cluster-t{font-weight:600;color:var(--ing-navy);font-size:0.85rem;text-align:center;margin-bottom:8px}
+.ing-cin{display:flex;gap:8px;align-items:stretch;justify-content:center}
+.ing-ctrl{background:var(--ing-green-soft);border-color:#bfe3cc;display:flex;flex-direction:column;justify-content:center}
+.ing-rules{display:grid;grid-template-columns:auto 14px auto 14px auto;gap:6px 6px;align-items:center}
+.ing-rh{font-size:0.72rem;font-weight:600;color:var(--color-mute);text-align:center}
+.ing-rule{background:var(--ing-amber-soft);border:1px solid #f3d28a;border-radius:6px;padding:6px 8px;font-size:0.72rem;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.ing-svc{background:var(--ing-navy-soft);border:1px solid var(--ing-line);border-radius:6px;padding:6px 8px;font-size:0.72rem;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.ing-pods{font-size:0.95rem;white-space:nowrap}
+.ing-a{color:var(--color-hairline-strong);font-size:0.8rem;text-align:center}
+.ing-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:10px;counter-reset:st}
+.ing-step{font-size:0.82rem;color:var(--ing-navy);display:flex;gap:6px;align-items:flex-start}
+.ing-num{flex:0 0 20px;height:20px;border-radius:50%;background:var(--ing-navy);color:#fff;font-size:0.72rem;display:flex;align-items:center;justify-content:center;font-weight:600}
+.ing-feat{border:1px solid var(--ing-line);border-radius:8px;overflow:hidden;background:#fff}
+.ing-fr{display:grid;grid-template-columns:minmax(130px,190px) 1fr;border-top:1px solid var(--ing-line)}
+.ing-fr:first-child{border-top:none}
+.ing-fk{background:var(--ing-navy-soft);padding:10px 14px;font-weight:600;color:var(--ing-navy);font-size:0.88rem}
+.ing-fv{padding:10px 14px;font-size:0.86rem}
+.ing-notes{display:grid;gap:6px;margin-top:4px}
+.ing-note{display:flex;gap:8px;font-size:0.88rem;align-items:flex-start}
+.ing-chk{color:var(--ing-green);font-weight:700}
+.ing-ctrls{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.ing-chip{border:1px solid var(--ing-line);border-radius:6px;padding:6px 10px;font-size:0.82rem;background:#fff;color:var(--color-ink)}
+.ing-sum{margin-top:1.75rem;border-radius:10px;background:var(--ing-navy);color:#fff;padding:16px 18px}
+.ing-sum-t{font-weight:700;margin-bottom:6px}
+.ing-sum-d{font-size:0.9rem;line-height:1.7;color:#e6edf7}
+.ing-sum-f{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#c8d6ee}
+.ing-anno{display:grid;gap:8px;margin-top:4px}
+.ing-anno-i{display:flex;gap:8px;font-size:0.85rem;align-items:flex-start}
+</style>
+        <div class="ing">
+          <div class="ing-sec">
+            <h3>Ingress란?</h3>
+            <div class="ing-txt">Kubernetes Ingress는 클러스터 외부의 HTTP/HTTPS 트래픽을 클러스터 내부 Service로 라우팅하는 API 객체이다. 여러 Service에 대한 외부 접근을 <b>단일 진입점(Entry Point)</b>으로 제공하고, 도메인 기반/경로 기반 라우팅, TLS 종료, 리버스 프록시, 로드밸런싱, URL 재작성 등 L7 기능을 제공한다.</div>
+            <div class="ing-cards">
+              <div class="ing-card">
+                <div class="ing-card-t">비용 절감</div>
+                <div class="ing-card-d">여러 Load Balancer 대신 하나의 Ingress로 통합</div>
+              </div>
+              <div class="ing-card">
+                <div class="ing-card-t">유연한 라우팅</div>
+                <div class="ing-card-d">도메인/경로 기반 스마트 라우팅</div>
+              </div>
+              <div class="ing-card">
+                <div class="ing-card-t">보안</div>
+                <div class="ing-card-d">TLS 종료, 인증, 접근 제어 등 보안 기능 적용</div>
+              </div>
+              <div class="ing-card">
+                <div class="ing-card-t">운영 단순화</div>
+                <div class="ing-card-d">중앙 집중식 관리로 운영 효율 향상</div>
+              </div>
+            </div>
+          </div>
+          <div class="ing-sec">
+            <h3>전체 동작 흐름</h3>
+            <div class="ing-flow" role="img" aria-label="외부 사용자가 인터넷과 외부 Load Balancer를 거쳐 Ingress Controller로 요청하고, Ingress 규칙에 따라 Service와 Pod로 전달되는 흐름">
+              <div class="ing-col">
+                <div class="ing-node ing-users"><b>외부 사용자</b>💻 🖥️ 📱
+                  <div class="ing-url">https://app.example.com</div>
+                  <div class="ing-url">https://api.example.com</div>
+                  <div class="ing-url">https://example.com/shop</div>
+                </div>
+              </div>
+              <div class="ing-arrow">→</div>
+              <div class="ing-col">
+                <div class="ing-node "><b>☁️ 인터넷</b></div>
+              </div>
+              <div class="ing-arrow">→</div>
+              <div class="ing-col">
+                <div class="ing-node "><b>외부 Load Balancer</b>(Cloud LB)<br/><span style="font-size:0.72rem;color:var(--color-mute)">예: AWS ALB/NLB,<br/>GCP GLB, Azure LB</span></div>
+              </div>
+              <div class="ing-arrow ing-down">↓</div>
+              <div class="ing-cluster">
+                <div class="ing-cluster-t">Kubernetes Cluster</div>
+                <div class="ing-cin">
+                  <div class="ing-node ing-ctrl"><b>Ingress Controller</b><span style="font-size:0.72rem;color:var(--color-mute)">예: NGINX Ingress Controller</span></div>
+                  <div class="ing-arrow">→</div>
+                  <div class="ing-rules">
+                    <div class="ing-rh">Ingress 규칙 (예: 3개)</div>
+                    <div></div>
+                    <div class="ing-rh">Kubernetes Service</div>
+                    <div></div>
+                    <div class="ing-rh">Endpoints (Pods)</div>
+                    <div class="ing-rule">Host: app.example.com<br/>Path: /</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-svc">Service: app-svc<br/>Port: 80</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-pods" title="Pod (Endpoints)">📦📦📦</div>
+                    <div class="ing-rule">Host: api.example.com<br/>Path: /</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-svc">Service: api-svc<br/>Port: 8080</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-pods" title="Pod (Endpoints)">📦📦📦</div>
+                    <div class="ing-rule">Host: example.com<br/>Path: /shop</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-svc">Service: shop-svc<br/>Port: 80</div>
+                    <div class="ing-a">→</div>
+                    <div class="ing-pods" title="Pod (Endpoints)">📦📦📦</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ing-steps">
+              <div class="ing-step"><span class="ing-num">1</span>외부 사용자가 도메인으로 요청</div>
+              <div class="ing-step"><span class="ing-num">2</span>외부 Load Balancer로 트래픽 전달</div>
+              <div class="ing-step"><span class="ing-num">3</span>Ingress Controller가 Ingress 규칙을 확인하여 적절한 Service로 라우팅</div>
+              <div class="ing-step"><span class="ing-num">4</span>Service가 Pod(엔드포인트)로 트래픽 전달</div>
+            </div>
+          </div>
+          <div class="ing-sec">
+            <h3>Ingress 리소스 구성 예시</h3>
+            <pre class="code"><code class="language-yaml">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2   # ② URL 재작성 규칙
+spec:
+  ingressClassName: nginx                            # ① Ingress Controller 선택
+  tls:                                               # ③ TLS 설정
+  - hosts:
+    - app.example.com
+    - api.example.com
+    secretName: example-tls                          # TLS 인증서(Secret) 참조
+  rules:                                             # ④ 호스트별 라우팅 규칙
+  - host: app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-svc
+            port:
+              number: 80
+  - host: api.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: api-svc
+            port:
+              number: 8080
+  - host: example.com
+    http:
+      paths:
+      - path: /shop(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: shop-svc
+            port:
+              number: 80</code></pre>
+            <div class="ing-anno">
+              <div class="ing-anno-i">1)
+                <div><b>Ingress Controller 선택</b> : <code>ingressClassName: nginx</code> (여기서는 NGINX)</div>
+              </div>
+              <div class="ing-anno-i">2)
+                <div><b>URL 재작성 규칙</b> : 예: <code>/shop/xxx</code> → <code>/xxx</code></div>
+              </div>
+              <div class="ing-anno-i">3)
+                <div><b>TLS 설정</b> : 여러 도메인에 대한 HTTPS 제공, Secret에 인증서/키 저장</div>
+              </div>
+              <div class="ing-anno-i">4)
+                <div><b>호스트별 라우팅 규칙</b> : <code>app.example.com</code> → app-svc, <code>api.example.com</code> → api-svc, <code>example.com/shop</code> → shop-svc</div>
+              </div>
+            </div>
+          </div>
+          <div class="ing-sec">
+            <h3>주요 기능</h3>
+            <div class="ing-feat">
+              <div class="ing-fr">
+                <div class="ing-fk">도메인 기반 라우팅</div>
+                <div class="ing-fv">Host 헤더를 기준으로 서로 다른 Service로 라우팅</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">경로 기반 라우팅</div>
+                <div class="ing-fv">URL 경로(Path)를 기준으로 라우팅</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">TLS/HTTPS 종료</div>
+                <div class="ing-fv">Ingress에서 TLS를 처리하고 클러스터 내부는 HTTP로 통신 가능</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">리버스 프록시</div>
+                <div class="ing-fv">클라이언트 요청을 받아 내부 Service로 전달</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">URL 재작성</div>
+                <div class="ing-fv">요청 경로를 변경하여 백엔드 Service로 전달</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">로드밸런싱</div>
+                <div class="ing-fv">여러 Pod(엔드포인트)로 트래픽을 분산</div>
+              </div>
+              <div class="ing-fr">
+                <div class="ing-fk">확장성</div>
+                <div class="ing-fv">여러 Ingress Controller를 통해 고가용성/성능 확장</div>
+              </div>
+            </div>
+          </div>
+          <div class="ing-sec">
+            <h3>주의사항 &amp; 모범사례</h3>
+            <div class="ing-notes">
+              <div class="ing-note"><span class="ing-chk">✓</span><span>Ingress Controller는 반드시 클러스터에 1개 이상 설치되어 있어야 한다.</span></div>
+              <div class="ing-note"><span class="ing-chk">✓</span><span>프로덕션 환경에서는 TLS를 사용하여 통신을 암호화</span></div>
+              <div class="ing-note"><span class="ing-chk">✓</span><span>도메인/경로 규칙이 겹치지 않도록 주의하여 설계</span></div>
+              <div class="ing-note"><span class="ing-chk">✓</span><span>인증서(Secret)는 만료를 주기적으로 확인하고 갱신</span></div>
+              <div class="ing-note"><span class="ing-chk">✓</span><span>Controller 및 Ingress 리소스는 모니터링과 로그 수집을 설정</span></div>
+              <div class="ing-note"><span class="ing-chk">✓</span><span>적절한 리소스 요청/제한을 설정하여 안정적인 운영을 보장</span></div>
+            </div>
+          </div>
+          <div class="ing-sum">
+            <div class="ing-sum-t">한눈에 정리</div>
+            <div class="ing-sum-d">Ingress는 클러스터의 단일 진입점(엔트리)으로서, 외부 트래픽을 안전하게 수용하고 스마트하게 라우팅하여 마이크로서비스 아키텍처의 핵심 네트워킹 컴포넌트 역할을 한다.</div>
+            <div class="ing-sum-f">사용자 → 인터넷 → Load Balancer → Ingress Controller → Service → Pod</div>
+          </div>
+        </div>
+        <figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+        <br/>
+        <p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p>
+          <div class="ing-sec">
+            <h3>Ingress Controller</h3>
+            <div class="ing-txt">Ingress 리소스의 규칙을 실제로 구현(엔트리)하는 컴포넌트이다. 대표적인 Ingress Controller:</div>
+            <div class="ing-ctrls"><span class="ing-chip" style="background-color: #c9d6ea;">NGINX Ingress Controller</span><span class="ing-chip" style="background-color: #c9d6ea;">Traefik</span><span class="ing-chip" style="background-color: #c9d6ea;">HAProxy Ingress</span><span class="ing-chip" style="background-color: #c9d6ea;">AWS Load Balancer Controller</span><span class="ing-chip" style="background-color: #c9d6ea;">GCP Ingress Controller</span><span class="ing-chip" style="background-color: #c9d6ea;">기타</span></div>
+          </div>
+        <h2 id="49fd9e9d-4aa2-4358-8bc4-f578225b1fd3" class="">Ingress Controller 설치</h2>
+        <ol type="1" id="f7b13233-6309-4ba2-ab18-c6ea331390d9" class="numbered-list" start="1">
+          <li>쿠버네이트io 사이트에서 ingress 검색후 nginx 관련 링크를 선택하면
+            <ol type="a" id="a25e083d-497a-4e6f-b7d8-0fdd0ba00448" class="numbered-list" start="1">
+              <li>깃헙으로 이동하게 되고</li>
+            </ol>
+            <ol type="a" id="a822eea0-5cc9-4965-ba30-a5001b91b847" class="numbered-list" start="2">
+              <li>Getting Start 누르면</li>
+            </ol>
+            <ol type="a" id="c7677d59-d710-4d70-910d-80eb1c4f3d73" class="numbered-list" start="3">
+              <li>install guide가 나오는데, 이때 Contents에서 Bare-Metal을 선택</li>
+            </ol>
+            <ol type="a" id="a1a24ba5-f4c2-4ceb-ab70-a32d5cc92c02" class="numbered-list" start="4">
+              <li>항목 : kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml 에서 url만 딴뒤</li>
+            </ol>
+            <ol type="a" id="b94baa7c-3765-4b2d-90a0-84f73770b842" class="numbered-list" start="5">
+              <li>wget <a href="https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml">https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/baremetal/deploy.yaml</a><br/>으로 deploy.yaml을 다운로드 한다.<br/></li>
+            </ol>
+          </li>
+        </ol>
+        <ol type="1" id="6094cb09-d41b-4969-a8e5-f8d3a8c7b963" class="numbered-list" start="2">
+          <li>다운받은 deploy.yaml 실행
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/>
+            <pre id="5e19dd18-68ff-49a2-b324-001a614b082c" class="code"><code class="language-Bash">kubectl create -f deploy.yaml
 namespace/ingress-nginx created
 serviceaccount/ingress-nginx created
 serviceaccount/ingress-nginx-admission created
@@ -699,7 +999,14 @@ deployment.apps/ingress-nginx-controller created
 job.batch/ingress-nginx-admission-create created
 job.batch/ingress-nginx-admission-patch created
 ingressclass.networking.k8s.io/nginx created
-validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created</code></pre></li></ol><ol type="1" id="ce58fdfc-c8bd-4873-a3e5-bfd3563b0924" class="numbered-list" start="3"><li>확인<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="9ea389f4-35d5-48aa-9eb4-55d3458e5a98" class="code"><code class="language-Bash">kubectl get pod -n ingress-nginx
+validatingwebhookconfiguration.admissionregistration.k8s.io/ingress-nginx-admission created</code></pre>
+          </li>
+        </ol>
+        <ol type="1" id="ce58fdfc-c8bd-4873-a3e5-bfd3563b0924" class="numbered-list" start="3">
+          <li>확인
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/>
+            <pre id="9ea389f4-35d5-48aa-9eb4-55d3458e5a98" class="code"><code class="language-Bash">kubectl get pod -n ingress-nginx
 NAME                                        READY   STATUS      RESTARTS   AGE
 ingress-nginx-admission-create-hnsxv        0/1     Completed   0          33s
 ingress-nginx-admission-patch-kf24f         0/1     Completed   0          33s
@@ -708,8 +1015,16 @@ ingress-nginx-controller-6c56945c75-ld9wt   1/1     Running     0          33s
 kubectl get svc -n ingress-nginx 
 NAME                                 TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)                      AGE
 ingress-nginx-controller             NodePort    10.104.91.74   &lt;none&gt;        80:32548/TCP,443:31497/TCP   52s
-ingress-nginx-controller-admission   ClusterIP   10.96.160.38   &lt;none&gt;        443/TCP                      52s</code></pre></li></ol><p id="98bba3e2-f99a-4f57-8f6f-8040f5673dce" class="">
-</p><h2 id="862dfa4a-3169-422d-a16b-976038f4ee2b" class="">Ingress 동작</h2><figure id="de1b93fa-b887-4c9c-aef4-2b564a86bf4f" class="image"><a href="f17ee81057e24b6a88a1bcc45ee2bf17/Untitled.png"><img style="width:1920px" src="f17ee81057e24b6a88a1bcc45ee2bf17/Untitled.png"/></a><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="dff63785-22ff-429f-8db9-d1ca222bf0c4" class="code"><code class="language-Bash">kubectl get namespaces
+ingress-nginx-controller-admission   ClusterIP   10.96.160.38   &lt;none&gt;        443/TCP                      52s</code></pre>
+          </li>
+        </ol>
+        <p id="98bba3e2-f99a-4f57-8f6f-8040f5673dce" class="">
+</p>
+        <h2 id="862dfa4a-3169-422d-a16b-976038f4ee2b" class="">Ingress 동작</h2>
+        <figure id="de1b93fa-b887-4c9c-aef4-2b564a86bf4f" class="image"><a href="f17ee81057e24b6a88a1bcc45ee2bf17/Untitled.png"><img style="width:1920px" src="f17ee81057e24b6a88a1bcc45ee2bf17/Untitled.png"/></a><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/>
+        <pre id="dff63785-22ff-429f-8db9-d1ca222bf0c4" class="code"><code class="language-Bash">kubectl get namespaces
 default           Active   8d
 ingress-nginx     Active   27m
 kube-node-lease   Active   8d
@@ -734,8 +1049,11 @@ replicaset.apps/ingress-nginx-controller-6c56945c75   1         1         1     
 
 NAME                                       COMPLETIONS   DURATION   AGE
 job.batch/ingress-nginx-admission-create   1/1           10s        28m
-job.batch/ingress-nginx-admission-patch    1/1           10s        28m</code></pre><p id="c101db69-9a0d-439e-8321-23da72633a4b" class="">
-</p><h2 id="eb37e4a2-a65f-4bdb-9bbc-c61190db6995" class="">ingress 샘플만들기</h2><pre id="157fe65f-7f2d-44fb-b4c9-da1cb35238e9" class="code"><code class="language-Bash">
+job.batch/ingress-nginx-admission-patch    1/1           10s        28m</code></pre>
+        <p id="c101db69-9a0d-439e-8321-23da72633a4b" class="">
+</p>
+        <h2 id="eb37e4a2-a65f-4bdb-9bbc-c61190db6995" class="">ingress 샘플만들기</h2>
+        <pre id="157fe65f-7f2d-44fb-b4c9-da1cb35238e9" class="code"><code class="language-Bash">
 #minimal-ingress
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -820,7 +1138,14 @@ spec:
             name: service3
             port:
               number: 80</code></pre>
-<p id="c36fa6a5-27d2-4e3b-b834-90933f18d2bb" class="">
-</p><p id="e82100aa-ba33-4db3-a625-1d69dcb3bf03" class="">
-</p></div></article>
-<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+        <br/>
+        <p id="c36fa6a5-27d2-4e3b-b834-90933f18d2bb" class="">
+</p>
+        <p id="e82100aa-ba33-4db3-a625-1d69dcb3bf03" class="">
+</p>
+      </div>
+    </article>
+    <br/>
+    <p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><span class="sans" style="font-size:14px;padding-top:2em"></span>
+  </body>
+</html>

@@ -685,7 +685,28 @@ blockquote {
     &quot;key1&quot; : &quot;value1&quot;,
     &quot;key2&quot; : &quot;value2&quot;
   }
-}</code></pre><ul id="0142d8b5-7814-461a-9354-51024f8dc0c0" class="bulleted-list"><li style="list-style-type:disc">일반적인 레이블 예시<ul id="e30b1417-0cc0-4738-8081-abce437b713c" class="bulleted-list"><li style="list-style-type:circle"><code>&quot;release&quot; : &quot;stable&quot;</code>, <code>&quot;release&quot; : &quot;canary&quot;</code></li></ul><ul id="c6c15619-e25d-4086-9177-c3e8d49afe4a" class="bulleted-list"><li style="list-style-type:circle"><code>&quot;environment&quot; : &quot;dev&quot;</code>, <code>&quot;environment&quot; : &quot;qa&quot;</code>, <code>&quot;environment&quot; : &quot;production&quot;</code></li></ul><ul id="8b7911dd-f3cf-49da-ba51-3380435e1288" class="bulleted-list"><li style="list-style-type:circle"> <code>&quot;tier&quot; : &quot;frontend&quot;</code>, <code>&quot;tier&quot; : &quot;backend&quot;</code>, <code>&quot;tier&quot; : &quot;cache&quot;</code></li></ul></li></ul><figure id="f9f12790-f7b1-4fed-b314-f49cf45d1675" class="image"><a href="919b0a639a1a48238fa8adfb904d59cf/Untitled.png"><img style="width:1920px" src="919b0a639a1a48238fa8adfb904d59cf/Untitled.png"/></a><figcaption>Label Template</figcaption><span>출처 : 유튜브 따배런 따배쿠 https://www.youtube.com/@ttabae-learn</span></figure><h2 id="fc69fd83-b2eb-4cc6-83d8-e4cbd3f7b8f1" class="">Pod lable</h2><table id="7ff90340-e968-41e3-bda1-a25e77820863" class="simple-table"><tbody><tr id="803f3842-f9f2-4701-a013-5c90f5db97e8"><td id="bNl~" class="" style="width:698px">CLI로 실행한 cmdpod<br/>라벨없는 pod-demo<br/>라벨포함 label-pod-demo<br/></td></tr></tbody></table><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3be03ac4-7f74-474c-a1d8-4f7f6b272e7a" class="code"><code class="language-Bash">#Lable을 포함한 pod 조회
+}</code></pre><ul id="0142d8b5-7814-461a-9354-51024f8dc0c0" class="bulleted-list"><li style="list-style-type:disc">일반적인 레이블 예시<ul id="e30b1417-0cc0-4738-8081-abce437b713c" class="bulleted-list"><li style="list-style-type:circle"><code>&quot;release&quot; : &quot;stable&quot;</code>, <code>&quot;release&quot; : &quot;canary&quot;</code></li></ul><ul id="c6c15619-e25d-4086-9177-c3e8d49afe4a" class="bulleted-list"><li style="list-style-type:circle"><code>&quot;environment&quot; : &quot;dev&quot;</code>, <code>&quot;environment&quot; : &quot;qa&quot;</code>, <code>&quot;environment&quot; : &quot;production&quot;</code></li></ul><ul id="8b7911dd-f3cf-49da-ba51-3380435e1288" class="bulleted-list"><li style="list-style-type:circle"> <code>&quot;tier&quot; : &quot;frontend&quot;</code>, <code>&quot;tier&quot; : &quot;backend&quot;</code>, <code>&quot;tier&quot; : &quot;cache&quot;</code></li></ul></li></ul><p><strong>Label Template</strong></p><table class="simple-table" style="display:table !important;width:100% !important;table-layout:fixed"><thead class="simple-table-header"><tr><th class="simple-table-header-color simple-table-header" style="width:50%">pod template</th><th class="simple-table-header-color simple-table-header" style="width:50%">pod+label template</th></tr></thead><tbody><tr><td style="vertical-align:top"><pre class="code" style="overflow-x:auto"><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: appjs-pod
+spec:
+  containers:
+  - name: appjs-container
+    image: smlinux/appjs
+    ports:
+    - containerPort: 8080</code></pre></td><td style="vertical-align:top"><pre class="code" style="overflow-x:auto"><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: appjs-pod
+  labels:
+    app: web
+    version: "1.15"
+spec:
+  containers:
+  - name: appjs-container
+    image: smlinux/appjs
+    ports:
+    - containerPort: 8080</code></pre></td></tr></tbody></table><ul class="bulleted-list"><li style="list-style-type:disc"><code>metadata.labels</code> 아래에 <code>key: value</code> 형식으로 라벨을 추가한다. (예: <code>app: web</code>, <code>version: "1.15"</code>)</li><li style="list-style-type:disc">숫자처럼 보이는 값(<code>1.15</code>)은 문자열로 인식되도록 따옴표로 감싼다.</li></ul><p><span style="color:gray">출처 : 유튜브 따배런 따배쿠 <a href="https://www.youtube.com/@ttabae-learn" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@ttabae-learn</a></span></p><h2 id="fc69fd83-b2eb-4cc6-83d8-e4cbd3f7b8f1" class="">Pod lable</h2><table id="7ff90340-e968-41e3-bda1-a25e77820863" class="simple-table"><tbody><tr id="803f3842-f9f2-4701-a013-5c90f5db97e8"><td id="bNl~" class="" style="width:698px">CLI로 실행한 cmdpod<br/>라벨없는 pod-demo<br/>라벨포함 label-pod-demo<br/></td></tr></tbody></table><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="3be03ac4-7f74-474c-a1d8-4f7f6b272e7a" class="code"><code class="language-Bash">#Lable을 포함한 pod 조회
 kubectl get pods --show-labels
 cmdpod          1/1 Running 0  run=cmdpod
 label-pod-demo  1/1 Running 0  name=mainui,rel=stable
