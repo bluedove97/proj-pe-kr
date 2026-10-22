@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fdfcfc">
+  <title>XP Games | bluedove's project</title>
+  <meta name="description" content="Windows XP 바탕화면에서 지뢰찾기, 솔리테어, 3D 핀볼을 즐기는 고전 게임 모음. 원본 프로그램을 리버스 엔지니어링으로 분석해 HTML/JS로 다시 구현했습니다."/>
+  <!-- BEGIN OPENGRAPH -->
+  <link rel="canonical" href="https://proj.pe.kr/xpgames/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://proj.pe.kr/xpgames/" />
+  <meta property="og:site_name" content="bluedove's project" >
+  <meta property="og:title" content="XP Games | bluedove's project" >
+  <meta property="og:description" content="지뢰찾기, 솔리테어, 3D 핀볼을 리버스 엔지니어링으로 분석해 브라우저로 옮긴 Windows XP 고전 게임 모음" >
+  <meta property="og:image" content="https://proj.pe.kr/image/services/xpgames/thumb.png" >
+  <meta property="og:article:author" content="bluedove" >
+  <!-- END OPENGRAPH -->
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="min-h-screen">
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-[#06060f]/80 border-b border-[#1e1e3a]">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="font-mono text-brand-cyan text-sm font-medium tracking-wider">
+        &gt;&nbsp;https://proj.pe.kr<span class="cursor ml-0.5"></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#overview"  class="nav-link text-sm font-medium">Overview</a>
+        <a href="#games"     class="nav-link text-sm font-medium">Games</a>
+        <a href="#structure" class="nav-link text-sm font-medium">Structure</a>
+        <a href="#license"   class="nav-link text-sm font-medium">License</a>
+        <a href="/#services" class="nav-link nav-home text-sm font-medium">&larr; Home</a>
+      </div>
+      <button id="mb-btn" aria-label="메뉴 열기"
+        class="md:hidden text-slate-500 hover:text-brand-cyan focus:outline-none focus:text-brand-cyan transition-colors duration-200"
+        style="background:transparent;border:none;padding:4px;cursor:pointer;line-height:0;">
+        <svg id="mb-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- mobile dropdown -->
+    <div id="mb-menu" class="hidden md:hidden border-t border-[#1e1e3a] bg-[#06060f]/95">
+      <div class="flex flex-col px-6 py-5 gap-5">
+        <a href="#overview"  class="nav-link text-sm font-medium" onclick="closeMb()">Overview</a>
+        <a href="#games"     class="nav-link text-sm font-medium" onclick="closeMb()">Games</a>
+        <a href="#structure" class="nav-link text-sm font-medium" onclick="closeMb()">Structure</a>
+        <a href="#license"   class="nav-link text-sm font-medium" onclick="closeMb()">License</a>
+        <a href="/#services" class="nav-link nav-home text-sm font-medium">&larr; Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section id="hero" class="pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-start w-full">
+
+      <!-- left -->
+      <div>
+        <div class="breadcrumb"><a href="/">~</a> / <a href="/#services">services</a> / xpgames</div>
+
+        <div class="badge-chip inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-slate-100 mb-7">
+          <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:var(--color-ink)"></span>
+          Web Game &middot; Reverse Engineering
+        </div>
+
+        <h1 class="font-display text-4xl md:text-5xl font-bold leading-[1.2] mb-7 text-slate-100">
+          XP Games
+        </h1>
+
+        <p class="text-slate-400 text-lg leading-relaxed mb-10 max-w-md">
+          Windows XP 스타일의<br>
+          <span class="text-slate-100 font-medium">지뢰찾기 · 솔리테어 · 3D 핀볼</span>.<br>
+          원본을 REA로 분석 후 같은 규칙으로 다시 만들었습니다.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="https://xpgames.proj.pe.kr/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            게임 하러 가기
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
+          </a>
+          <a href="https://github.com/bluedove97/xpgames" target="_blank" rel="noopener noreferrer" class="btn-outline">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            GitHub
+          </a>
+          <a href="/#services" class="btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6l-6-6 6-6"/></svg>
+            메인으로
+          </a>
+        </div>
+      </div>
+
+      <!-- right: TUI mockup -->
+      <div class="hero-tui-mockup">
+        <div class="tui-wordmark">&gt; XP GAMES</div>
+        <div class="tui-body">
+          <div><span class="tui-mute">$ </span><span class="tui-accent">ls apps/</span></div>
+          <div class="pl-2 flex flex-wrap gap-x-3">
+            <span class="tui-accent">minesweeper</span>
+            <span class="tui-success">solitaire</span>
+            <span class="tui-warning">pinball</span>
+            <span class="tui-on-dark">about</span>
+          </div>
+          <br>
+          <div><span class="tui-mute">$ </span><span class="tui-accent">cat ported-from.txt</span></div>
+          <div class="pl-2 tui-on-dark leading-relaxed">
+            - minesweeper &larr; winXP (React)<br>
+            - solitaire &nbsp;&nbsp;&larr; Solitaire (VB.NET)<br>
+            - pinball &nbsp;&nbsp;&nbsp;&nbsp;&larr; SpaceCadetPinball (C++)
+          </div>
+          <br>
+          <div><span class="tui-mute">$ </span><span class="tui-accent">node serve.mjs</span></div>
+          <div class="pl-2 tui-on-dark">http://localhost:3000</div>
+          <br>
+          <div class="flex items-center">
+            <span class="tui-mute">$ </span>
+            <span class="cursor ml-1.5"></span>
+          </div>
+        </div>
+        <div class="tui-prompt-row">
+          <span class="w-1.5 h-1.5 rounded-full inline-block animate-pulse flex-shrink-0" style="background:var(--color-success)"></span>
+          <span class="tui-success">online</span>
+          <span class="tui-mute">&middot; xpgames.proj.pe.kr</span>
+        </div>
+        <div class="tui-hint-row">[dblclick] open &middot; [drag] move window</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       OVERVIEW
+  ════════════════════════════════════════ -->
+  <section id="overview" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>Overview</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mb-10 mt-4">// 어떤 서비스인가요?</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-14 items-start">
+        <div class="reveal prose">
+          <p>
+            <strong>XP Games</strong>는 Windows XP 스타일 바탕화면에서 고전 게임을 실행하는 웹 서비스입니다.
+            아이콘을 더블클릭하면 게임 창이 열리고, 창을 끌어 옮기거나 최소화·닫기를 할 수 있습니다.
+          </p>
+          <p>
+            단순히 비슷하게 만든 것이 아니라, 원본 프로그램과 소스를 <strong>REA(리버스 엔지니어링 도구)</strong>로 분석해서
+            지뢰 배치, 점수 계산, 물리 판정 같은 규칙을 원본과 똑같이 동작합니다.
+            원본에 있던 버그 중 게임 상태가 깨지는 것만 골라 고쳤습니다.
+          </p>
+          <p>
+            의존성 없이 <code>Node.js</code>만 있으면 github에서 받은 소스를 로컬에서 바로 실행할 수 있고, PC와 모바일 모두에서 플레이할 수 있습니다.
+          </p>
+        </div>
+
+        <div class="reveal table-wrap">
+          <table class="svc-table">
+            <thead>
+              <tr><th>게임</th><th>원본</th><th>옮긴 방법</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>지뢰찾기</td>
+                <td><a class="social-link" href="https://github.com/ShizukuIchi/winXP" target="_blank" rel="noopener noreferrer">ShizukuIchi/winXP</a></td>
+                <td>Minesweeper 앱을 REA로 분석해 HTML/JS로 구현</td>
+              </tr>
+              <tr>
+                <td>솔리테어</td>
+                <td><a class="social-link" href="https://github.com/DualBrain/Solitaire" target="_blank" rel="noopener noreferrer">DualBrain/Solitaire</a></td>
+                <td>VB.NET 소스를 빌드한 뒤 어셈블리를 분석하고 HTML/JS로 구현</td>
+              </tr>
+              <tr>
+                <td>3D 핀볼</td>
+                <td><a class="social-link" href="https://github.com/webosbrew/SpaceCadetPinball" target="_blank" rel="noopener noreferrer">SpaceCadetPinball</a></td>
+                <td>원본 <code class="inline-code">pinball.exe</code>를 디컴파일한 C++ 엔진을 HTML/JS로 이식</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="reveal mt-10">
+        <h3 class="sub-heading">바탕화면과 창 조작</h3>
+        <div class="table-wrap">
+          <table class="svc-table">
+            <thead>
+              <tr><th>동작</th><th>PC</th><th>모바일</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>앱 열기</td><td>아이콘 더블클릭 (최소화한 창이면 다시 표시)</td><td>아이콘 한 번 탭 (더블탭은 브라우저 확대에 쓰이므로)</td></tr>
+              <tr><td>창 이동</td><td>제목 표시줄 끌기</td><td>제목 표시줄 끌기. 창이 화면보다 넓으면 끌어서 보고 싶은 부분을 맞춤</td></tr>
+              <tr><td>최소화</td><td>최소화 버튼 (게임 상태 유지)</td><td>최소화 버튼 탭</td></tr>
+              <tr><td>닫기</td><td>닫기 버튼 / Exit 메뉴. 다시 열면 새 게임</td><td>PC와 같음</td></tr>
+              <tr><td>활성 창</td><td>창을 클릭하면 맨 앞으로, 바탕화면을 클릭하면 모두 비활성</td><td>PC와 같음 (탭)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       GAMES
+  ════════════════════════════════════════ -->
+  <section id="games" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>Games</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mt-4 mb-6">// 게임별 소개</p>
+        <div class="flex flex-wrap gap-3 mb-14">
+          <a href="#minesweeper" class="chip-link">01 지뢰찾기</a>
+          <a href="#solitaire"   class="chip-link">02 솔리테어</a>
+          <a href="#pinball"     class="chip-link">03 3D 핀볼</a>
+        </div>
+      </div>
+
+      <!-- ── 지뢰찾기 ── -->
+      <article id="minesweeper" class="mb-14">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/xpgames/minesweeper.gif" alt="지뢰찾기 플레이 화면" loading="lazy">
+            <figcaption>minesweeper.gif</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">01 &middot; apps/minesweeper</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">지뢰찾기</h3>
+            <ul class="dash-list">
+              <li><strong>난이도</strong> 초급 9×9 / 지뢰 10, 중급 16×16 / 40, 고급 16×30 / 99</li>
+              <li><strong>첫 클릭</strong> 지뢰는 첫 클릭 순간에 배치되고, 클릭한 칸은 제외됩니다. 첫 칸은 지뢰가 아니지만 숫자일 수는 있습니다.</li>
+              <li><strong>연쇄 열기</strong> 0인 칸은 주변으로 퍼지며 열리고, 깃발 칸에서 멈춥니다.</li>
+              <li><strong>승패</strong> 안전한 칸을 모두 열면 승리(남은 지뢰에 깃발 자동 표시). 지면 모든 지뢰를 보여 주고 잘못 꽂은 깃발은 X로 표시합니다.</li>
+              <li><strong>카운터·타이머</strong> 지뢰 카운터는 전체 지뢰 − 깃발 수(음수면 <code class="inline-code">-03</code>), 타이머는 첫 클릭부터 999초까지.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div>
+            <h4 class="sub-heading">조작법</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>동작</th><th>PC</th><th>모바일</th></tr></thead>
+                <tbody>
+                  <tr><td>칸 열기</td><td>왼쪽 클릭</td><td>덮인 칸 탭</td></tr>
+                  <tr><td>깃발 / ?</td><td>오른쪽 클릭</td><td>0.4초 길게 누르기 (진동)</td></tr>
+                  <tr><td>주변 칸 열기</td><td>왼쪽+오른쪽 동시 클릭</td><td>열린 숫자 칸 탭</td></tr>
+                  <tr><td>새 게임</td><td>얼굴 버튼</td><td>얼굴 버튼 탭</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h4 class="sub-heading">원본과의 차이</h4>
+            <ul class="dash-list">
+              <li><strong>동시 클릭 버그 수정</strong> 원본은 <code class="inline-code">if (mineIndex)</code>로 검사해서 0번 칸(왼쪽 위)의 지뢰를 놓쳤습니다. 이 버전은 그 경우에도 게임 오버가 됩니다.</li>
+              <li><strong>연쇄 열기</strong> 재귀 대신 반복문으로 바꿨고, 결과는 같습니다.</li>
+              <li><strong>미구현</strong> Custom, Sound, Best Times, Help 메뉴와 F2는 원본에서도 동작하지 않아 똑같이 비워 두었습니다.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-line mb-14"></div>
+
+      <!-- ── 솔리테어 ── -->
+      <article id="solitaire" class="mb-14">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/xpgames/solitaire.gif" alt="솔리테어 플레이 화면" loading="lazy">
+            <figcaption>solitaire.gif</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">02 &middot; apps/solitaire</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">솔리테어</h3>
+            <div class="prose">
+              <p>
+                원본 저장소에는 VB.NET 소스만 있어서, <code>dotnet build</code>로 <code>solitaire.dll</code>을 만든 뒤
+                REA의 managed 어셈블리 분석으로 타입·메서드·문자열을 확인했습니다.
+                게임 로직이 모인 <code>GameForm</code> 클래스(메서드 167개)와 디자이너 파일의 컨트롤 위치·순서까지 규칙으로 옮겼습니다.
+              </p>
+            </div>
+            <ul class="dash-list">
+              <li><strong>넘기기</strong> 기본은 Draw Three. 펼친 3장 중 맨 위 카드만 옮길 수 있습니다.</li>
+              <li><strong>쌓기</strong> 줄에는 색이 다르고 하나 작은 카드, 빈 줄에는 K만. 위쪽 칸에는 A부터 같은 무늬로 쌓습니다.</li>
+              <li><strong>Undo</strong> 한 단계만 되돌립니다. 카드 뒤집기는 되돌릴 수 없습니다.</li>
+              <li><strong>승리</strong> 52장이 모두 위쪽 칸에 올라가면 카드가 튀어 내려오는 애니메이션과 "Deal Again?"이 나옵니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div>
+            <h4 class="sub-heading">조작법</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>동작</th><th>PC</th><th>모바일</th></tr></thead>
+                <tbody>
+                  <tr><td>카드 넘기기</td><td>덱 클릭</td><td>덱 탭</td></tr>
+                  <tr><td>카드 옮기기</td><td>끌기</td><td>끌기 (6px 넘게 움직여야 인식)</td></tr>
+                  <tr><td>뒷면 뒤집기</td><td>줄 클릭</td><td>줄 탭</td></tr>
+                  <tr><td>위쪽 칸으로</td><td>더블클릭</td><td>0.4초 안에 같은 자리 더블탭</td></tr>
+                  <tr><td>전부 위쪽 칸으로</td><td>오른쪽 클릭</td><td>없음 (한 장씩 더블탭)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h4 class="sub-heading">점수</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>상황</th><th>Standard</th><th>Vegas</th></tr></thead>
+                <tbody>
+                  <tr><td>새 게임</td><td>0</td><td>−$52</td></tr>
+                  <tr><td>넘긴 카드 → 줄</td><td>+5</td><td>-</td></tr>
+                  <tr><td>위쪽 칸에 올리기</td><td>+10</td><td>+$5</td></tr>
+                  <tr><td>위쪽 칸 → 줄</td><td>−15</td><td>-</td></tr>
+                  <tr><td>뒷면 카드 뒤집기</td><td>+5</td><td>-</td></tr>
+                  <tr><td>10초마다 (Timed)</td><td>−2</td><td>−$2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal mt-10">
+          <h4 class="sub-heading">원본과의 차이</h4>
+          <p class="text-slate-400 text-sm leading-relaxed mb-5">원본 동작을 최대한 그대로 옮기고, 게임 상태가 깨지거나 게임이 끝나지 않는 버그만 고쳤습니다.</p>
+          <ul class="dash-list">
+            <li><strong>실패한 드롭이 Undo를 덮어쓰던 버그</strong> 놓을 수 없는 자리에 놓아도 Undo 정보가 바뀌어 카드가 복제되거나 사라지던 문제를 고쳤습니다.</li>
+            <li><strong>Draw Three Undo</strong> 덱의 마지막 카드를 넘긴 직후 Undo하면 카드 한 장을 잃던 문제를 고쳤습니다.</li>
+            <li><strong>원래 자리에 놓기</strong> 연산자 우선순위 때문에 같은 칸에 다시 놓으면 점수가 계속 오르던 문제를 고쳤습니다.</li>
+            <li><strong>승리 처리</strong> 오른쪽 클릭으로 끝낸 게임도 승리 애니메이션을 보여 주고, 이긴 뒤에는 시계가 멈춥니다.</li>
+            <li><strong>설정 저장</strong> 원본의 <code class="inline-code">settings.xml</code> 대신 브라우저 <code class="inline-code">localStorage</code>에 저장합니다.</li>
+          </ul>
+        </div>
+      </article>
+
+      <div class="section-line mb-14"></div>
+
+      <!-- ── 3D 핀볼 ── -->
+      <article id="pinball">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/xpgames/pinball.gif" alt="3D 핀볼 플레이 화면" loading="lazy">
+            <figcaption>pinball.gif</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">03 &middot; apps/pinball</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">3D 핀볼</h3>
+            <div class="prose">
+              <p>
+                원본 <code>pinball.exe</code>를 디컴파일한 C++ 엔진을 파일 단위로 1:1 대응시켜 JS로 옮겼습니다.
+                메시지 글꼴은 REA의 PE 리소스 분석으로 <code>PBMSG_FT</code> 리소스를 찾아,
+                디컴파일 저장소의 데이터와 SHA-256이 같은 것을 확인했습니다.
+              </p>
+            </div>
+            <ul class="dash-list">
+              <li><strong>데이터</strong> <code class="inline-code">pinball.dat</code>의 그룹마다 그림, 깊이 맵, 충돌 형상, 부품 목록이 들어 있습니다.</li>
+              <li><strong>화면</strong> 600×416 화면에 깊이 맵으로 부품을 겹쳐 그리고, 바뀐 영역만 다시 그립니다.</li>
+              <li><strong>물리</strong> 초당 120번 갱신. 공을 광선처럼 쏘아 10×15 격자 안의 선·원·플리퍼와 충돌을 계산합니다.</li>
+              <li><strong>규칙</strong> 부품이 메시지 코드를 보내면 <code class="inline-code">control</code> 모듈이 점수·조명·미션을 바꿉니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div>
+            <h4 class="sub-heading">조작법</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>동작</th><th>PC</th><th>모바일</th></tr></thead>
+                <tbody>
+                  <tr><td>왼쪽 플리퍼</td><td>Z / 마우스 왼쪽</td><td>왼쪽 터치 영역</td></tr>
+                  <tr><td>오른쪽 플리퍼</td><td>/ / 마우스 오른쪽</td><td>가운데 터치 영역</td></tr>
+                  <tr><td>플런저</td><td>스페이스 누르고 놓기</td><td>오른쪽 영역 길게 누르고 떼기</td></tr>
+                  <tr><td>테이블 흔들기</td><td>X / . / ↑</td><td>없음</td></tr>
+                  <tr><td>새 게임 · 일시정지</td><td>F2 · F3</td><td>Game 메뉴</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-slate-500 text-xs leading-relaxed mt-4">모바일은 손가락마다 따로 인식해서 두 손가락으로 양쪽 플리퍼를 동시에 쓸 수 있습니다. 치트 코드도 원본처럼 입력할 수 있지만, 쓰면 최고 점수에 오르지 않습니다.</p>
+          </div>
+          <div>
+            <h4 class="sub-heading">원본과의 차이</h4>
+            <ul class="dash-list">
+              <li><strong>게임 데이터 미포함</strong> 테이블 데이터(<code class="inline-code">pinball.dat</code>)는 Microsoft 소유라 저장소에 넣지 않았습니다. 원본 Windows XP의 파일을 직접 넣어야 합니다.</li>
+              <li><strong>소리</strong> 재생하지 않고, WAV 길이만 읽어 원본과 같은 대기 시간을 씁니다.</li>
+              <li><strong>실수 정밀도</strong> 원본은 32비트 float, 이 버전은 64비트로 계산해서 공 궤적이 아주 미세하게 다를 수 있습니다.</li>
+              <li><strong>안전장치</strong> 범위를 벗어난 메모리를 읽던 범퍼 로직을 의도대로 고치고, 격자 배치 반복문에 횟수 제한을 두었습니다.</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ════════════════════════════════════════
+       LICENSE
+  ════════════════════════════════════════ -->
+  <section id="license" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>License</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mb-10 mt-4">// 라이선스</p>
+      </div>
+
+      <div class="reveal max-w-3xl">
+        <p class="text-slate-300 leading-relaxed mb-6">이 저장소의 코드는 <strong class="text-slate-100">MIT 라이선스</strong>입니다. 다른 프로젝트에서 가져온 부분은 각 프로젝트의 라이선스를 따릅니다.</p>
+        <ul class="dash-list">
+          <li><strong>지뢰찾기 이미지, XP 창/메뉴 스타일</strong> winXP (MIT, © 2019 Shizuku Yang)</li>
+          <li><strong>솔리테어 카드 이미지와 아이콘</strong> DualBrain/Solitaire (MIT, © Cory Smith)</li>
+          <li><strong>3D 핀볼 엔진</strong> SpaceCadetPinball (MIT, © 2020-2021 Andrey Muzychenko). 게임 데이터는 Microsoft 소유이며 포함하지 않습니다.</li>
+        </ul>
+      </div>
+
+      <!-- bottom nav -->
+      <div class="reveal section-line mt-10 mb-10"></div>
+      <div class="reveal flex flex-wrap items-center justify-between gap-4">
+        <a href="/#services" class="btn-outline">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6l-6-6 6-6"/></svg>
+          메인으로 돌아가기
+        </a>
+        <a href="/pow/" class="btn-outline">
+          다음 서비스: 단어 배틀
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="border-t border-[#1e1e3a] py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <a href="/" class="font-mono text-slate-100 text-sm">&gt;&nbsp;https://proj.pe.kr</a>
+      <span class="text-slate-400 text-xs">© 2026 bluedove. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       JS
+  ════════════════════════════════════════ -->
+  <script>
+    // mobile menu
+    const mbBtn  = document.getElementById('mb-btn');
+    const mbMenu = document.getElementById('mb-menu');
+    mbBtn.addEventListener('click', () => mbMenu.classList.toggle('hidden'));
+    function closeMb() { mbMenu.classList.add('hidden'); }
+
+    // scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
