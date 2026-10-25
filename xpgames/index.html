@@ -87,7 +87,7 @@
 
         <div class="flex flex-wrap gap-3">
           <a href="https://xpgames.proj.pe.kr/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-            게임 하러 가기
+            게임 하기
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
           </a>
           <a href="https://github.com/bluedove97/xpgames" target="_blank" rel="noopener noreferrer" class="btn-outline">
@@ -161,11 +161,11 @@
           </p>
           <p>
             단순히 비슷하게 만든 것이 아니라, 원본 프로그램과 소스를 <strong>REA(리버스 엔지니어링 도구)</strong>로 분석해서
-            지뢰 배치, 점수 계산, 물리 판정 같은 규칙을 원본과 똑같이 동작합니다.
-            원본에 있던 버그 중 게임 상태가 깨지는 것만 골라 고쳤습니다.
+            지뢰 배치, 점수 계산, 물리 판정 같은 규칙을 원본과 똑같이 동작하게 하였습니다.
+            심지어 원본에 있던 버그까지도 재현되는데, 그 중 게임 상태가 깨지는 것은 수정하였습니다.
           </p>
           <p>
-            의존성 없이 <code>Node.js</code>만 있으면 github에서 받은 소스를 로컬에서 바로 실행할 수 있고, PC와 모바일 모두에서 플레이할 수 있습니다.
+            의존성 없이 <code>Node.js</code>만 있으면 github에서 받은 소스를 로컬에 다운받아 실행할 수 있고, PC와 모바일 모두에서 플레이할 수 있습니다.
           </p>
         </div>
 
@@ -389,10 +389,10 @@
               <table class="svc-table">
                 <thead><tr><th>동작</th><th>PC</th><th>모바일</th></tr></thead>
                 <tbody>
-                  <tr><td>왼쪽 플리퍼</td><td>Z / 마우스 왼쪽</td><td>왼쪽 터치 영역</td></tr>
-                  <tr><td>오른쪽 플리퍼</td><td>/ / 마우스 오른쪽</td><td>가운데 터치 영역</td></tr>
+                  <tr><td>왼쪽 플리퍼</td><td>Z | 마우스 왼쪽</td><td>왼쪽 터치 영역</td></tr>
+                  <tr><td>오른쪽 플리퍼</td><td>/ | 마우스 오른쪽</td><td>가운데 터치 영역</td></tr>
                   <tr><td>플런저</td><td>스페이스 누르고 놓기</td><td>오른쪽 영역 길게 누르고 떼기</td></tr>
-                  <tr><td>테이블 흔들기</td><td>X / . / ↑</td><td>없음</td></tr>
+                  <tr><td>테이블 흔들기</td><td>X | . | ↑</td><td>없음</td></tr>
                   <tr><td>새 게임 · 일시정지</td><td>F2 · F3</td><td>Game 메뉴</td></tr>
                 </tbody>
               </table>
@@ -430,7 +430,7 @@
       <div class="reveal max-w-3xl">
         <p class="text-slate-300 leading-relaxed mb-6">이 저장소의 코드는 <strong class="text-slate-100">MIT 라이선스</strong>입니다. 다른 프로젝트에서 가져온 부분은 각 프로젝트의 라이선스를 따릅니다.</p>
         <ul class="dash-list">
-          <li><strong>지뢰찾기 이미지, XP 창/메뉴 스타일</strong> winXP (MIT, © 2019 Shizuku Yang)</li>
+          <li><strong>지뢰찾기 이미지, XP 창/메뉴 스타일</strong> ShizukuIchi/winXP (MIT, © 2019 Shizuku Yang)</li>
           <li><strong>솔리테어 카드 이미지와 아이콘</strong> DualBrain/Solitaire (MIT, © Cory Smith)</li>
           <li><strong>3D 핀볼 엔진</strong> SpaceCadetPinball (MIT, © 2020-2021 Andrey Muzychenko). 게임 데이터는 Microsoft 소유이며 포함하지 않습니다.</li>
         </ul>
