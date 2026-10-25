@@ -88,7 +88,7 @@
 
         <div class="flex flex-wrap gap-3">
           <a href="https://pow.proj.pe.kr/" target="_blank" rel="noopener noreferrer" class="btn-primary">
-            게임 하러 가기
+            게임 하기
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
           </a>
           <a href="/#services" class="btn-outline">
@@ -106,7 +106,7 @@
           <div class="pl-2 tui-mute">// server: sha256 &rarr; stats &rarr; rounds</div>
           <div class="pl-2 tui-on-dark">Server Logic &rarr; SSR &rarr; #hash1 #hash2 #round</div>
           <br>
-          <div><span class="tui-mute">$ </span><span class="tui-accent">fnPlay()</span></div>
+          <div><span class="tui-mute">$ </span><span class="tui-accent">fnPlay($round)</span></div>
           <div class="pl-2 flex flex-wrap gap-x-3">
             <span class="tui-warning">PALADIN</span><span class="tui-on-dark">짜장면</span>
             <span class="tui-mute">vs</span>
@@ -152,13 +152,13 @@
         <div class="reveal prose">
           <p>
             <strong>단어 배틀(Power of Word)</strong>은 두 단어를 넣으면 각 단어가 판타지 캐릭터가 되어
-            1:1로 전투하는 웹 게임입니다. 캐릭터 위에는 입력한 단어 명이 떠 있고,
+            1:1로 전투하는 웹 게임입니다. 캐릭터 머리 위에는 입력한 단어 명이 있고,
             라운드마다 공격·방어·크리티컬히트를 주고받다가 마지막 <strong>Last Collision</strong>에서 승부가 납니다.
           </p>
           <p>
-            결과는 운이 아니라 <strong>단어의 힘</strong>으로 정해집니다. 단어마다 고유한 지문인
-            SHA-256 해시를 기반으로 서버에서 계산된 배틀 로직으로 체력과 공격력이 정해지기 때문에, 같은 단어끼리는 언제 붙여도 결과가 같습니다.
-            전투에 출전하는 직업과 공격 순서 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
+            결과는 운이 아니라 <strong>단어의 힘</strong>으로 정해집니다. 서버의 배틀 로직과 단어마다 고유한 지문인
+            SHA-256 해시를 기반으로 체력과 공격력 그리고 라운드 결과가 정해지기 때문에, 같은 단어끼리는 언제 붙어도 결과가 같습니다.
+            전투에 출전하는 직업과 공격 위치 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
           </p>
         </div>
 
@@ -170,7 +170,7 @@
           </div>
           <div class="stat-card">
             <div class="font-mono text-slate-600 text-xs mb-2">[jobs]</div>
-            <div class="font-display font-semibold text-slate-100 text-sm mb-1">직업 6종</div>
+            <div class="font-display font-semibold text-slate-100 text-sm mb-1">직업 8종</div>
             <div class="text-slate-500 text-xs font-mono">매 경기 랜덤 출전<br>같은 직업끼리도 배틀 가능</div>
           </div>
           <div class="stat-card">
@@ -200,7 +200,7 @@
         <div class="section-line mb-4"></div>
         <p class="text-slate-600 text-sm font-mono mt-4 mb-4">// 출전 캐릭터</p>
         <p class="text-slate-400 leading-relaxed mb-10 max-w-3xl">
-          두 단어에는 매 경기 아래 6개 직업 중 하나가 랜덤으로 배정됩니다.
+          두 단어에는 매 경기 아래 8개 직업 중 하나가 랜덤으로 배정됩니다.
           직업은 승패에 영향을 주지 않고 공격 모션과 이펙트만 달라집니다.
           모든 캐릭터는 이동·공격·방어·크리티컬히트·승리·패배 모션을 갖고 있습니다.
         </p>
@@ -214,7 +214,7 @@
             <span class="font-display font-semibold text-slate-100">전사 <span class="text-slate-500 text-sm font-mono">WARRIOR</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#ff7043"></span> 근접</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">상대에게 돌진해 대형 철퇴를 휘두릅니다. 뒤로 젖혀 멈칫했다가 순간적으로 내려치고, 초승달 궤적이 남습니다. 크리티컬은 힘을 모아 풀스윙해 상대를 일직선으로 날려 벽에 처박습니다.</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">상대에게 돌진해 대형 철퇴를 휘두릅니다. 뒤로 젖혀 멈칫했다가 순간적으로 내려치고, 초승달 궤적이 남습니다. 크리티컬 히트시 힘을 모아 풀스윙해 상대를 일직선으로 날려 벽에 처박습니다.</p>
           <div class="char-meta">필살기 &middot; <span class="text-slate-100">분쇄 일격</span></div>
         </div>
 
@@ -224,7 +224,7 @@
             <span class="font-display font-semibold text-slate-100">마법사 <span class="text-slate-500 text-sm font-mono">MAGE</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#c77dff"></span> 원거리</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">주문을 외워 상대에게 지지직거리는 라이트닝 줄기를 뻗습니다. 크리티컬이 터지면 하늘에서 낙뢰가 떨어집니다.</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">주문을 외워 상대에게 라이트닝 줄기를 뻗습니다. 크리티컬 히트시 경기장 위로 먹구름을 불러 모아 낙뢰를 두 번 내리꽂고, 마지막에 묵직한 거대 낙뢰를 한번 더 꽂아 바닥에 크레이터를 남깁니다.</p>
           <div class="char-meta">필살기 &middot; <span class="text-slate-100">천벌의 낙뢰</span></div>
         </div>
 
@@ -234,8 +234,8 @@
             <span class="font-display font-semibold text-slate-100">사제 <span class="text-slate-500 text-sm font-mono">PRIEST</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#fff1a8"></span> 원거리</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">금빛 빛의 창인 홀리볼트를 발사합니다. 크리티컬은 거대한 홀리볼트가 착탄한 뒤 빛의 기둥이 솟습니다.</p>
-          <div class="char-meta">필살기 &middot; <span class="text-slate-100">신성한 심판</span></div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">금빛의 구체 홀리볼트를 발사합니다. 크리티컬 히트시 빛의 구체 4개를 불러내 하나씩 날려 꽂고, 크게 부푼 마지막 구체가 빛을 내며 사방으로 터집니다.</p>
+          <div class="char-meta">필살기 &middot; <span class="text-slate-100">성광 구체</span></div>
         </div>
 
         <div class="reveal char-card">
@@ -244,8 +244,8 @@
             <span class="font-display font-semibold text-slate-100">궁수 <span class="text-slate-500 text-sm font-mono">ARCHER</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#7bd389"></span> 원거리</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">거리를 두고 화살을 쏩니다. 크리티컬이 터지면 화살 3발을 연달아 쏩니다.</p>
-          <div class="char-meta">필살기 &middot; <span class="text-slate-100">관통 연사</span></div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">거리를 두고 화살을 쏩니다. 크리티컬 히트시 시위를 당긴 채 바람을 모아 회오리 거대 화살을 날리고, 상대를 휘감아 끌고 가며 연타한 뒤 회오리가 폭발합니다.</p>
+          <div class="char-meta">필살기 &middot; <span class="text-slate-100">질풍 관통</span></div>
         </div>
 
         <div class="reveal char-card">
@@ -264,8 +264,28 @@
             <span class="font-display font-semibold text-slate-100">성기사 <span class="text-slate-500 text-sm font-mono">PALADIN</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#ffd166"></span> 근접</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">방패를 든 채 돌진해 장검을 크게 휘두르고, 타격 지점에 성광이 터집니다. 크리티컬은 하늘에서 거대한 성검이 떨어져 땅에 꽂히며 바닥을 갈라놓습니다.</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">방패를 든 채 돌진해 장검을 크게 휘두르고, 타격 지점에 성광이 터집니다. 크리티컬 히트는 하늘에서 거대한 성검이 떨어져 땅에 꽂히며 바닥을 갈라놓습니다.</p>
           <div class="char-meta">필살기 &middot; <span class="text-slate-100">성검 강림</span></div>
+        </div>
+
+        <div class="reveal char-card">
+          <div class="char-sprite"><img src="/image/services/pow/chars/monk.png" alt="무도가 도트 캐릭터" width="128" height="128" loading="lazy"></div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-display font-semibold text-slate-100">무도가 <span class="text-slate-500 text-sm font-mono">MONK</span></span>
+            <span class="char-meta"><span class="char-swatch" style="background:#ffa62b"></span> 근접</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">맨손으로 파고들어 장타를 두 번 짧게 끊어 치고, 뛰어올라 한 바퀴 도는 돌려차기로 마무리합니다. 크리티컬 히트시 물러나 기를 모은 뒤 어깨로 들이받는 붕격, 몸을 돌려 파고드는 운신, 쌍장타 쌍호장으로 이어 상대를 일직선으로 날려 보냅니다.</p>
+          <div class="char-meta">필살기 &middot; <span class="text-slate-100">붕운쌍호장</span></div>
+        </div>
+
+        <div class="reveal char-card">
+          <div class="char-sprite"><img src="/image/services/pow/chars/gunslinger.png" alt="총잡이 도트 캐릭터" width="128" height="128" loading="lazy"></div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="font-display font-semibold text-slate-100">총잡이 <span class="text-slate-500 text-sm font-mono">GUNSLINGER</span></span>
+            <span class="char-meta"><span class="char-swatch" style="background:#5fc8ff"></span> 원거리</span>
+          </div>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">권총을 빠르게 뽑아 2연사합니다. 총구 화염과 함께 탄피가 튀고 예광탄이 날아갑니다. 크리티컬 히트시 룬 마법진을 펼쳐 조준하고, 공간을 가르는 푸른 궤적의 룬 탄환이 상대를 꿰뚫으며 관통 섬광이 터집니다.</p>
+          <div class="char-meta">필살기 &middot; <span class="text-slate-100">차원 관통탄</span></div>
         </div>
 
       </div>
@@ -300,8 +320,8 @@
             <div class="flow-desc">각 단어의 SHA-256 해시로 체력과 공격력을 정하고, 마지막 라운드까지 HP·공격력·크리티컬 결과를 미리 모두 계산합니다.</div>
           </li>
           <li>
-            <div class="flow-title">SSR로 값 세팅된 페이지</div>
-            <div class="flow-desc">계산 결과가 경기 데이터가 페이지와 함께 도착하므로 추가 요청 없이 바로 시작합니다.</div>
+            <div class="flow-title">SSR로 배틀 데이터가 세팅된 페이지</div>
+            <div class="flow-desc">계산 결과가 전투 데이터가 페이지와 함께 도착하므로 추가 요청 없이 바로 시작합니다.</div>
           </li>
           <li>
             <div class="flow-title">브라우저에서 연출 재생</div>
@@ -341,7 +361,7 @@
           </li>
           <li>
             <div class="flow-title">K.O. &amp; 결과</div>
-            <div class="flow-desc">패자는 회전하며 날아가 바닥에 두 번 튕긴 뒤 픽셀 단위로 폭발합니다. 승자는 중앙에서 승리 포즈를 취하고 후광, 떨어지는 왕관, 꽃가루와 함께 결과 카드가 뜹니다.</div>
+            <div class="flow-desc">패자는 회전하며 날아가 바닥에 두 번 튕긴 뒤 픽셀 단위로 폭발합니다. 승자는 중앙에서 승리 포즈를 취하고 후광, 떨어지는 왕관, 꽃가루와 함께 결과 카드를 볼 수 있습니다.</div>
           </li>
         </ol>
 
@@ -386,16 +406,13 @@
             <span class="tag">JSTL</span>
             <span class="tag">MySQL</span>
           </div>
-          <ul class="dash-list">
-            <li><strong>Spring Boot</strong> 단어 해시 계산, 단어의 체력과 라운드 결과 생성</li>
-            <li><strong>Tiles · JSTL</strong>레이아웃을 조립하고 서버 계산 결과를 페이지 필드에 채워서 내려줌</li>
-          </ul>
 
           <h3 class="sub-heading">Frontend</h3>
           <div class="flex flex-wrap gap-2 mb-6">
             <span class="tag">HTML</span>
             <span class="tag">CSS</span>
             <span class="tag">jQuery</span>
+            <span class="tag">Javascript</span>
             <span class="tag">Canvas 2D</span>
             <span class="tag">Galmuri (픽셀 폰트)</span>
           </div>

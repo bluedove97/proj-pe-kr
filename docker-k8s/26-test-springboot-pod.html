@@ -1,4 +1,4 @@
-﻿<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>[테스트] 스프링부트 웹소스 파드화</title><style>
+﻿<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>웹 소스 파드화</title><style>
 /* cspell:disable-file */
 /* webkit printing magic: print all background colors */
 html {
@@ -679,83 +679,314 @@ blockquote {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./theme.css">
 </head><body>
-<div id="bd-nav"><a href="../index.html" id="bd-back"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg>proj.pe.kr</a><span id="bd-sep">|</span><span id="bd-label">도커, 쿠버네티스 기본</span></div><article id="d0d037cd-f82f-4d96-b383-77c5e83a5338" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">✔️</span></div><h1 class="page-title">[테스트] 스프링부트 웹소스 파드화</h1><p class="page-description"></p></header><div class="page-body"><nav id="5398aa80-7e6f-4884-98b0-c163d4b9ac78" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ba614f28-8f99-4881-b623-fb30d8932d0d">springboot 샘플 웹페이지 작성</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7815a3be-fe97-41d8-bfc6-3a104c0dc1fa">maven 빌드 및 jar파일 생성</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#90ad5842-ba58-426f-b0aa-b910fbc4563b">dockerfile 빌드 및 실행, push</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ff8efb9c-e214-468e-a5d8-cd7fcacc9747">Deployment로 pod화</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#8e39c42a-fdff-45a4-b1bc-ff30f9bffb0b">NodePort Service 붙이기</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3e46d2d4-4046-4273-92be-c538480622bb">테스트 - 내부 연결 테스트</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#5f3238d6-ebd0-4b66-a643-13271eaf98e0">테스트 - 외부 연결 테스트</a></div></nav><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
-<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><h2 id="ba614f28-8f99-4881-b623-fb30d8932d0d" class="">springboot 샘플 웹페이지 작성</h2><p id="e8d4b857-4086-434a-9040-a6cbacc87c37" class="">springboot기반 localhost:8080 접속시  helloworld 뿌려주는, 간단한 웹 프로그램을 작성해본다.</p><h2 id="7815a3be-fe97-41d8-bfc6-3a104c0dc1fa" class="">maven 빌드 및 jar파일 생성</h2><p id="9e34a038-eb73-42ff-bfe0-a047b0d1006c" class="">maven build를 이용하여, jar 파일을 빌드, 생성한다.</p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8053c235-20da-4e57-a67c-45dd2159199d" class="code"><code class="language-Plain Text">mvn clean
-mvn package</code></pre><h2 id="90ad5842-ba58-426f-b0aa-b910fbc4563b" class="">dockerfile 빌드 및 실행, push</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="faca3766-adb6-4caa-8cdb-cba10bc7f3d6" class="code"><code class="language-Bash">cat &gt; dockerfile 
-FROM openjdk:8-jdk-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} webdemo.jar
-ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;/webdemo.jar&quot;]
+<div id="bd-nav"><a href="../index.html" id="bd-back"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7"/></svg>proj.pe.kr</a><span id="bd-sep">|</span><span id="bd-label">도커, 쿠버네티스 기본</span></div><article id="d0d037cd-f82f-4d96-b383-77c5e83a5338" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">✔️</span></div><h1 class="page-title">웹 소스 파드화</h1><p class="page-description">Spring Boot, FastAPI, Next.js, Blazor로 만든 웹 소스를 각각 Docker 이미지로 빌드하고, 쿠버네티스에서 Deployment와 NodePort Service로 배포해 접속까지 확인한다.</p></header><div class="page-body"><nav id="5398aa80-7e6f-4884-98b0-c163d4b9ac78" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#build">개발 언어별 빌드</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#build-springboot">1. Spring Boot 샘플 Dockerfile 빌드</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#build-fastapi">2. Python FastAPI 샘플 Dockerfile 빌드</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#build-nextjs">3. Next.js 샘플 Dockerfile 빌드</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#build-blazor">4. Blazor 샘플 Dockerfile 빌드</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#deploy">개발 언어별 파드화 배포</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-springboot">1. Spring Boot 배포</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-fastapi">2. FastAPI 배포</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-nextjs">3. Next.js 배포</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-blazor">4. Blazor 배포</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-apply">배포 적용 및 확인</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#deploy-test">연결 테스트</a></div></nav><figure id="04dd6f45-c257-4853-8ef2-e0a6e8902e50" class="link-to-page"><a href="/"><span class="icon">💫</span>목차로 돌아가기</a></figure>
+<p id="ads4"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- HOME-고정형-가로 --><ins class="adsbygoogle"     style="display:inline-block;width:900px;height:120px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="6935322558"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><h1 id="build" class="">개발 언어별 빌드</h1><p class="">언어마다 접속하면 hello world를 보여주는 간단한 웹 프로그램을 만들고, Dockerfile로 이미지를 빌드한 뒤 Docker Hub에 push한다. 모든 Dockerfile은 <strong>멀티 스테이지 빌드</strong>로 작성했다. 빌드 도구는 첫 번째 스테이지에만 두고, 최종 이미지에는 실행에 필요한 파일만 담는다.</p><table class="simple-table"><thead class="simple-table-header"><tr><th class="simple-table-header-color simple-table-header">언어/프레임워크</th><th class="simple-table-header-color simple-table-header">이미지</th><th class="simple-table-header-color simple-table-header">컨테이너 포트</th></tr></thead><tbody><tr><td>Spring Boot</td><td>bluedove97/webdemo-springboot:v0.0.1</td><td>8080</td></tr><tr><td>Python FastAPI</td><td>bluedove97/webdemo-fastapi:v0.0.1</td><td>8000</td></tr><tr><td>Next.js</td><td>bluedove97/webdemo-nextjs:v0.0.1</td><td>3000</td></tr><tr><td>Blazor</td><td>bluedove97/webdemo-blazor:v0.0.1</td><td>80</td></tr></tbody></table><h2 id="build-springboot" class="">1. Spring Boot 샘플 Dockerfile 빌드</h2><p class="">localhost:8080에 접속하면 hello world를 보여주는 컨트롤러를 만든다. (<a href="https://start.spring.io">start.spring.io</a>에서 Spring Web 의존성을 넣어 Maven 프로젝트 생성)</p><pre class="code"><code class="language-Java">// src/main/java/com/example/webdemo/HelloController.java
+package com.example.webdemo;
 
-#빌드
-docker build -t bluedove97/webdemo-test:v0.0.1 .
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-#도커 실행
-docker run -d -p 8080:8080 --name webdemo bluedove97/webdemo-test:v0.0.1
+@RestController
+public class HelloController {
+    @GetMapping(&quot;/&quot;)
+    public String hello() {
+        return &quot;hello world - springboot&quot;;
+    }
+}</code></pre><p class="">이미지 안에서 Maven 빌드까지 하므로 로컬에서 <code>mvn package</code>를 미리 하지 않아도 된다.</p><pre class="code"><code class="language-Docker">cat &gt; Dockerfile
+# 1단계: Maven으로 jar 빌드
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn clean package -DskipTests
 
-#확인
+# 2단계: JRE만 있는 가벼운 이미지에서 실행
+FROM eclipse-temurin:17-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT [&quot;java&quot;,&quot;-jar&quot;,&quot;/app/app.jar&quot;]</code></pre><pre class="code"><code class="language-Bash">#빌드
+docker build -t bluedove97/webdemo-springboot:v0.0.1 .
+
+#실행 및 확인
+docker run -d -p 8080:8080 --name webdemo-springboot bluedove97/webdemo-springboot:v0.0.1
 curl localhost:8080
 
-#도커 중지
-docker rm -f webdemo
+#중지 및 푸시
+docker rm -f webdemo-springboot
+docker push bluedove97/webdemo-springboot:v0.0.1</code></pre><h2 id="build-fastapi" class="">2. Python FastAPI 샘플 Dockerfile 빌드</h2><pre class="code"><code class="language-Python"># main.py
+from fastapi import FastAPI
 
-#도커 푸시
-docker push bluedove97/webdemo-test:v0.0.1</code></pre><h2 id="ff8efb9c-e214-468e-a5d8-cd7fcacc9747" class="">Deployment로 pod화</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="8dd7a68e-ebd4-4129-bb04-e65edd537bb5" class="code"><code class="language-YAML">cat &gt; deploy-webdemo.yaml 
+app = FastAPI()
+
+@app.get(&quot;/&quot;)
+def hello():
+    return {&quot;message&quot;: &quot;hello world - fastapi&quot;}</code></pre><pre class="code"><code class="language-Plain Text"># requirements.txt
+fastapi==0.115.0
+uvicorn[standard]==0.30.6</code></pre><p class="">uvicorn이 컨테이너 밖에서도 접속을 받도록 <code>--host 0.0.0.0</code>으로 띄운다.</p><pre class="code"><code class="language-Docker">cat &gt; Dockerfile
+FROM python:3.12-slim
+WORKDIR /app
+
+# 의존성 먼저 설치 (소스만 바뀌면 이 레이어는 캐시 재사용)
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY main.py .
+EXPOSE 8000
+CMD [&quot;uvicorn&quot;, &quot;main:app&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;, &quot;--port&quot;, &quot;8000&quot;]</code></pre><pre class="code"><code class="language-Bash">#빌드
+docker build -t bluedove97/webdemo-fastapi:v0.0.1 .
+
+#실행 및 확인
+docker run -d -p 8000:8000 --name webdemo-fastapi bluedove97/webdemo-fastapi:v0.0.1
+curl localhost:8000
+
+#중지 및 푸시
+docker rm -f webdemo-fastapi
+docker push bluedove97/webdemo-fastapi:v0.0.1</code></pre><h2 id="build-nextjs" class="">3. Next.js 샘플 Dockerfile 빌드</h2><pre class="code"><code class="language-Bash">npx create-next-app@latest webdemo-nextjs --js --app --no-tailwind --no-eslint --no-src-dir --use-npm
+cd webdemo-nextjs</code></pre><pre class="code"><code class="language-JavaScript">// app/page.js
+export default function Home() {
+  return &lt;h1&gt;hello world - nextjs&lt;/h1&gt;;
+}</code></pre><p class="">standalone 모드로 빌드하면 실행에 필요한 파일만 <code>.next/standalone</code>에 모이므로 node_modules 전체를 복사하지 않아도 된다.</p><pre class="code"><code class="language-JavaScript">// next.config.mjs
+const nextConfig = {
+  output: &quot;standalone&quot;,
+};
+
+export default nextConfig;</code></pre><pre class="code"><code class="language-Docker">cat &gt; Dockerfile
+# 1단계: 의존성 설치 및 빌드
+FROM node:20-alpine AS build
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# 2단계: standalone 결과물만 실행
+FROM node:20-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
+ENV PORT=3000
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
+COPY --from=build /app/public ./public
+EXPOSE 3000
+CMD [&quot;node&quot;, &quot;server.js&quot;]</code></pre><pre class="code"><code class="language-Bash">#빌드 (node_modules, .next는 .dockerignore에 넣어두면 빌드 컨텍스트가 가벼워진다)
+docker build -t bluedove97/webdemo-nextjs:v0.0.1 .
+
+#실행 및 확인
+docker run -d -p 3000:3000 --name webdemo-nextjs bluedove97/webdemo-nextjs:v0.0.1
+curl localhost:3000
+
+#중지 및 푸시
+docker rm -f webdemo-nextjs
+docker push bluedove97/webdemo-nextjs:v0.0.1</code></pre><h2 id="build-blazor" class="">4. Blazor 샘플 Dockerfile 빌드</h2><p class="">.NET 8 솔루션 안의 <code>BlazorWeb.Server</code> 프로젝트를 빌드한다. Dockerfile은 솔루션 루트(BlazorWeb.Server 폴더가 보이는 위치)에 둔다.</p><pre class="code"><code class="language-Plain Text">BlazorWeb/
+├── Dockerfile
+└── BlazorWeb.Server/
+    ├── BlazorWeb.Server.csproj
+    └── ...</code></pre><p class="">스테이지를 4개로 나눴다. <strong>base</strong>(런타임 이미지), <strong>build</strong>(SDK로 restore/build), <strong>publish</strong>(배포 파일 생성), <strong>final</strong>(base에 publish 결과만 복사)이다. csproj만 먼저 복사해 restore하므로 소스만 바뀌면 restore 레이어는 캐시를 재사용한다.</p><p class="">.NET 8부터 ASP.NET 컨테이너 이미지는 기본으로 <strong>8080</strong> 포트에서 접속을 받는다. <code>EXPOSE 80</code>은 문서 역할만 하므로, 실제로 80 포트에서 받도록 <code>ASPNETCORE_HTTP_PORTS=80</code>을 함께 지정한다. 443(HTTPS)은 인증서 설정이 따로 필요하므로, 여기서는 80만 사용한다.</p><pre class="code"><code class="language-Docker">cat &gt; Dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+ENV ASPNETCORE_HTTP_PORTS=80
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+# Server가 참조하는 프로젝트(Client, Shared 등)가 있으면 그 csproj도 같은 방식으로 먼저 COPY한다
+COPY [&quot;BlazorWeb.Server/BlazorWeb.Server.csproj&quot;, &quot;BlazorWeb.Server/BlazorWeb.Server.csproj&quot;]
+RUN dotnet restore &quot;BlazorWeb.Server/BlazorWeb.Server.csproj&quot;
+COPY . .
+RUN dotnet build &quot;BlazorWeb.Server/BlazorWeb.Server.csproj&quot; -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish &quot;BlazorWeb.Server/BlazorWeb.Server.csproj&quot; -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT [&quot;dotnet&quot;, &quot;BlazorWeb.Server.dll&quot;]</code></pre><pre class="code"><code class="language-Bash">#빌드 (bin, obj는 .dockerignore에 넣어둔다)
+docker build -t bluedove97/webdemo-blazor:v0.0.1 .
+
+#실행 및 확인
+docker run -d -p 8081:80 --name webdemo-blazor bluedove97/webdemo-blazor:v0.0.1
+curl localhost:8081
+
+#중지 및 푸시
+docker rm -f webdemo-blazor
+docker push bluedove97/webdemo-blazor:v0.0.1</code></pre><h1 id="deploy" class="">개발 언어별 파드화 배포</h1><p class="">위에서 push한 이미지를 Deployment로 파드 3개씩 띄우고, NodePort Service를 붙여 클러스터 밖에서 접속할 수 있게 한다. 언어마다 Deployment와 Service를 <code>---</code>로 구분해 yaml 파일 하나에 담았다.</p><table class="simple-table"><thead class="simple-table-header"><tr><th class="simple-table-header-color simple-table-header">앱</th><th class="simple-table-header-color simple-table-header">Service</th><th class="simple-table-header-color simple-table-header">port → targetPort</th><th class="simple-table-header-color simple-table-header">nodePort</th></tr></thead><tbody><tr><td>Spring Boot</td><td>svc-webdemo-springboot</td><td>80 → 8080</td><td>30201</td></tr><tr><td>FastAPI</td><td>svc-webdemo-fastapi</td><td>80 → 8000</td><td>30202</td></tr><tr><td>Next.js</td><td>svc-webdemo-nextjs</td><td>80 → 3000</td><td>30203</td></tr><tr><td>Blazor</td><td>svc-webdemo-blazor</td><td>80 → 80</td><td>30204</td></tr></tbody></table><h2 id="deploy-springboot" class="">1. Spring Boot 배포</h2><pre class="code"><code class="language-YAML">cat &gt; webdemo-springboot.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webdemo
+  name: webdemo-springboot
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webdemo
+      app: webdemo-springboot
   template:
     metadata:
-      name: webdemo-test
       labels:
-        app: webdemo
+        app: webdemo-springboot
     spec:
       containers:
-      - name: webdemo-container
-        image: bluedove97/webdemo-test:v0.0.1
+      - name: webdemo-springboot
+        image: bluedove97/webdemo-springboot:v0.0.1
         ports:
         - containerPort: 8080
-        resources: 
-          requests: 
-            cpu: 200m</code></pre><h2 id="8e39c42a-fdff-45a4-b1bc-ff30f9bffb0b" class="">NodePort Service 붙이기</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="a688a63e-e677-45c8-b6f4-be2eb71fdebb" class="code"><code class="language-YAML">cat &gt; svc-webdemo.yaml
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-webdemo
+  name: svc-webdemo-springboot
 spec:
   type: NodePort
-  clusterIP: 10.100.100.200
   selector:
-    app: webdemo
+    app: webdemo-springboot
   ports:
   - protocol: TCP
     port: 80
     targetPort: 8080
-    nodePort: 30200</code></pre><h2 id="3e46d2d4-4046-4273-92be-c538480622bb" class="">테스트 - 내부 연결 테스트</h2><script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXg==" crossorigin="anonymous" referrerPolicy="no-referrer"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerPolicy="no-referrer"/><pre id="0efebd95-e5a4-47b7-a0f2-58e6278e2c3d" class="code"><code class="language-Bash">#테스트1
+    nodePort: 30201</code></pre><h2 id="deploy-fastapi" class="">2. FastAPI 배포</h2><pre class="code"><code class="language-YAML">cat &gt; webdemo-fastapi.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdemo-fastapi
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webdemo-fastapi
+  template:
+    metadata:
+      labels:
+        app: webdemo-fastapi
+    spec:
+      containers:
+      - name: webdemo-fastapi
+        image: bluedove97/webdemo-fastapi:v0.0.1
+        ports:
+        - containerPort: 8000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-webdemo-fastapi
+spec:
+  type: NodePort
+  selector:
+    app: webdemo-fastapi
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+    nodePort: 30202</code></pre><h2 id="deploy-nextjs" class="">3. Next.js 배포</h2><pre class="code"><code class="language-YAML">cat &gt; webdemo-nextjs.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdemo-nextjs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webdemo-nextjs
+  template:
+    metadata:
+      labels:
+        app: webdemo-nextjs
+    spec:
+      containers:
+      - name: webdemo-nextjs
+        image: bluedove97/webdemo-nextjs:v0.0.1
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-webdemo-nextjs
+spec:
+  type: NodePort
+  selector:
+    app: webdemo-nextjs
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+    nodePort: 30203</code></pre><h2 id="deploy-blazor" class="">4. Blazor 배포</h2><p class="">Blazor Server 방식은 SignalR 연결로 화면을 주고받는다. 파드가 여러 개일 때 요청이 다른 파드로 가면 연결이 끊기므로, Service에 <code>sessionAffinity: ClientIP</code>를 줘서 같은 클라이언트는 같은 파드로 가게 한다. (WebAssembly 방식이라면 화면이 브라우저에서 돌기 때문에 이 설정은 없어도 된다.)</p><pre class="code"><code class="language-YAML">cat &gt; webdemo-blazor.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webdemo-blazor
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webdemo-blazor
+  template:
+    metadata:
+      labels:
+        app: webdemo-blazor
+    spec:
+      containers:
+      - name: webdemo-blazor
+        image: bluedove97/webdemo-blazor:v0.0.1
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-webdemo-blazor
+spec:
+  type: NodePort
+  sessionAffinity: ClientIP
+  selector:
+    app: webdemo-blazor
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30204</code></pre><h2 id="deploy-apply" class="">배포 적용 및 확인</h2><pre class="code"><code class="language-Bash">#4개 앱 한 번에 배포
+kubectl apply -f webdemo-springboot.yaml
+kubectl apply -f webdemo-fastapi.yaml
+kubectl apply -f webdemo-nextjs.yaml
+kubectl apply -f webdemo-blazor.yaml
+
+#파드, 서비스, 디플로이먼트 확인
 kubectl get all -o wide
-NAME                         READY   STATUS    RESTARTS   AGE     IP          NODE                NOMINATED NODE   READINESS GATES
-pod/webdemo-95c66c87-262mr   1/1     Running   0          3m45s   10.44.0.2   node1.example.com   &lt;none&gt;           &lt;none&gt;
-pod/webdemo-95c66c87-c22mw   1/1     Running   0          3m45s   10.44.0.1   node1.example.com   &lt;none&gt;           &lt;none&gt;
-pod/webdemo-95c66c87-nld22   1/1     Running   0          3m45s   10.36.0.2   node2.example.com   &lt;none&gt;           &lt;none&gt;
+kubectl get svc
 
-NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE     SELECTOR
-service/kubernetes    ClusterIP   10.96.0.1        &lt;none&gt;        443/TCP        6d14h   &lt;none&gt;
-service/svc-webdemo   NodePort    10.100.100.200   &lt;none&gt;        80:30200/TCP   3m45s   app=webdemo
+NAME                     TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes               ClusterIP   10.96.0.1        &lt;none&gt;        443/TCP        6d14h
+svc-webdemo-blazor       NodePort    10.105.21.34     &lt;none&gt;        80:30204/TCP   1m
+svc-webdemo-fastapi      NodePort    10.98.152.7      &lt;none&gt;        80:30202/TCP   1m
+svc-webdemo-nextjs       NodePort    10.110.64.201    &lt;none&gt;        80:30203/TCP   1m
+svc-webdemo-springboot   NodePort    10.101.88.15     &lt;none&gt;        80:30201/TCP   1m</code></pre><h2 id="deploy-test" class="">연결 테스트</h2><p class="">클러스터 내부에서는 Service의 ClusterIP(80 포트)로, 노드에서는 nodePort로 접속해본다.</p><pre class="code"><code class="language-Bash">#내부 연결 (ClusterIP는 kubectl get svc 결과값 사용)
+curl 10.101.88.15       #&lt;--- springboot
+curl 10.98.152.7        #&lt;--- fastapi
+curl 10.110.64.201      #&lt;--- nextjs
+curl 10.105.21.34       #&lt;--- blazor
 
-NAME                      READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS          IMAGES                           SELECTOR
-deployment.apps/webdemo   3/3     3            3           3m46s   webdemo-container   bluedove97/webdemo-test:v0.0.1   app=webdemo
-
-NAME                               DESIRED   CURRENT   READY   AGE     CONTAINERS          IMAGES                           SELECTOR
-replicaset.apps/webdemo-95c66c87   3         3         3       3m46s   webdemo-container   bluedove97/webdemo-test:v0.0.1   app=webdemo,pod-template-hash=95c66c87
-
-
-curl 10.36.0.2:8080            #&lt;--- 성공
-curl 10.100.100.200            #&lt;--- 성공
-curl 10.100.100.200/test       #&lt;--- 성공</code></pre><h2 id="5f3238d6-ebd0-4b66-a643-13271eaf98e0" class="">테스트 - 외부 연결 테스트</h2><p id="2d4e9ffd-b5d1-4b1b-bade-dac967de8dc1" class="">virtualbox의 port forwarding을 node1으로 가는 30100, 30200포트 세팅후</p><p id="a4d41adc-6e71-4caf-9589-81303a3b95b6" class="">바깥의 웹브라우저에서 http://localhost:30200 실행</p>
-<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><figure id="334efb06-5887-4ba3-9343-0a722d50e51a" class="image" style="text-align:left"><a href="26-test-springboot-pod/Untitled.png"><img style="width:576px" src="26-test-springboot-pod/Untitled.png"/></a></figure><p id="f9b90a4b-97d1-4921-9b23-a09d7cb312bf" class="">성공!</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
+#노드 포트 연결
+curl localhost:30201
+curl localhost:30202
+curl localhost:30203
+curl localhost:30204</code></pre><p class="">외부 연결은 virtualbox의 port forwarding에서 node1으로 가는 30201~30204 포트를 세팅한 뒤, 바깥의 웹브라우저에서 http://localhost:30201 ~ http://localhost:30204 로 접속한다.</p>
+<p id="ads3"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5592443853103761" crossorigin="anonymous"></script><!-- 게시판 하단 --><ins class="adsbygoogle"     style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-5592443853103761" data-ad-slot="3320900330"></ins><script> (adsbygoogle = window.adsbygoogle || []).push({});</script></p><figure id="334efb06-5887-4ba3-9343-0a722d50e51a" class="image" style="text-align:left"><a href="26-test-springboot-pod/Untitled.png"><img style="width:576px" src="26-test-springboot-pod/Untitled.png"/></a><figcaption>Spring Boot 외부 접속 결과</figcaption></figure><p class="">성공!</p></div></article><span class="sans" style="font-size:14px;padding-top:2em"></span></body></html>
