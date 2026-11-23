@@ -153,12 +153,12 @@
           <p>
             <strong>단어 배틀(Power of Word)</strong>은 두 단어를 넣으면 각 단어가 판타지 캐릭터가 되어
             1:1로 전투하는 웹 게임입니다. 캐릭터 머리 위에는 입력한 단어 명이 있고,
-            라운드마다 공격·방어·크리티컬히트를 주고받다가 마지막 <strong>Last Collision</strong>에서 승부가 납니다.
+            라운드마다 공격·방어·크리티컬히트를 주고받다가 마지막 라운드(<strong>Last Collision</strong>)에서 승부가 납니다.
           </p>
           <p>
-            결과는 운이 아니라 <strong>단어의 힘</strong>으로 정해집니다. 서버의 배틀 로직과 단어마다 고유한 지문인
-            SHA-256 해시를 기반으로 체력과 공격력 그리고 라운드 결과가 정해지기 때문에, 같은 단어끼리는 언제 붙어도 결과가 같습니다.
-            전투에 출전하는 직업과 공격 위치 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
+            두 단어 간의 결과는 운이 아니라 <strong>단어간의 스탯</strong>으로 정해집니다. 서버의 배틀 로직과 단어마다 고유한 지문인
+            SHA-256 해시를 기반으로 체력과 공격력 그리고 라운드 결과가 정해지기 때문에, 같은 단어끼리는 언제 붙어도 같은 결과가 납니다.
+            전투에 출전하는 직업과 공격 하는 방향과 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
           </p>
         </div>
 
@@ -214,7 +214,7 @@
             <span class="font-display font-semibold text-slate-100">전사 <span class="text-slate-500 text-sm font-mono">WARRIOR</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#ff7043"></span> 근접</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">상대에게 돌진해 대형 철퇴를 휘두릅니다. 뒤로 젖혀 멈칫했다가 순간적으로 내려치고, 초승달 궤적이 남습니다. 크리티컬 히트시 힘을 모아 풀스윙해 상대를 일직선으로 날려 벽에 처박습니다.</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">상대에게 돌진해 양손으로 철퇴를 머리 뒤로 넘겼다가 바닥까지 내려찍고, 휘두른 궤적과 잔상이 남습니다. 크리티컬 히트시 양손으로 힘을 모아 수평으로 풀스윙해 상대를 일직선으로 날려 벽에 처박습니다.</p>
           <div class="char-meta">필살기 &middot; <span class="text-slate-100">분쇄 일격</span></div>
         </div>
 
@@ -274,7 +274,7 @@
             <span class="font-display font-semibold text-slate-100">무도가 <span class="text-slate-500 text-sm font-mono">MONK</span></span>
             <span class="char-meta"><span class="char-swatch" style="background:#ffa62b"></span> 근접</span>
           </div>
-          <p class="text-slate-400 text-sm leading-relaxed mb-4">맨손으로 파고들어 장타를 두 번 짧게 끊어 치고, 뛰어올라 한 바퀴 도는 돌려차기로 마무리합니다. 크리티컬 히트시 물러나 기를 모은 뒤 어깨로 들이받는 붕격, 몸을 돌려 파고드는 운신, 쌍장타 쌍호장으로 이어 상대를 일직선으로 날려 보냅니다.</p>
+          <p class="text-slate-400 text-sm leading-relaxed mb-4">맨손으로 파고들어 장타를 두 번 짧게 끊어 치고, 뛰어올라 한 바퀴 도는 돌려차기로 마무리합니다. 크리티컬 히트시 물러나 기를 모은 뒤 어깨로 들이받는 붕격, 몸을 돌려 파고드는 운신, 이어서 쌍호장으로 상대를 일직선으로 날려 보냅니다.</p>
           <div class="char-meta">필살기 &middot; <span class="text-slate-100">붕운쌍호장</span></div>
         </div>
 
@@ -365,6 +365,13 @@
           </li>
         </ol>
 
+        <figure class="reveal media-frame">
+          <img src="/image/services/pow/play.gif" alt="단어 배틀 실제 플레이 화면" width="372" height="663" loading="lazy">
+          <figcaption>play.gif</figcaption>
+        </figure>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-14 items-start mt-14">
         <div class="reveal">
           <h3 class="sub-heading">승패 판정</h3>
           <ul class="dash-list">
@@ -372,8 +379,10 @@
             <li><strong>둘 다 HP 0 이하</strong> HP가 더 높은 쪽이 −10보다 크면 승리, 아니면 무승부</li>
             <li><strong>둘 다 남은 채 종료</strong> HP가 높은 쪽이 승리</li>
           </ul>
+        </div>
 
-          <h3 class="sub-heading mt-10">부가 기능</h3>
+        <div class="reveal">
+          <h3 class="sub-heading">부가 기능</h3>
           <ul class="dash-list">
             <li><strong>1X / 2X</strong> 경기 속도 전환. 다음 경기에도 유지됩니다.</li>
             <li><strong>LOG</strong> 단어별 HP·해시·라운드 로그를 팝업으로 보여 줍니다.</li>
@@ -422,8 +431,8 @@
           <h3 class="sub-heading">Sprite Credits</h3>
           <p class="text-slate-400 text-sm leading-relaxed mb-5">
             캐릭터 이미지는 <a class="social-link" href="https://liberatedpixelcup.github.io/Universal-LPC-Spritesheet-Character-Generator/" target="_blank" rel="noopener noreferrer">Universal LPC Spritesheet</a>
-            레이어를 조합해 만들었습니다. 모든 레이어는 OGA-BY 3.0 / CC-BY 3.0 / CC0 중 저작자 표기만으로 쓸 수 있는 라이선스를 골랐고,
-            이 페이지의 캐릭터 이미지도 같은 시트에서 한 프레임씩 잘라 쓴 것입니다.
+            레이어를 조합해 만들었습니다. 모든 레이어는 OGA-BY 3.0 / CC-BY 3.0 / CC0 중 저작자 표기만으로 쓸 수 있는 라이선스 안에서 사용했으며,
+            이 페이지의 캐릭터 소개 이미지도 같은 라이선스 방식으로 표현했습니다.
           </p>
           <a href="https://pow.proj.pe.kr/img/chars/CREDITS.html" target="_blank" rel="noopener noreferrer" class="btn-outline">
             CREDITS 보기
