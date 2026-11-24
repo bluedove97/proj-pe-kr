@@ -157,8 +157,8 @@
           </p>
           <p>
             두 단어 간의 결과는 운이 아니라 <strong>단어간의 스탯</strong>으로 정해집니다. 서버의 배틀 로직과 단어마다 고유한 지문인
-            SHA-256 해시를 기반으로 체력과 공격력 그리고 라운드 결과가 정해지기 때문에, 같은 단어끼리는 언제 붙어도 같은 결과가 납니다.
-            전투에 출전하는 직업과 공격 하는 방향과 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
+            SHA-256 해시를 기반으로 체력과 라운드별 공격력 및 결과가 정해지기 때문에, 같은 단어끼리는 언제 붙어도 같은 결과가 납니다.
+            전투에 출전하는 직업과 필살기, 그리고 공격 하는 방향과 같은 <strong>연출</strong>만 랜덤으로 보여집니다.
           </p>
         </div>
 
@@ -304,8 +304,8 @@
         <div class="section-line mb-4"></div>
         <p class="text-slate-600 text-sm font-mono mt-4 mb-4">// 작동 방식 &middot; SSR</p>
         <p class="text-slate-400 leading-relaxed mb-10 max-w-3xl">
-          실제 페이지는 <strong class="text-slate-100">SSR(Server-Side Rendering)</strong> 모드로 동작합니다.
-          전투 결과는 서버가 모두 계산해서 페이지 HTML 안에 담아 보내고, 브라우저는 받은 데이터를 그대로 재생합니다.
+          실제 페이지는 <strong class="text-slate-100">Server-Side Rendering</strong> 모드로 동작합니다.
+          전투 결과는 서버가 모두 계산해서 페이지에 담아 보내고, 브라우저는 받은 라운드 데이터를 그대로 재생합니다.
         </p>
       </div>
 
@@ -320,8 +320,8 @@
             <div class="flow-desc">각 단어의 SHA-256 해시로 체력과 공격력을 정하고, 마지막 라운드까지 HP·공격력·크리티컬 결과를 미리 모두 계산합니다.</div>
           </li>
           <li>
-            <div class="flow-title">SSR로 배틀 데이터가 세팅된 페이지</div>
-            <div class="flow-desc">계산 결과가 전투 데이터가 페이지와 함께 도착하므로 추가 요청 없이 바로 시작합니다.</div>
+            <div class="flow-title">Server-Side로 배틀 데이터가 세팅된 페이지</div>
+            <div class="flow-desc">배틀 데이터가 페이지와 함께 도착하므로 추가 요청 없이 바로 시작합니다.</div>
           </li>
           <li>
             <div class="flow-title">브라우저에서 연출 재생</div>
@@ -384,9 +384,10 @@
         <div class="reveal">
           <h3 class="sub-heading">부가 기능</h3>
           <ul class="dash-list">
-            <li><strong>1X / 2X</strong> 경기 속도 전환. 다음 경기에도 유지됩니다.</li>
+            <li><strong>1X / 2X / 3X</strong> 경기 속도 전환. 다음 경기에도 유지됩니다.</li>
             <li><strong>LOG</strong> 단어별 HP·해시·라운드 로그를 팝업으로 보여 줍니다.</li>
             <li><strong>REPLAY</strong> 같은 직업 조합으로 경기를 다시 봅니다.</li>
+            <li><strong>ONEMORE</strong> 승자연승식. 이긴 단어는 다음번 랜덤 단어와 배틀합니다.</li>
           </ul>
         </div>
       </div>
@@ -448,8 +449,8 @@
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6l-6-6 6-6"/></svg>
           이전 서비스: XP Games
         </a>
-        <a href="/#services" class="btn-outline">
-          메인으로 돌아가기
+        <a href="/tools/" class="btn-outline">
+          다음 서비스: Developer Playground
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/></svg>
         </a>
       </div>

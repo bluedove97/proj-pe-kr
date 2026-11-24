@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fdfcfc">
+  <title>Developer Playground | bluedove's project</title>
+  <meta name="description" content="JSON·JWT·Base64 같은 개발 도구, QR 코드·만나이 같은 생활 계산기, 브라우저 성능·기능·GPU 테스트를 백엔드 없이 브라우저에서 바로 쓰는 도구 모음 bluedove.co.kr 소개."/>
+  <!-- BEGIN OPENGRAPH -->
+  <link rel="canonical" href="https://proj.pe.kr/tools/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://proj.pe.kr/tools/" />
+  <meta property="og:site_name" content="bluedove's project" >
+  <meta property="og:title" content="Developer Playground | bluedove's project" >
+  <meta property="og:description" content="개발 도구, 생활 계산기, 브라우저 성능 테스트를 서버 없이 브라우저에서 처리하는 도구 모음 bluedove.co.kr" >
+  <meta property="og:image" content="https://proj.pe.kr/image/services/tools/thumb.jpg" >
+  <meta property="og:article:author" content="bluedove" >
+  <!-- END OPENGRAPH -->
+
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="min-h-screen">
+
+  <!-- ════════════════════════════════════════
+       NAV
+  ════════════════════════════════════════ -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-[#06060f]/80 border-b border-[#1e1e3a]">
+    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="/" class="font-mono text-brand-cyan text-sm font-medium tracking-wider">
+        &gt;&nbsp;https://proj.pe.kr<span class="cursor ml-0.5"></span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#overview"   class="nav-link text-sm font-medium">Overview</a>
+        <a href="#tools"      class="nav-link text-sm font-medium">Tools</a>
+        <a href="#playground" class="nav-link text-sm font-medium">Playground</a>
+        <a href="#structure"  class="nav-link text-sm font-medium">Structure</a>
+        <a href="/#services"  class="nav-link nav-home text-sm font-medium">&larr; Home</a>
+      </div>
+      <button id="mb-btn" aria-label="메뉴 열기"
+        class="md:hidden text-slate-500 hover:text-brand-cyan focus:outline-none focus:text-brand-cyan transition-colors duration-200"
+        style="background:transparent;border:none;padding:4px;cursor:pointer;line-height:0;">
+        <svg id="mb-icon" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <!-- mobile dropdown -->
+    <div id="mb-menu" class="hidden md:hidden border-t border-[#1e1e3a] bg-[#06060f]/95">
+      <div class="flex flex-col px-6 py-5 gap-5">
+        <a href="#overview"   class="nav-link text-sm font-medium" onclick="closeMb()">Overview</a>
+        <a href="#tools"      class="nav-link text-sm font-medium" onclick="closeMb()">Tools</a>
+        <a href="#playground" class="nav-link text-sm font-medium" onclick="closeMb()">Playground</a>
+        <a href="#structure"  class="nav-link text-sm font-medium" onclick="closeMb()">Structure</a>
+        <a href="/#services"  class="nav-link nav-home text-sm font-medium">&larr; Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <section id="hero" class="pt-20">
+    <div class="max-w-6xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-start w-full">
+
+      <!-- left -->
+      <div>
+        <div class="breadcrumb"><a href="/">~</a> / <a href="/#services">services</a> / tools</div>
+
+        <div class="badge-chip inline-flex items-center gap-2 px-3 py-1.5 text-xs font-mono text-slate-100 mb-7">
+          <span class="w-1.5 h-1.5 rounded-full inline-block" style="background:var(--color-ink)"></span>
+          Web Tools &middot; Browser Lab
+        </div>
+
+        <h1 class="font-display text-4xl md:text-5xl font-bold leading-[1.2] mb-7 text-slate-100">
+          Developer<br>
+          Playground
+        </h1>
+
+        <p class="text-slate-400 text-lg leading-relaxed mb-10 max-w-md">
+          개발할 때 필요한 도구, 생활 계산기,<br>
+          <span class="text-slate-100 font-medium">브라우저 성능 테스트</span>까지.<br>
+          서버 없이 브라우저에서 바로 처리합니다.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <a href="https://bluedove.co.kr/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            사이트 가기
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
+          </a>
+          <a href="/#services" class="btn-outline">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6l-6-6 6-6"/></svg>
+            메인으로
+          </a>
+        </div>
+      </div>
+
+      <!-- right: TUI mockup -->
+      <div class="hero-tui-mockup">
+        <div class="tui-wordmark">&gt; PLAYGROUND</div>
+        <div class="tui-body">
+          <div><span class="tui-mute">$ </span><span class="tui-accent">ls tools/</span></div>
+          <div class="pl-2 flex flex-wrap gap-x-3">
+            <span class="tui-accent">developer/</span>
+            <span class="tui-success">daily/</span>
+            <span class="tui-warning">playground/</span>
+          </div>
+          <br>
+          <div><span class="tui-mute">$ </span><span class="tui-accent">cat principles.txt</span></div>
+          <div class="pl-2 tui-on-dark leading-relaxed">
+            - no backend<br>
+            - no upload<br>
+            - works on mobile
+          </div>
+          <br>
+          <div><span class="tui-mute">$ </span><span class="tui-accent">npm run build</span></div>
+          <div class="pl-2 tui-on-dark">&rarr; out/ (static export)</div>
+          <br>
+          <div class="flex items-center">
+            <span class="tui-mute">$ </span>
+            <span class="cursor ml-1.5"></span>
+          </div>
+        </div>
+        <div class="tui-prompt-row">
+          <span class="w-1.5 h-1.5 rounded-full inline-block animate-pulse flex-shrink-0" style="background:var(--color-success)"></span>
+          <span class="tui-success">online</span>
+          <span class="tui-mute">&middot; bluedove.co.kr</span>
+        </div>
+        <div class="tui-hint-row">16 tools &middot; 3 groups</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       OVERVIEW
+  ════════════════════════════════════════ -->
+  <section id="overview" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>Overview</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mb-10 mt-4">// 어떤 서비스인가요?</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-14 items-start">
+        <div class="reveal prose">
+          <p>
+            <strong>Bluedove's Developer Playground</strong>는 개발하면서 자주 찾게 되는 도구와
+            생활에 필요한 계산기, 그리고 브라우저 성능을 재 보는 실험 페이지를 모아 둔 사이트입니다.
+          </p>
+          <p>
+            모든 기능은 <strong>백엔드 없이 브라우저 안에서만</strong> 동작합니다.
+            JSON, JWT 토큰, 이미지처럼 민감할 수 있는 입력값도 서버로 전송되지 않습니다.
+            이미지 변환은 Web Worker, 서명 검증과 UUID는 Web Crypto, QR 코드는 Canvas로 처리합니다.
+          </p>
+          <p>
+            개발자 실험실로 개편하면서 <code>Next.js</code>를 기반으로 <code>클라이언트 모드</code>로만 동작합니다. 
+            PC는 좌측 메뉴, 모바일은 햄버거 메뉴로 같은 도구를 쓸 수 있습니다.
+          </p>
+        </div>
+
+        <div class="reveal table-wrap">
+          <table class="svc-table">
+            <thead>
+              <tr><th>항목</th><th>내용</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>프레임워크</td><td>Next.js 16 (App Router) &middot; React 19 &middot; TypeScript 5</td></tr>
+              <tr><td>특징</td><td>정적 빌드 <code class="inline-code">'use client'</code> </td></tr>
+              <tr><td>라이브러리</td><td>js-yaml, qrcode, Three.js 0.187.0, PixiJS v3 + pixi-spine</td></tr>
+              <tr><td>브라우저 API</td><td>Web Crypto, Canvas, Web Worker, Intl, WebGL 2.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       TOOLS
+  ════════════════════════════════════════ -->
+  <section id="tools" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>Tools</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mt-4 mb-6">// 그룹별 도구 목록</p>
+        <div class="flex flex-wrap gap-3 mb-14">
+          <a href="#developer-tools" class="chip-link">01 Developer Tools</a>
+          <a href="#daily-tools"     class="chip-link">02 Daily Life Tools</a>
+          <a href="#playground"      class="chip-link">03 Playground</a>
+        </div>
+      </div>
+
+      <!-- ── Developer Tools ── -->
+      <div id="developer-tools" class="reveal mb-14">
+        <div class="svc-eyebrow">01 &middot; /developer/</div>
+        <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">Developer Tools</h3>
+        <p class="text-slate-400 leading-relaxed mb-6">개발 중에 자주 여는 변환 · 검증 도구를 제공합니다.</p>
+        <div class="table-wrap">
+          <table class="svc-table">
+            <thead><tr><th>도구</th><th>기능</th></tr></thead>
+            <tbody>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/json/" target="_blank" rel="noopener noreferrer">JSON Formatter / Validator</a></td><td>JSON 정렬 &middot; 압축, 문법 오류 위치 확인</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/yaml/" target="_blank" rel="noopener noreferrer">JSON &harr; YAML 변환</a></td><td>쿠버네티스 &middot; docker compose 설정을 서로 변환</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/base64/" target="_blank" rel="noopener noreferrer">Base64 Encoder / Decoder</a></td><td>한글(UTF-8) &middot; URL-safe &middot; 파일 Data URL</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/jwt/" target="_blank" rel="noopener noreferrer">JWT Decoder</a></td><td>Header &middot; Payload 파싱, 만료 확인, 서명 검증</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/url/" target="_blank" rel="noopener noreferrer">URL Encoder / Decoder</a></td><td>퍼센트 인코딩과 쿼리스트링 분석</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/timestamp/" target="_blank" rel="noopener noreferrer">Timestamp Converter</a></td><td>Unix 시간 &harr; KST &middot; UTC &middot; ISO 8601</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/uuid/" target="_blank" rel="noopener noreferrer">UUID Generator</a></td><td>UUID v4 1~100개 한 번에 생성, 하이픈 제거</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/image/" target="_blank" rel="noopener noreferrer">이미지 압축 &middot; 변환</a></td><td>JPG &middot; PNG &middot; WebP 변환과 압축. Web Worker로 처리해 업로드 없음</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/developer/diff/" target="_blank" rel="noopener noreferrer">텍스트 비교 &middot; 변환</a></td><td>두 텍스트 Diff, 줄 정렬, 글자 수 세기</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-line mb-14"></div>
+
+      <!-- ── Daily Life Tools ── -->
+      <div id="daily-tools" class="reveal">
+        <div class="svc-eyebrow">02 &middot; /daily/</div>
+        <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">Daily Life Tools</h3>
+        <p class="text-slate-400 leading-relaxed mb-6">생활에서 가끔 필요한 도구 · 계산기 입니다.</p>
+        <div class="table-wrap">
+          <table class="svc-table">
+            <thead><tr><th>도구</th><th>기능</th></tr></thead>
+            <tbody>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/daily/overseas/" target="_blank" rel="noopener noreferrer">해외시간 계산기</a></td><td>현재 한국 시간과 세계 도시의 시차</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/daily/age/" target="_blank" rel="noopener noreferrer">만나이 계산기</a></td><td>만 나이, 연 나이, 띠, 다음 생일까지 남은 날</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/daily/fuel/" target="_blank" rel="noopener noreferrer">연비 계산기</a></td><td>리터당 km, 금액당 주행거리, km당 연료비</td></tr>
+              <tr><td><a class="social-link" href="https://bluedove.co.kr/daily/qr/" target="_blank" rel="noopener noreferrer">QR 코드 만들기</a></td><td>URL &middot; Wi-Fi &middot; 연락처(vCard) &middot; 전화/문자/이메일 QR. 크기 &middot; 색상 &middot; 오류 정정 레벨 설정, PNG &middot; SVG 저장</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       PLAYGROUND
+  ════════════════════════════════════════ -->
+  <section id="playground" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <div class="reveal">
+        <h2 class="font-display text-2xl md:text-3xl font-bold text-slate-100 mb-2"><span class="ascii-marker">[+]</span>Playground</h2>
+        <div class="section-line mb-4"></div>
+        <p class="text-slate-600 text-sm font-mono mt-4 mb-6">// 브라우저를 시험해 보는 실험실</p>
+        <div class="flex flex-wrap gap-3 mb-14">
+          <a href="#browser"  class="chip-link">01 브라우저 성능 테스트</a>
+          <a href="#features" class="chip-link">02 브라우저 기능 진단</a>
+          <a href="#webgl"    class="chip-link">03 브라우저 GPU 벤치마크</a>
+        </div>
+      </div>
+
+      <!-- ── 브라우저 성능 테스트 ── -->
+      <article id="browser" class="mb-14">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/tools/browser.jpg" alt="어항에 물고기가 늘어나며 FPS를 측정하는 브라우저 성능 테스트 화면" loading="lazy">
+            <figcaption>browser.jpg</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">01 &middot; /playground/browser/</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">브라우저 성능 테스트</h3>
+            <div class="prose">
+              <p>
+                어항에 SVG 물고기를 계속 늘려 가며 브라우저가 언제까지 버티는지 재는 테스트입니다.
+                물고기마다 매 프레임 자바스크립트가 위치와 방향을 계산해 <code>transform</code>을 바꾸기 때문에,
+                JS 실행 속도와 스타일 계산, 레이어 합성 성능이 함께 반영됩니다.
+              </p>
+            </div>
+            <ul class="dash-list">
+              <li><strong>진행</strong> 시작하기를 누르면 0.1초마다 물고기가 한 마리씩 늘어납니다.</li>
+              <li><strong>측정</strong> 0.5초마다 실제로 그려진 프레임 수로 FPS를 계산하고, 부하 막대와 그래프로 보여 줍니다.</li>
+              <li><strong>종료</strong> FPS 20 미만이 10초 동안 이어지면 그때의 물고기 수가 최종 점수입니다. 중간에 회복하면 카운트다운은 처음부터 다시 셉니다.</li>
+              <li><strong>탭 전환</strong> 숨겨진 탭은 애니메이션이 멈추므로 측정을 일시정지하고 카운트다운을 초기화합니다.</li>
+            </ul>
+            <div class="mt-6">
+              <a href="https://bluedove.co.kr/playground/browser/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                테스트 해보기
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-line mb-14"></div>
+
+      <!-- ── 브라우저 기능 진단 ── -->
+      <article id="features" class="mb-14">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/tools/features.jpg" alt="카테고리별 PASS, FAIL 결과를 보여 주는 브라우저 기능 진단 화면" loading="lazy">
+            <figcaption>features.jpg</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">02 &middot; /playground/features/</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">브라우저 기능 진단</h3>
+            <div class="prose">
+              <p>
+                현재 브라우저가 어떤 웹 기술을 지원하고, 실제로 쓸 수 있는지 8개 카테고리 73개 항목을 검사합니다.
+                API가 있는지만 보지 않고 가능한 항목은 직접 실행합니다.
+                Web Worker는 메시지를 주고받고, WebAssembly는 작은 모듈로 2 + 3을 계산하고,
+                IndexedDB는 임시 데이터베이스에 쓰고 읽은 뒤 지웁니다.
+              </p>
+            </div>
+            <ul class="dash-list">
+              <li><strong>결과</strong> 하나의 총점 대신 상태별 개수와 카테고리별 지원 범위 막대로 보여 줍니다.</li>
+              <li><strong>상세</strong> 항목을 펼치면 검사 방법, 결과 이유, 설명, MDN 문서 링크가 나옵니다.</li>
+              <li><strong>권한</strong> 카메라 &middot; 마이크 &middot; 위치 권한은 요청하지 않고 현재 상태만 읽습니다.</li>
+              <li><strong>저장</strong> 전체 결과를 JSON으로 내려받아 버그 리포트에 첨부할 수 있습니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div>
+            <h4 class="sub-heading">결과 상태</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>상태</th><th>의미</th></tr></thead>
+                <tbody>
+                  <tr><td>PASS</td><td>API가 있고 실제 실행도 성공</td></tr>
+                  <tr><td>FAIL</td><td>API는 있지만 실행 실패 (하드웨어 가속 꺼짐, 드라이버 문제 등)</td></tr>
+                  <tr><td>UNSUPPORTED</td><td>브라우저가 해당 API를 제공하지 않음</td></tr>
+                  <tr><td>BLOCKED</td><td>권한 거부, HTTPS 아님, 권한 정책으로 막힘</td></tr>
+                  <tr><td>N/A</td><td>이 환경에 해당하지 않음 (PC의 기울기 센서 등)</td></tr>
+                  <tr><td>INFO</td><td>화면 크기 &middot; CPU 스레드 수 같은 환경 정보</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h4 class="sub-heading">검사 카테고리</h4>
+            <ul class="dash-list">
+              <li><strong>Browser &amp; Platform</strong> 브라우저 및 OS 정보</li>
+              <li><strong>JavaScript &amp; Web</strong> 기본 웹 기술</li>
+              <li><strong>Graphics &amp; GPU</strong> 그래픽 가속</li>
+              <li><strong>Storage</strong> 브라우저 저장소</li>
+              <li><strong>Security &amp; Crypto</strong> 보안 및 암호화</li>
+              <li><strong>Network &amp; Connectivity</strong> 네트워크 API</li>
+              <li><strong>Device &amp; Sensors</strong> 디바이스 기능</li>
+              <li><strong>Media &amp; Accessibility</strong> 미디어 및 접근성</li>
+            </ul>
+            <div class="mt-6">
+              <a href="https://bluedove.co.kr/playground/features/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                진단 해보기
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-line mb-14"></div>
+
+      <!-- ── 브라우저 GPU 벤치마크 ── -->
+      <article id="webgl">
+        <div class="grid md:grid-cols-2 gap-10 items-start">
+          <figure class="reveal media-frame">
+            <img src="/image/services/tools/webgl.jpg" alt="3D 장면을 렌더링하며 GPU 점수를 측정하는 WebGL 벤치마크 화면" loading="lazy">
+            <figcaption>webgl.jpg</figcaption>
+          </figure>
+          <div class="reveal">
+            <div class="svc-eyebrow">03 &middot; /playground/webgl/</div>
+            <h3 class="font-display text-2xl font-semibold text-slate-100 mb-5">브라우저 GPU 벤치마크</h3>
+            <div class="prose">
+              <p>
+                Three.js로 만든 WebGL 2.0 장면 4종을 렌더링해 GPU 처리 성능을 10,000점 만점으로 계산합니다.
+                측정 해상도는 화면 크기와 상관없이 1280×720으로 고정합니다.
+              </p>
+            </div>
+            <ul class="dash-list">
+              <li><strong>Quick Test</strong> 약 10초. 3D 렌더링만 돌려 평균 FPS &middot; 1% Low FPS &middot; Frame Time을 확인합니다.</li>
+              <li><strong>Full Benchmark</strong> 약 1분 30초. 테스트마다 워밍업 &rarr; 부하 단계 측정 &rarr; 기준 단계 3회 반복 후 중앙값으로 채점합니다.</li>
+              <li><strong>단계별 측정</strong> 테스트 하나를 골라 부하를 올려 가며 FPS 변화를 표로 봅니다.</li>
+              <li><strong>GPU Time</strong> <code class="inline-code">EXT_disjoint_timer_query_webgl2</code>를 지원하는 브라우저에서만 측정하고, 없으면 추정하지 않고 N/A로 둡니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="reveal grid md:grid-cols-2 gap-10 items-start mt-10">
+          <div>
+            <h4 class="sub-heading">테스트 구성</h4>
+            <div class="table-wrap">
+              <table class="svc-table">
+                <thead><tr><th>테스트</th><th>측정 대상</th><th>가중치</th></tr></thead>
+                <tbody>
+                  <tr><td>3D Rendering</td><td>3D 오브젝트 렌더링</td><td>35%</td></tr>
+                  <tr><td>Particle Stress</td><td>파티클 대량 렌더링</td><td>25%</td></tr>
+                  <tr><td>Shader Test</td><td>Fragment Shader &middot; 텍스처</td><td>25%</td></tr>
+                  <tr><td>Geometry Stress</td><td>Vertex &middot; Triangle 처리</td><td>15%</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h4 class="sub-heading">점수 계산 방식</h4>
+            <ul class="dash-list">
+              <li><strong>주사율 상한 회피</strong> 브라우저는 모니터 주사율보다 빠르게 그리지 않아서, 한 프레임에 같은 장면을 여러 번 그려 Frame Time을 늘린 뒤 측정합니다.</li>
+              <li><strong>처리량</strong> 작업량 &times; 반복 횟수 &divide; 평균 Frame Time</li>
+              <li><strong>점수</strong> 가중치 &times; 10,000 &times; min(1, 처리량 &divide; 기준 처리량)</li>
+              <li><strong>기기 보호</strong> 워밍업에서 5fps 아래로 떨어지면 부하를 낮춥니다. GPU 등급 &middot; 순위는 표시하지 않습니다.</li>
+            </ul>
+            <div class="mt-6">
+              <a href="https://bluedove.co.kr/playground/webgl/" target="_blank" rel="noopener noreferrer" class="btn-outline">
+                벤치마크 해보기
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 4h6v6m0-6L10 14M18 14v5a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h5"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       STRUCTURE
+  ════════════════════════════════════════ -->
+  <section id="structure" class="page-section">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- bottom nav -->
+      <div class="reveal section-line mt-10 mb-10"></div>
+      <div class="reveal flex flex-wrap items-center justify-between gap-4">
+        <a href="/pow/" class="btn-outline">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6 6l-6-6 6-6"/></svg>
+          이전 서비스: 단어 배틀
+        </a>
+        <a href="/#services" class="btn-outline">
+          메인으로 돌아가기
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer class="border-t border-[#1e1e3a] py-8">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <a href="/" class="font-mono text-slate-100 text-sm">&gt;&nbsp;https://proj.pe.kr</a>
+      <span class="text-slate-400 text-xs">© 2026 bluedove. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <!-- ════════════════════════════════════════
+       JS
+  ════════════════════════════════════════ -->
+  <script>
+    // mobile menu
+    const mbBtn  = document.getElementById('mb-btn');
+    const mbMenu = document.getElementById('mb-menu');
+    mbBtn.addEventListener('click', () => mbMenu.classList.toggle('hidden'));
+    function closeMb() { mbMenu.classList.add('hidden'); }
+
+    // scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
